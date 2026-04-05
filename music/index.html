@@ -476,10 +476,10 @@
 
         <div class="lang-switch">
             <button class="lang-btn active" id="englishBtn" onclick="switchLanguage('english')">
-                🇺🇸 English Songs (15)
+                🇺🇸 English Songs (9)
             </button>
             <button class="lang-btn" id="chineseBtn" onclick="switchLanguage('chinese')">
-                🇨🇳 中文儿歌 (28)
+                🇨🇳 中文儿歌 (7)
             </button>
         </div>
 
@@ -543,34 +543,12 @@
     <script>
         // 中文儿歌数据 - 使用免费音频资源
         const chineseSongs = [
-            { emoji: "💰", name: "一分钱", desc: "品德教育", lyrics: "我在马路边捡到一分钱\n把它交给警察叔叔手里\n叔叔拿了钱对我把头点\n我高兴地说了声：叔叔再见", audio: "chinese/一分钱.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { emoji: "🎵", name: "七子之歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/七子之歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { emoji: "💝", name: "世上只有妈妈好", desc: "亲情教育", lyrics: "世上只有妈妈好\n有妈的孩子像个宝\n投进妈妈的怀抱\n幸福享不了", audio: "chinese/世上只有妈妈好.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { emoji: "🐯", name: "两只老虎", desc: "动物认知", lyrics: "两只老虎，两只老虎\n跑得快，跑得快\n一只没有耳朵\n一只没有尾巴\n真奇怪，真奇怪", audio: "chinese/两只老虎.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-            { emoji: "🎵", name: "二十四节气歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/二十四节气歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-            { emoji: "🎵", name: "哇哈哈", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/哇哈哈.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-            { emoji: "🐰", name: "小兔子乖乖", desc: "安全意识", lyrics: "小兔子乖乖，把门儿开开\n快点儿开开，我要进来\n不开不开我不开\n妈妈没回来，谁来也不开", audio: "chinese/小兔子乖乖.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { emoji: "🎵", name: "小司机", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/小司机.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-            { emoji: "🎵", name: "小小花园", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/小小花园.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-            { emoji: "🎵", name: "小手拍拍", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/小手拍拍.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-            { emoji: "⭐", name: "小星星", desc: "睡前安抚", lyrics: "一闪一闪亮晶晶\n满天都是小星星\n挂在天上放光明\n好像许多小眼睛", audio: "chinese/小星星.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
-            { emoji: "🫏", name: "小毛驴", desc: "动物认知", lyrics: "我有一只小毛驴\n我从来也不骑\n有一天我心血来潮\n骑着去赶集", audio: "chinese/小毛驴.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
-            { emoji: "🐦", name: "小燕子", desc: "动物认知", lyrics: "小燕子，穿花衣\n年年春天来这里\n我问燕子你为啥来\n燕子说，这里的春天最美丽", audio: "chinese/小燕子.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
-            { emoji: "🎵", name: "小蝌蚪找妈妈", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/小蝌蚪找妈妈.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
-            { emoji: "🎵", name: "幸福拍手歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/幸福拍手歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" },
-            { emoji: "🎵", name: "我上幼儿园", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/我上幼儿园.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" },
-            { emoji: "🎵", name: "我的好妈妈", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/我的好妈妈.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" },
-            { emoji: "👋", name: "找朋友", desc: "社交能力", lyrics: "找呀找呀找朋友\n找到一个好朋友\n敬个礼，握握手\n你是我的好朋友", audio: "chinese/找朋友.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3" },
-            { emoji: "🥕", name: "拔萝卜", desc: "团队合作", lyrics: "拔萝卜，拔萝卜\n嗨吆嗨吆拔萝卜\n嗨吆嗨吆拔不动\n老太婆，快快来\n快来帮我们拔萝卜", audio: "chinese/拔萝卜.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3" },
-            { emoji: "🦆", name: "数鸭子", desc: "数学启蒙", lyrics: "门前大桥下\n游过一群鸭\n快来快来数一数\n二四六七八", audio: "chinese/数鸭子.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3" },
-            { emoji: "🎵", name: "新年好", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/新年好.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-21.mp3" },
-            { emoji: "🎵", name: "明天会更好", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/明天会更好.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-22.mp3" },
-            { emoji: "🎵", name: "爱我你就抱抱我", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/爱我你就抱抱我.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-23.mp3" },
-            { emoji: "🎵", name: "甩葱歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/甩葱歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-24.mp3" },
-            { emoji: "🎵", name: "粉刷匠", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/粉刷匠.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-25.mp3" },
-            { emoji: "🎵", name: "茉莉花", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/茉莉花.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-26.mp3" },
-            { emoji: "🎵", name: "虫儿飞", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/虫儿飞.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-27.mp3" },
-            { emoji: "🎵", name: "蜗牛与黄鹂歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/蜗牛与黄鹂歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3" }
+            { emoji: "💝", name: "世上只有妈妈好", desc: "亲情教育", lyrics: "世上只有妈妈好\n有妈的孩子像个宝\n投进妈妈的怀抱\n幸福享不了", audio: "chinese/世上只有妈妈好.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { emoji: "🐯", name: "两只老虎", desc: "动物认知", lyrics: "两只老虎，两只老虎\n跑得快，跑得快\n一只没有耳朵\n一只没有尾巴\n真奇怪，真奇怪", audio: "chinese/两只老虎.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { emoji: "🎵", name: "哇哈哈", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/哇哈哈.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { emoji: "🎵", name: "我上幼儿园", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/我上幼儿园.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { emoji: "🥕", name: "拔萝卜", desc: "团队合作", lyrics: "拔萝卜，拔萝卜\n嗨吆嗨吆拔萝卜\n嗨吆嗨吆拔不动\n老太婆，快快来\n快来帮我们拔萝卜", audio: "chinese/拔萝卜.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "🎵", name: "甩葱歌", desc: "Unknown", lyrics: "Lyrics not available", audio: "chinese/甩葱歌.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" }
         ];
 
         const englishSongs = [
@@ -578,17 +556,11 @@
             { emoji: "🕷️", name: "Itsy Bitsy Spider", desc: "Animal Learning", lyrics: "The itsy bitsy spider went up the water spout\nDown came the rain and washed the spider out\nOut came the sun and dried up all the rain\nAnd the itsy bitsy spider went up the spout again", audio: "english/Eensy Weensy Spider.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
             { emoji: "🐵", name: "Five Little Monkeys", desc: "Count Down", lyrics: "Five little monkeys jumping on the bed\nOne fell off and bumped his head\nMama called the doctor and the doctor said\nNo more monkeys jumping on the bed", audio: "english/Five little monkeys.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
             { emoji: "👤", name: "Head Shoulders Knees and Toes", desc: "Body Parts", lyrics: "Head, shoulders, knees and toes\nKnees and toes\nHead, shoulders, knees and toes\nKnees and toes\nAnd eyes and ears and mouth and nose", audio: "english/HeadShoulders.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-            { emoji: "🎵", name: "London Bridge Is Falling Down1", desc: "Unknown", lyrics: "Lyrics not available", audio: "english/London Bridge Is Falling Down1.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-            { emoji: "🎵", name: "Mary， Mary， Quite Contrary", desc: "Unknown", lyrics: "Lyrics not available", audio: "english/Mary， Mary， Quite Contrary.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-            { emoji: "🚜", name: "Old MacDonald Had a Farm", desc: "Animal Sounds", lyrics: "Old MacDonald had a farm\nE-I-E-I-O\nAnd on his farm he had a cow\nE-I-E-I-O\nWith a moo-moo here\nAnd a moo-moo there", audio: "english/OldMacDonald.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { emoji: "👆", name: "One Little Finger", desc: "Body Parts", lyrics: "One little finger, one little finger, one little finger\nTap tap tap\nPoint your finger up\nPoint your finger down\nPut it on your head, head, head", audio: "english/One little finger.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-            { emoji: "🧁", name: "Pat a Cake", desc: "Game Interactive", lyrics: "Pat-a-cake, pat-a-cake, baker's man\nBake me a cake as fast as you can\nPat it and prick it and mark it with B\nPut it in the oven for baby and me", audio: "english/Pat a cake.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-            { emoji: "🌧️", name: "Rain Rain Go Away", desc: "Nature", lyrics: "Rain, rain, go away\nCome again another day\nLittle Johnny wants to play\nRain, rain, go away", audio: "english/Rain Rain Go Away.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-            { emoji: "🎵", name: "Ten Little Indians", desc: "Unknown", lyrics: "Lyrics not available", audio: "english/Ten Little Indians.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
-            { emoji: "🎵", name: "The Finger Family", desc: "Unknown", lyrics: "Lyrics not available", audio: "english/The Finger Family.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
-            { emoji: "⭐", name: "Twinkle Twinkle Little Star", desc: "Sleep Time", lyrics: "Twinkle, twinkle, little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky", audio: "english/Twinkle Twinkle Little Star.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
-            { emoji: "🚌", name: "The Wheels on the Bus", desc: "Transportation", lyrics: "The wheels on the bus go round and round\nRound and round, round and round\nThe wheels on the bus go round and round\nAll through the town", audio: "english/WheelsBus.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
-            { emoji: "🎵", name: "Yankee Doodle1", desc: "Unknown", lyrics: "Lyrics not available", audio: "english/Yankee Doodle1.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
+            { emoji: "🚜", name: "Old MacDonald Had a Farm", desc: "Animal Sounds", lyrics: "Old MacDonald had a farm\nE-I-E-I-O\nAnd on his farm he had a cow\nE-I-E-I-O\nWith a moo-moo here\nAnd a moo-moo there", audio: "english/OldMacDonald.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "👆", name: "One Little Finger", desc: "Body Parts", lyrics: "One little finger, one little finger, one little finger\nTap tap tap\nPoint your finger up\nPoint your finger down\nPut it on your head, head, head", audio: "english/One little finger.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { emoji: "🧁", name: "Pat a Cake", desc: "Game Interactive", lyrics: "Pat-a-cake, pat-a-cake, baker's man\nBake me a cake as fast as you can\nPat it and prick it and mark it with B\nPut it in the oven for baby and me", audio: "english/Pat a cake.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { emoji: "⭐", name: "Twinkle Twinkle Little Star", desc: "Sleep Time", lyrics: "Twinkle, twinkle, little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky", audio: "english/Twinkle Twinkle Little Star.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { emoji: "🚌", name: "The Wheels on the Bus", desc: "Transportation", lyrics: "The wheels on the bus go round and round\nRound and round, round and round\nThe wheels on the bus go round and round\nAll through the town", audio: "english/WheelsBus.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
         ];
 
         // 当前状态
