@@ -11,56 +11,63 @@
             box-sizing: border-box;
         }
 
-        /* 淡雅马卡龙配色方案 */
+        /* 柔和粉彩配色方案 */
         :root {
-            --bg-primary: #FAF9F7;
-            --bg-secondary: #F7F6F4;
-            --card-bg: #FFFFFF;
-            --text-primary: #8A8080;
-            --text-secondary: #C0B8B8;
-            --accent-pink: #F5E0E2;
-            --accent-blue: #E0E8F0;
-            --accent-yellow: #F8F4EB;
-            --accent-green: #EBF0E5;
-            --accent-purple: #EBE8F0;
-            --accent-peach: #F5EBE5;
-            --shadow-soft: 0 4px 20px rgba(140, 130, 120, 0.06);
-            --shadow-hover: 0 8px 30px rgba(140, 130, 120, 0.12);
+            /* 背景色 - 奶油白 */
+            --bg-cream: #FEFEFA;
+            --bg-warm: #FAF8F5;
+
+            /* 粉彩色 */
+            --baby-blue: #D4E5F7;
+            --soft-pink: #F8DDE5;
+            --warm-beige: #F5EBE0;
+            --mint-green: #E0F2E8;
+            --lavender: #E8E5F2;
+            --cream-peach: #FFF0E8;
+
+            /* 文字色 - 低对比度 */
+            --text-primary: #9A9090;
+            --text-secondary: #C0B8B5;
+
+            /* 阴影 */
+            --shadow-soft: 0 6px 24px rgba(180, 170, 160, 0.08);
+            --shadow-hover: 0 10px 35px rgba(180, 170, 160, 0.14);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background: linear-gradient(180deg, var(--bg-cream) 0%, var(--bg-warm) 100%);
             padding: 40px 30px;
             color: var(--text-primary);
         }
 
         .header {
             text-align: center;
-            padding: 40px 20px 60px;
+            padding: 50px 20px 70px;
             max-width: 600px;
             margin: 0 auto;
         }
 
         .header-logo {
-            font-size: 48px;
+            font-size: 50px;
             margin-bottom: 20px;
-            opacity: 0.85;
+            opacity: 0.8;
         }
 
         .header h1 {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 12px;
-            letter-spacing: 2px;
+            margin-bottom: 14px;
+            letter-spacing: 3px;
         }
 
         .header p {
             font-size: 15px;
             color: var(--text-secondary);
             font-weight: 400;
+            letter-spacing: 1px;
         }
 
         .container {
@@ -69,24 +76,24 @@
         }
 
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 55px;
         }
 
         .section-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 26px;
             padding-left: 8px;
         }
 
         .section-icon {
-            font-size: 22px;
-            opacity: 0.7;
+            font-size: 20px;
+            opacity: 0.6;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 500;
             color: var(--text-primary);
             letter-spacing: 1px;
@@ -95,61 +102,63 @@
         .section-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, rgba(180, 170, 160, 0.25) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(180, 170, 160, 0.2) 0%, transparent 100%);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+            gap: 18px;
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 32px 24px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 30px 22px;
             text-align: center;
             box-shadow: var(--shadow-soft);
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
             position: relative;
             overflow: hidden;
-            border: 2px solid transparent;
+            border: 1px solid rgba(200, 190, 180, 0.15);
         }
 
         .card:hover:not(.disabled) {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
             box-shadow: var(--shadow-hover);
-            border-color: rgba(180, 170, 160, 0.15);
+            border-color: rgba(200, 190, 180, 0.25);
         }
 
         .card.disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: default;
         }
 
-        /* 不同卡片的柔和背景色 - 更淡 */
-        .card:nth-child(4n+1) { background: linear-gradient(135deg, #FFF 0%, #FAF9F7 100%); }
-        .card:nth-child(4n+2) { background: linear-gradient(135deg, #FFF 0%, #F7F9FB 100%); }
-        .card:nth-child(4n+3) { background: linear-gradient(135deg, #FFF 0%, #F9FBF7 100%); }
-        .card:nth-child(4n+4) { background: linear-gradient(135deg, #FFF 0%, #FAF9FB 100%); }
+        /* 不同卡片的柔和背景色 */
+        .card:nth-child(5n+1) { background: linear-gradient(135deg, #FFF 0%, var(--baby-blue) 100%); }
+        .card:nth-child(5n+2) { background: linear-gradient(135deg, #FFF 0%, var(--soft-pink) 100%); }
+        .card:nth-child(5n+3) { background: linear-gradient(135deg, #FFF 0%, var(--warm-beige) 100%); }
+        .card:nth-child(5n+4) { background: linear-gradient(135deg, #FFF 0%, var(--mint-green) 100%); }
+        .card:nth-child(5n+5) { background: linear-gradient(135deg, #FFF 0%, var(--lavender) 100%); }
 
         .card-icon {
-            font-size: 52px;
-            margin-bottom: 16px;
+            font-size: 48px;
+            margin-bottom: 14px;
             display: inline-block;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s ease;
+            opacity: 0.85;
         }
 
         .card:hover:not(.disabled) .card-icon {
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             color: var(--text-primary);
             margin-bottom: 6px;
@@ -157,41 +166,41 @@
         }
 
         .card-desc {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
             font-weight: 400;
         }
 
         .badge {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 11px;
+            top: 14px;
+            right: 14px;
+            padding: 4px 11px;
+            border-radius: 10px;
+            font-size: 10px;
             font-weight: 500;
             letter-spacing: 0.5px;
         }
 
         .badge.done {
-            background: var(--accent-green);
-            color: #6A8A6A;
+            background: var(--mint-green);
+            color: #7AB8A0;
         }
 
         .badge.soon {
-            background: var(--accent-peach);
-            color: #A08070;
+            background: var(--cream-peach);
+            color: #B8A090;
         }
 
         .footer {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 70px 20px 50px;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .footer-text {
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         /* 移动端优化 */
@@ -201,7 +210,7 @@
             }
 
             .header {
-                padding: 30px 15px 40px;
+                padding: 30px 15px 45px;
             }
 
             .header-logo {
@@ -210,6 +219,7 @@
 
             .header h1 {
                 font-size: 26px;
+                letter-spacing: 2px;
             }
 
             .header p {
@@ -223,37 +233,37 @@
 
             .card {
                 padding: 24px 16px;
-                border-radius: 20px;
+                border-radius: 18px;
             }
 
             .card-icon {
-                font-size: 42px;
+                font-size: 40px;
                 margin-bottom: 12px;
             }
 
             .card-title {
-                font-size: 15px;
+                font-size: 14px;
             }
 
             .card-desc {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .section {
-                margin-bottom: 35px;
+                margin-bottom: 40px;
             }
 
             .badge {
-                padding: 4px 10px;
-                font-size: 10px;
-                top: 12px;
-                right: 12px;
+                padding: 3px 9px;
+                font-size: 9px;
+                top: 10px;
+                right: 10px;
             }
         }
 
         /* 页面加载动画 */
         .card {
-            animation: fadeInUp 0.6s ease backwards;
+            animation: fadeInUp 0.7s ease backwards;
         }
 
         .card:nth-child(1) { animation-delay: 0.05s; }
@@ -266,7 +276,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(25px);
             }
             to {
                 opacity: 1;
@@ -274,26 +284,26 @@
             }
         }
 
-        /* 简单的装饰性背景元素 */
+        /* 极简装饰元素 */
         .bg-dot {
             position: fixed;
-            width: 4px;
-            height: 4px;
-            background: rgba(170, 160, 150, 0.2);
+            width: 3px;
+            height: 3px;
+            background: rgba(180, 170, 160, 0.12);
             border-radius: 50%;
             pointer-events: none;
         }
 
-        .bg-dot:nth-child(1) { top: 10%; left: 10%; }
-        .bg-dot:nth-child(2) { top: 20%; right: 15%; }
-        .bg-dot:nth-child(3) { top: 40%; left: 8%; }
-        .bg-dot:nth-child(4) { top: 60%; right: 12%; }
-        .bg-dot:nth-child(5) { bottom: 20%; left: 15%; }
-        .bg-dot:nth-child(6) { bottom: 30%; right: 8%; }
+        .bg-dot:nth-child(1) { top: 8%; left: 8%; }
+        .bg-dot:nth-child(2) { top: 18%; right: 12%; }
+        .bg-dot:nth-child(3) { top: 45%; left: 6%; }
+        .bg-dot:nth-child(4) { top: 65%; right: 10%; }
+        .bg-dot:nth-child(5) { bottom: 15%; left: 12%; }
+        .bg-dot:nth-child(6) { bottom: 35%; right: 6%; }
     </style>
 </head>
 <body>
-    <!-- 简洁的装饰性背景点 -->
+    <!-- 极简装饰点 -->
     <div class="bg-dot"></div>
     <div class="bg-dot"></div>
     <div class="bg-dot"></div>
