@@ -799,7 +799,7 @@
                 speak(paragraphs[paragraphIndex]);
 
                 paragraphIndex++;
-                setTimeout(readParagraph, 4000);
+                setTimeout(readParagraph, 5500);
             }
 
             readParagraph();
@@ -872,12 +872,35 @@
         }
 
         // 语音合成
+        let bestVoice = null;
+        
         function speak(text) {
             if (!('speechSynthesis' in window)) return;
             speechSynthesis.cancel();
+            
             const utterance = new SpeechSynthesisUtterance(text);
+            
+            // 尝试获取最佳中文语音
+            if (!bestVoice) {
+                const voices = speechSynthesis.getVoices();
+                // 优先选择中文语音
+                const chineseVoices = voices.filter(v => v.lang.includes('zh'));
+                if (chineseVoices.length > 0) {
+                    // 优先选择 Microsoft 或 Google 的语音
+                    bestVoice = chineseVoices.find(v => v.name.includes('Microsoft') || v.name.includes('Google')) 
+                                || chineseVoices[0];
+                }
+            }
+            
+            if (bestVoice) {
+                utterance.voice = bestVoice;
+            }
+            
             utterance.lang = 'zh-CN';
-            utterance.rate = 0.9;
+            utterance.rate = 0.85;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
             speechSynthesis.speak(utterance);
         }
 
@@ -890,6 +913,10 @@
             // 预加载语音
             if ('speechSynthesis' in window) {
                 speechSynthesis.getVoices();
+                // 监听语音列表变化
+                speechSynthesis.onvoiceschanged = function() {
+                    bestVoice = null; // 重置，让speak函数重新选择
+                };
             }
 
             renderStories();
