@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(git config:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(python:*)",
+      "Bash(powershell.exe:*)"
     ]
   }
 }

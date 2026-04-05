@@ -475,11 +475,11 @@
         </div>
 
         <div class="lang-switch">
-            <button class="lang-btn active" id="chineseBtn" onclick="switchLanguage('chinese')">
-                🇨🇳 中文儿歌
+            <button class="lang-btn active" id="englishBtn" onclick="switchLanguage('english')">
+                🇺🇸 English Songs (9)
             </button>
-            <button class="lang-btn" id="englishBtn" onclick="switchLanguage('english')">
-                🇺🇸 English Songs
+            <button class="lang-btn" id="chineseBtn" onclick="switchLanguage('chinese')">
+                🇨🇳 中文儿歌 (7)
             </button>
         </div>
 
@@ -564,8 +564,8 @@
         ];
 
         // 当前状态
-        let currentLang = 'chinese';
-        let currentSongs = chineseSongs;
+        let currentLang = 'english';
+        let currentSongs = englishSongs;
         let currentIndex = 0;
         let isPlaying = false;
         let isLoop = false;
@@ -578,6 +578,12 @@
             renderSongList();
             updatePlayer();
             setupAudioEvents();
+            // 自动播放第一首歌
+            setTimeout(() => {
+                if (audioPlayer.paused) {
+                    togglePlay();
+                }
+            }, 500);
         }
 
         // 设置音频事件
@@ -632,8 +638,8 @@
             isPlaying = false;
             updatePlayButton();
 
-            document.getElementById('chineseBtn').classList.toggle('active', lang === 'chinese');
             document.getElementById('englishBtn').classList.toggle('active', lang === 'english');
+            document.getElementById('chineseBtn').classList.toggle('active', lang === 'chinese');
 
             renderSongList();
             updatePlayer();
