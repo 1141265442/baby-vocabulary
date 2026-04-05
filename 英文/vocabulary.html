@@ -83,6 +83,16 @@
             transform: scale(0.95);
         }
 
+        .speak-btn.speaking {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .nav {
             display: flex;
             gap: 20px;
@@ -262,11 +272,49 @@
         }
 
         function speak() {
+            // 检查浏览器支持
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音功能，请尝试使用Safari或Chrome浏览器');
+                return;
+            }
+
+            // 取消之前的语音
+            speechSynthesis.cancel();
+
             const word = words[currentIndex];
             const utterance = new SpeechSynthesisUtterance(word.en);
+
+            // 移动端优化设置
             utterance.lang = 'en-US';
-            utterance.rate = 0.8;
-            utterance.pitch = 1.1;
+            utterance.rate = 0.9;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+
+            // 获取所有可用语音，选择英文语音
+            const voices = speechSynthesis.getVoices();
+            const englishVoice = voices.find(v => v.lang.startsWith('en'));
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+            }
+
+            // 添加视觉反馈
+            const btn = document.querySelector('.speak-btn');
+            btn.classList.add('speaking');
+            btn.textContent = '🔊 播放中...';
+
+            // 错误处理
+            utterance.onerror = function(event) {
+                console.log('Speech error:', event.error);
+                btn.classList.remove('speaking');
+                btn.textContent = '🔊 朗读';
+            };
+
+            utterance.onend = function() {
+                btn.classList.remove('speaking');
+                btn.textContent = '🔊 朗读';
+            };
+
+            // 立即播放
             speechSynthesis.speak(utterance);
         }
 
@@ -278,6 +326,19 @@
             if (e.key === 's' || e.key === 'S') toggleMode();
         });
 
+        // 移动端优化：预加载语音
+        function initSpeech() {
+            if ('speechSynthesis' in window) {
+                // iOS需要提前调用getVoices
+                speechSynthesis.getVoices();
+                speechSynthesis.onvoiceschanged = function() {
+                    speechSynthesis.getVoices();
+                };
+            }
+        }
+
+        // 页面加载时初始化
+        initSpeech();
         updateCard();
     </script>
 </body>
