@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>睡前故事 - Bedtime Stories</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #FFF8F0;
+            --bg-secondary: #FFEDDE;
+            --bg-card: #FFFFFF;
+            --macaron-blue: #FFB888;
+            --macaron-pink: #FF9CAA;
+            --macaron-peach: #FFCC99;
+            --macaron-mint: #FFB6A6;
+            --macaron-lavender: #E8B8D8;
+            --macaron-yellow: #FFE4AA;
+            --text-primary: #5A4A3A;
+            --text-secondary: #8A7A6A;
+            --shadow-sm: 0 2px 12px rgba(255, 150, 100, 0.08);
+            --shadow-md: 0 6px 24px rgba(255, 150, 100, 0.12);
+            --shadow-lg: 0 12px 40px rgba(255, 150, 100, 0.18);
+        }
+
+        [data-theme="cool"] {
+            --bg-primary: #E8EDF0;
+            --bg-secondary: #DCE4E8;
+            --macaron-blue: #9DB8D8;
+            --macaron-pink: #B8C8E8;
+            --macaron-peach: #C8D8E8;
+            --macaron-mint: #A8D0C8;
+            --macaron-lavender: #C8C0E0;
+            --macaron-yellow: #D8E0D0;
+            --text-primary: #2A3A4A;
+            --text-secondary: #5A6A7A;
+            --shadow-sm: 0 2px 12px rgba(100, 130, 160, 0.08);
+            --shadow-md: 0 6px 24px rgba(100, 130, 160, 0.12);
+            --shadow-lg: 0 12px 40px rgba(100, 130, 160, 0.18);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 20px 16px;
+            color: var(--text-primary);
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle, .back-btn {
+            position: fixed;
+            top: 16px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 10px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .theme-toggle:hover, .back-btn:hover { transform: scale(1.05); }
+        .theme-toggle { right: 16px; }
+        .back-btn { left: 16px; padding: 10px 16px; }
+
+        /* 主页面 */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 12px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .category-tab {
+            background: var(--bg-card);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--macaron-pink), var(--macaron-blue));
+            color: white;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .story-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-icon {
+            font-size: 56px;
+            margin-bottom: 12px;
+        }
+
+        .story-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .story-moral {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* 故事阅读页面 */
+        .story-reader {
+            display: none;
+            max-width: 700px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        .story-reader.active {
+            display: block;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .story-emoji {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .story-main-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--macaron-pink);
+        }
+
+        .story-moral-tag {
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            padding: 8px 16px;
+            border-radius: 16px;
+            display: inline-block;
+        }
+
+        .story-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: var(--bg-card);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .control-btn.primary {
+            background: linear-gradient(135deg, var(--macaron-pink), var(--macaron-blue));
+            color: white;
+        }
+
+        .story-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            line-height: 2;
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .story-content.size-small { font-size: 16px; }
+        .story-content.size-large { font-size: 20px; }
+
+        .story-paragraph {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        .story-paragraph:last-child {
+            margin-bottom: 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            margin-top: 24px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--macaron-pink), var(--macaron-blue));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* 夜间模式 */
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="dark"] .story-main-title {
+            color: var(--macaron-peach);
+        }
+
+        @media (max-width: 600px) {
+            .stories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .story-content {
+                padding: 20px;
+                font-size: 16px;
+            }
+
+            .story-controls {
+                gap: 8px;
+            }
+
+            .control-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+        <span id="themeIcon">❄️</span>
+        <span id="themeText">清凉</span>
+    </button>
+
+    <a href="../index.html" class="back-btn">
+        <span>🏠</span>
+        <span>返回首页</span>
+    </a>
+
+    <!-- 主页面 -->
+    <div class="main-container" id="mainContainer">
+        <div class="title">📖</div>
+        <div class="subtitle">睡前故事 - 温馨时光</div>
+
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="switchCategory('bedtime')">🌙 睡前故事</button>
+            <button class="category-tab" onclick="switchCategory('fables')">🦊 寓言故事</button>
+        </div>
+
+        <div class="stories-grid" id="storiesGrid"></div>
+    </div>
+
+    <!-- 故事阅读页面 -->
+    <div class="story-reader" id="storyReader">
+        <div class="story-header">
+            <div class="story-emoji" id="storyEmoji">🐰</div>
+            <div class="story-main-title" id="storyTitle">故事标题</div>
+            <div class="story-moral-tag" id="storyMoral">教育意义</div>
+        </div>
+
+        <div class="story-controls">
+            <button class="control-btn" onclick="prevStory()">⬅️ 上一篇</button>
+            <button class="control-btn primary" id="playBtn" onclick="toggleReading()">🔊 朗读</button>
+            <button class="control-btn" onclick="adjustFontSize(-1)">🔤 小字</button>
+            <button class="control-btn" onclick="adjustFontSize(1)">📏 大字</button>
+            <button class="control-btn" onclick="toggleNightMode()">🌙 夜间</button>
+            <button class="control-btn" onclick="backToList()">📋 列表</button>
+            <button class="control-btn" onclick="nextStory()">➡️ 下一篇</button>
+        </div>
+
+        <div class="story-content" id="storyContent"></div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <script>
+        // 故事数据
+        const bedtimeStories = [
+            {
+                id: 1,
+                title: "小兔子乖乖",
+                emoji: "🐰",
+                moral: "安全教育：不要给陌生人开门",
+                content: `兔妈妈要出门去拔萝卜，她对小兔子说："乖乖把门关好，谁来也不要开。"
+
+兔妈妈走了不久，大灰狼来了。他捏着鼻子说："小兔子乖乖，把门儿开开，快点儿开开，我要进来。"
+
+小兔子说："不开不开我不开，妈妈没回来，谁来也不开。"
+
+大灰狼见骗不开门，就走了。过了一会儿，兔妈妈回来了，她唱道："小兔子乖乖，把门儿开开，快点儿开开，妈妈进来。"
+
+小兔子听出是妈妈的声音，高兴地把门打开了。
+
+兔妈妈夸奖小兔子："你真是个聪明的好孩子，知道不给陌生人开门！"
+
+小兔子骄傲地说："我会保护自己！"`
+            },
+            {
+                id: 2,
+                title: "三只小猪",
+                emoji: "🐷",
+                moral: "勤劳智慧：认真做事才能成功",
+                content: `猪妈妈有三个孩子：老大、老二和老三。一天，猪妈妈说："你们长大了，该自己盖房子了。"
+
+老大很懒，他用稻草盖了一间房子，很快就盖好了。老二也不勤快，他用木头盖了一间房子。老三最勤劳，他用砖头一块一块地盖房子，盖了很久很久。
+
+一天，大灰狼来了。他吹一口气，就把老大的稻草房子吹倒了。老大吓得到老二家躲起来。大灰狼又吹一口气，把老二的木头房子也吹倒了。老大和老二一起跑到老三家。
+
+大灰狼对着砖头房子吹呀吹，可是房子一动也不动。大灰狼想从烟囱爬进去，聪明的老三在壁炉里烧了一锅热水。大灰狼掉进热水里，烫得哇哇大叫，逃跑了。
+
+老大和老二说："老三，我们以后要向你学习，认真做事！"`
+            },
+            {
+                id: 3,
+                title: "小红帽",
+                emoji: "🔴",
+                moral: "安全意识：不要轻信陌生人",
+                content: `有一天，妈妈让小红帽给生病的奶奶送蛋糕。妈妈说："不要离开大路，不要和陌生人说话。"
+
+小红帽走在森林里，遇到了大灰狼。大灰狼问："你要去哪里呀？"小红帽说："我去奶奶家。"
+
+大灰狼骗小红帽去采花，自己先跑到奶奶家，把奶奶吞进了肚子，然后装成奶奶躺在床上。
+
+小红帽到了奶奶家，觉得奶奶的样子怪怪的。大灰狼突然跳起来，把小红帽也吞进了肚子。
+
+幸好有一位猎人经过，听到呼救声，救出了小红帽和奶奶。从此以后，小红帽再也不和陌生人说话了。`
+            },
+            {
+                id: 4,
+                title: "龟兔赛跑",
+                emoji: "🐢",
+                moral: "坚持不懈：不要骄傲自满",
+                content: `有一天，兔子嘲笑乌龟爬得慢。乌龟说："我们比赛跑步吧！"兔子答应了。
+
+比赛开始了，兔子跑得飞快，一会儿就跑到了半山腰。他想：乌龟那么慢，我先睡一觉再跑也不迟。于是兔子在树下睡着了。
+
+乌龟虽然爬得很慢，但他一步一步不停地往前爬。他爬过草地，爬过小河，一直往前爬。
+
+等兔子醒来的时候，乌龟已经爬到了终点，赢得了比赛！兔子羞红了脸。
+
+兔子说："我不应该骄傲自满，要坚持到底！"`
+            },
+            {
+                id: 5,
+                title: "丑小鸭",
+                emoji: "🦆",
+                moral: "自信成长：不要以貌取人",
+                content: `鸭妈妈孵出了一群小鸭子，其中有一只又大又丑。大家都叫他"丑小鸭"。
+
+丑小鸭处处受欺负，只好离开了家。他在野外流浪，冬天来了，天气很冷，丑小鸭冻僵在冰面上。
+
+一个好心的农夫把他救回了家。春天来了，丑小鸭来到湖边，看到水里的倒影，吓了一跳："那是我吗？我已经变成一只美丽的天鹅了！"
+
+原来，丑小鸭根本不是鸭子，而是一只天鹅！其他天鹅都游过来，欢迎他加入他们的大家庭。
+
+丑小鸭明白了：不要因为外表不同而自卑，每个人都会长大的。`
+            },
+            {
+                id: 6,
+                title: "小马过河",
+                emoji: "🐴",
+                moral: "勇于尝试：要亲自实践才能知道",
+                content: `有一天，小马帮妈妈驮麦子去磨坊。路上有一条小河，河水哗哗地流。
+
+小马不知道河水深不深，问老牛。老牛说："水很浅，刚没过小腿。"
+
+小马刚要过河，小松鼠急忙喊道："别过河！水很深，我的一个伙伴掉进去淹死了！"
+
+小马不知道该听谁的，只好回去问妈妈。妈妈说："你自己试试就知道了。"
+
+小马回到河边，小心地下了河。原来，河水既不像老牛说的那么浅，也不像小松鼠说的那么深。
+
+小马顺利地过了河，明白了：要亲自实践，才能知道真相。`
+            },
+            {
+                id: 7,
+                title: "拔苗助长",
+                emoji: "🌱",
+                moral: "遵循规律：不能急于求成",
+                content: `古时候，有个农夫种了稻禾。他每天都要到田里去看，总觉得禾苗长得太慢。
+
+有一天，他把田里的禾苗一棵一棵地往上拔高了一些。累得他腰酸背痛，回家还说："今天可把我累坏了，我让禾苗都长高了一大截！"
+
+他的儿子听了，急忙跑到田里去看。结果发现，所有的禾苗都枯死了。
+
+农夫不明白：禾苗怎么会枯死呢？别人告诉他："你把禾苗拔起来，根就断了，禾苗当然会死呀。"
+
+农夫后悔地说："我不该急于求成，要遵循自然规律。"`
+            },
+            {
+                id: 8,
+                title: "坐井观天",
+                emoji: "🐸",
+                moral: "开阔眼界：不要固步自封",
+                content: `有一只青蛙住在一口井里。他抬头看天，只有井口那么大。
+
+一只小鸟飞来，停在井沿上。青蛙问："你从哪里来？"小鸟说："我从天上来，飞了一百多里，飞累了，下来找点水喝。"
+
+青蛙笑着说："朋友，你别说大话了！天不过井口那么大，怎么可能飞一百多里呢？"
+
+小鸟说："你弄错了，天无边无际，大得很呢！"
+
+青蛙不相信，说："我天天生活在井里，一抬头就看见天，怎么会不知道？"
+
+小鸟说："你跳出井口，就知道了。"
+
+青蛙听了小鸟的话，真的跳出井口。哇！天真的很大很大，无边无际！青蛙说："我再也不坐井观天了！"`
+            },
+            {
+                id: 9,
+                title: "小白兔种萝卜",
+                emoji: "🥕",
+                moral: "勤劳收获：只有付出才有回报",
+                content: `春天来了，小白兔决定种萝卜。他翻地、播种、浇水，每天都去田里照顾萝卜。
+
+小灰兔看见了，说："小白兔，你太辛苦了，来玩吧！"小白兔说："不行呀，我要给萝卜浇水除草。"
+
+过了几天，小灰兔又来叫小白兔玩。小白兔正在给萝卜施肥，说："萝卜需要营养才能长大。"
+
+夏天到了，天气很热。小灰兔在树荫下乘凉，小白兔还在田里干活。汗水湿透了他的衣服。
+
+秋天来了，小白兔的萝卜丰收了！一个个又大又红，小白兔高兴极了。
+
+小灰兔什么也没有种，只有羡慕的份儿。小白兔说："只有辛勤劳动，才能收获果实。"`
+            },
+            {
+                id: 10,
+                title: "星星和月亮",
+                emoji: "⭐",
+                moral: "友谊珍贵：互相帮助真好",
+                content: `夜空里，有一颗小星星。他看到天上的月亮弯弯的，像一只小船。
+
+小星星问："月亮阿姨，你为什么总是弯弯的呀？"
+
+月亮说："为了让小朋友们都能睡着，我把光芒收起来一些。"
+
+小星星说："那你一定很孤单吧？"
+
+月亮说："有你们这么多小星星陪着我，我才不孤单呢！"
+
+有一天，月亮病了，光芒很暗淡。小星星们担心地说："月亮阿姨病了，我们帮她照亮夜空吧！"
+
+于是，所有的小星星都努力地闪呀闪。整个夜空变得亮晶晶的，小朋友们看着美丽的星空，都甜甜地睡着了。
+
+月亮感激地说："谢谢你们，我的小星星！"小星星们说："我们是好朋友，应该互相帮助！"`
+            }
+        ];
+
+        const fableStories = [
+            {
+                id: 1,
+                title: "守株待兔",
+                emoji: "🌳",
+                moral: "不要心存侥幸，要靠努力获得成功",
+                content: `古时候，有个农夫在田里干活。突然，一只兔子跑得太快，撞在田边的树桩上，死了。
+
+农夫高兴地捡起兔子，心想："太好了！不用干活就能有兔子吃。"
+
+从那以后，农夫不再种田，每天坐在树桩旁等兔子。一天天过去了，再也没有兔子撞死在树桩上。
+
+田里的庄稼都荒了，农夫也没有收获。别人问他为什么不再种田，他说："我在等兔子呢！"
+
+大家都笑他傻，说："兔子撞死是偶然的，不能靠运气生活呀！"
+
+农夫这才明白：不能心存侥幸，要靠努力才能获得成功。`
+            },
+            {
+                id: 2,
+                title: "狐假虎威",
+                emoji: "🦊",
+                moral: "要认清事物的本质，不要被表面现象迷惑",
+                content: `老虎在森林里抓到了一只狐狸。狐狸眼珠一转，说："你敢吃我？我是天帝派来管理百兽的！你吃了我，就是违抗天帝的命令！"
+
+老虎不信。狐狸说："不信你跟我走一趟，看看百兽是不是都怕我！"
+
+老虎跟着狐狸在森林里走。小动物们看到狐狸身后的老虎，都吓得逃跑了。
+
+老虎不知道动物们怕的是他，还以为真的怕狐狸呢，就放走了狐狸。
+
+其实，狐狸是借着老虎的威风来吓唬别人的。我们做事要看清本质，不要被表面迷惑。`
+            },
+            {
+                id: 3,
+                title: "亡羊补牢",
+                emoji: "🐑",
+                moral: "出了问题要及时改正，为时不晚",
+                content: `有个农夫养了一群羊。一天早上，他发现少了一只羊。原来羊圈破了个洞，夜里狼从洞里钻进来，把羊叼走了。
+
+邻居说："快把羊圈修一修吧！"农夫说："羊已经丢了，还修羊圈干什么？"
+
+第二天，农夫又发现少了一只羊。狼又从那个洞里钻进来，把羊叼走了。
+
+农夫后悔极了，赶快把羊圈修好了。从此以后，再也没有丢过羊。
+
+这个故事告诉我们：出了问题要及时改正，虽然受到了损失，但还能避免更大的损失。`
+            },
+            {
+                id: 4,
+                title: "刻舟求剑",
+                emoji: "⚓",
+                moral: "要根据实际情况变化，不能死守教条",
+                content: `有个楚国人坐船过江，不小心把剑掉进了江里。他急忙在船舷上刻了个记号，说："我的剑是从这里掉下去的。"
+
+船靠岸后，他顺着记号跳下水去找剑。可是船已经走了一段距离，剑还在掉下去的地方，怎么能找得到呢？
+
+大家都笑他太傻了。剑掉在水里不会动，船却在不停地走。在船上刻记号，怎么可能找到剑呢？
+
+这个故事告诉我们：要根据实际情况的变化来处理问题，不能死守教条。`
+            },
+            {
+                id: 5,
+                title: "掩耳盗铃",
+                emoji: "🔔",
+                moral: "不要自欺欺人，事实真相掩盖不住",
+                content: `从前有个人想偷别人家的门铃。他想："铃一响就会被人发现，怎么办呢？"
+
+他想了个办法：用手捂住自己的耳朵，这样自己就听不见铃声了，别人肯定也听不见！
+
+于是他捂着耳朵去偷铃，结果刚碰到铃，铃就响了。主人听到铃声，马上把他抓住了。
+
+这个人真是太傻了！捂住自己的耳朵，只是自己听不见，别人还是能听见的呀！
+
+这个故事告诉我们：不要自欺欺人，事实真相是掩盖不住的。`
+            },
+            {
+                id: 6,
+                title: "画蛇添足",
+                emoji: "🐍",
+                moral: "做事情要恰到好处，不要多此一举",
+                content: `古时候，有几个人比赛画蛇，谁先画好谁就能喝到一壶好酒。
+
+其中一个人画得很快，一会儿就画好了。他看到别人还没画好，就想：我再给蛇画上脚，也不会输！
+
+于是他开始给蛇画脚。脚还没画好，另一个人也画好了蛇，抢过酒壶说："蛇没有脚，你画的不是蛇！"说完就把酒喝了。
+
+那个给蛇画脚的人，因为多此一举，反而输了。
+
+这个故事告诉我们：做事情要恰到好处，不要做多余的事情，反而会把事情弄糟。`
+            },
+            {
+                id: 7,
+                title: "井底之蛙",
+                emoji: "🐸",
+                moral: "要见多识广，不要眼界狭窄",
+                content: `有一只青蛙住在一口废弃的井里。他觉得这里很舒服，是世界上最好的地方。
+
+一天，一只海龟告诉青蛙大海有多么辽阔。青蛙不相信："怎么可能比我住的地方还大？"
+
+海龟说："大海无边无际，深不可测。就算发大水，海水也不会明显增多；就算干旱，海水也不会明显减少。"
+
+青蛙听得目瞪口呆，这才知道自己住的地方是多么渺小。他感叹道："原来外面的世界这么大，我的见识太少了！"
+
+这个故事告诉我们：要不断学习，开阔眼界，不要做井底之蛙。`
+            },
+            {
+                id: 8,
+                title: "盲人摸象",
+                emoji: "🐘",
+                moral: "要全面看问题，不要以偏概全",
+                content: `有四个盲人，他们从来没见过大象，想知道大象长什么样。
+
+第一个盲人摸到了大象的身子，说："大象像一堵墙。"
+
+第二个盲人摸到了大象的腿，说："大象像一根柱子。"
+
+第三个盲人摸到了大象的尾巴，说："大象像一条绳子。"
+
+第四个盲人摸到了大象的耳朵，说："大象像一把扇子。"
+
+他们争论不休，都说自己是对的。其实，他们都只摸到了大象的一部分，说的都不全面。
+
+这个故事告诉我们：看问题要全面，不能只看一部分就下结论。`
+            },
+            {
+                id: 9,
+                title: "农夫与蛇",
+                emoji: "🐍",
+                moral: "分清善恶，不要对坏人仁慈",
+                content: `冬天，农夫在路边看到一条冻僵的蛇。他心生怜悯，把蛇捡起来，放进怀里温暖它。
+
+蛇慢慢苏醒过来，恢复了本性，一口咬了农夫一口。农夫中毒很深，临死前说："我真傻，不应该可怜毒蛇！"
+
+这个故事告诉我们：对恶人仁慈，就是对自己残忍。要分清善恶，不要对坏人仁慈。`
+            },
+            {
+                id: 10,
+                title: "狼来了",
+                emoji: "🐺",
+                moral: "要诚实守信，撒谎会失去信任",
+                content: `有个放羊的男孩，每天在山上放羊。他觉得无聊，就想捉弄村里的人。
+
+他大喊："狼来了！狼来了！"村里的人听到喊声，急忙跑上山来打狼。可是根本没有狼，男孩哈哈大笑。
+
+过了几天，男孩又大喊："狼来了！"大家又跑来了，还是被骗了。男孩觉得很开心。
+
+一天，狼真的来了！男孩害怕极了，大声喊："狼来了！狼来了！"
+
+可是，村里的人以为他又在撒谎，谁也不来帮忙。结果，羊都被狼吃掉了。
+
+男孩后悔地说："我不该撒谎，现在没人相信我了！"
+
+这个故事告诉我们：要诚实守信，撒谎的人会失去别人的信任。`
+            }
+        ];
+
+        let currentCategory = 'bedtime';
+        let currentStories = bedtimeStories;
+        let currentIndex = 0;
+        let isReading = false;
+        let fontSize = 0; // 0: normal, -1: small, 1: large
+        let isNightMode = false;
+
+        // 渲染故事列表
+        function renderStories() {
+            const grid = document.getElementById('storiesGrid');
+            grid.innerHTML = currentStories.map((story, index) => `
+                <div class="story-card" onclick="openStory(${index})">
+                    <div class="story-icon">${story.emoji}</div>
+                    <div class="story-title">${story.title}</div>
+                    <div class="story-moral">${story.moral}</div>
+                </div>
+            `).join('');
+        }
+
+        // 切换分类
+        function switchCategory(category) {
+            currentCategory = category;
+            currentStories = category === 'bedtime' ? bedtimeStories : fableStories;
+            currentIndex = 0;
+
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            renderStories();
+        }
+
+        // 打开故事
+        function openStory(index) {
+            currentIndex = index;
+            const story = currentStories[index];
+
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('storyReader').classList.add('active');
+
+            document.getElementById('storyEmoji').textContent = story.emoji;
+            document.getElementById('storyTitle').textContent = story.title;
+            document.getElementById('storyMoral').textContent = story.moral;
+
+            const paragraphs = story.content.split('\n').filter(p => p.trim());
+            document.getElementById('storyContent').innerHTML = paragraphs.map(p =>
+                `<div class="story-paragraph">${p}</div>`
+            ).join('');
+
+            updateProgress();
+            stopReading();
+        }
+
+        // 返回列表
+        function backToList() {
+            stopReading();
+            document.getElementById('storyReader').classList.remove('active');
+            document.getElementById('mainContainer').style.display = 'block';
+        }
+
+        // 上一篇
+        function prevStory() {
+            stopReading();
+            currentIndex = (currentIndex - 1 + currentStories.length) % currentStories.length;
+            openStory(currentIndex);
+        }
+
+        // 下一篇
+        function nextStory() {
+            stopReading();
+            currentIndex = (currentIndex + 1) % currentStories.length;
+            openStory(currentIndex);
+        }
+
+        // 朗读控制
+        function toggleReading() {
+            if (isReading) {
+                stopReading();
+            } else {
+                startReading();
+            }
+        }
+
+        function startReading() {
+            isReading = true;
+            document.getElementById('playBtn').textContent = '⏸️ 暂停';
+
+            const story = currentStories[currentIndex];
+            const paragraphs = story.content.split('\n').filter(p => p.trim());
+            let paragraphIndex = 0;
+
+            function readParagraph() {
+                if (!isReading || paragraphIndex >= paragraphs.length) {
+                    stopReading();
+                    return;
+                }
+
+                // 高亮当前段落
+                document.querySelectorAll('.story-paragraph').forEach((p, i) => {
+                    p.style.color = i === paragraphIndex ? 'var(--macaron-pink)' : 'var(--text-primary)';
+                });
+
+                speak(paragraphs[paragraphIndex]);
+
+                paragraphIndex++;
+                setTimeout(readParagraph, 4000);
+            }
+
+            readParagraph();
+        }
+
+        function stopReading() {
+            isReading = false;
+            document.getElementById('playBtn').textContent = '🔊 朗读';
+            document.querySelectorAll('.story-paragraph').forEach(p => {
+                p.style.color = 'var(--text-primary)';
+            });
+            speechSynthesis.cancel();
+        }
+
+        // 字体大小调整
+        function adjustFontSize(delta) {
+            fontSize = Math.max(-1, Math.min(1, fontSize + delta));
+
+            const content = document.getElementById('storyContent');
+            content.classList.remove('size-small', 'size-large');
+            if (fontSize === -1) content.classList.add('size-small');
+            if (fontSize === 1) content.classList.add('size-large');
+        }
+
+        // 夜间模式
+        function toggleNightMode() {
+            isNightMode = !isNightMode;
+            if (isNightMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('themeText').textContent = '日间';
+            } else {
+                const savedTheme = localStorage.getItem('theme') || 'warm';
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeButton(savedTheme);
+            }
+        }
+
+        // 进度更新
+        function updateProgress() {
+            const progress = ((currentIndex + 1) / currentStories.length * 100).toFixed(0);
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // 主题切换
+        function toggleTheme() {
+            if (isNightMode) {
+                toggleNightMode();
+                return;
+            }
+
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'cool' ? 'warm' : 'cool';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            if (theme === 'cool') {
+                icon.textContent = '🌸';
+                text.textContent = '温暖';
+            } else {
+                icon.textContent = '❄️';
+                text.textContent = '清凉';
+            }
+        }
+
+        // 语音合成
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+        }
+
+        // 页面加载
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'warm';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+
+            // 预加载语音
+            if ('speechSynthesis' in window) {
+                speechSynthesis.getVoices();
+            }
+
+            renderStories();
+        });
+
+        // 键盘控制
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('storyReader').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevStory();
+                if (e.key === 'ArrowRight') nextStory();
+                if (e.key === ' ') { e.preventDefault(); toggleReading(); }
+                if (e.key === 'Escape') backToList();
+            }
+        });
+    </script>
+</body>
+</html>
