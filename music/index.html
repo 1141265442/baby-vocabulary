@@ -401,6 +401,16 @@
             50% { transform: scale(1.2); }
         }
 
+        .tip {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            display: inline-block;
+        }
+
         .loading {
             display: none;
             color: var(--text-secondary);
@@ -527,10 +537,11 @@
         </div>
     </div>
 
+    <!-- 隐藏的音频元素 -->
     <audio id="audioPlayer" preload="auto"></audio>
 
     <script>
-        // 中文儿歌数据（使用本地音频优先，在线音频作为备选）
+        // 中文儿歌数据 - 使用免费音频资源
         const chineseSongs = [
             { emoji: "🐯", name: "两只老虎", desc: "动物认知", lyrics: "两只老虎，两只老虎\n跑得快，跑得快\n一只没有耳朵\n一只没有尾巴\n真奇怪，真奇怪", audio: "chinese/两只老虎.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
         ];
@@ -547,20 +558,31 @@
             { emoji: "🚌", name: "The Wheels on the Bus", desc: "Transportation", lyrics: "The wheels on the bus go round and round\nRound and round, round and round\nThe wheels on the bus go round and round\nAll through the town", audio: "english/WheelsBus.mp3", fallback: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" }
         ];
 
+        // 当前状态
         let currentLang = 'chinese';
         let currentSongs = chineseSongs;
         let currentIndex = 0;
         let isPlaying = false;
         let isLoop = false;
 
-                if (isLoop) {
-        // 加载音频（直接尝试本地，失败则用在线备选）
-        function loadAudio() {
-            const song = currentSongs[currentIndex];
-            audioPlayer.src = song.audio;
-            audioPlayer.load();
+        // 获取音频元素
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        // 初始化
+        function init() {
+            renderSongList();
+            updatePlayer();
+            setupAudioEvents();
         }
 
+        // 设置音频事件
+        function setupAudioEvents() {
+            audioPlayer.addEventListener('timeupdate', updateProgress);
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                document.getElementById('totalTime').textContent = formatTime(audioPlayer.duration);
+            });
+            audioPlayer.addEventListener('ended', function() {
+                if (isLoop) {
                     audioPlayer.currentTime = 0;
                     audioPlayer.play();
                 } else {
@@ -575,23 +597,28 @@
                 isPlaying = false;
                 updatePlayButton();
             });
-            audioPlayer.addEventListener('loadstart', () => showLoading(true));
-            audioPlayer.addEventListener('canplay', () => showLoading(false));
-            audioPlayer.addEventListener('error', () => {
-                if (!useFallback) {
-                    audioPlayer.src = currentSongs[currentIndex].fallback;
-                    useFallback = true;
+            audioPlayer.addEventListener('loadstart', function() {
+                showLoading(true);
+            });
+            audioPlayer.addEventListener('canplay', function() {
+                showLoading(false);
+            });
+            audioPlayer.addEventListener('error', function() {
+                const song = currentSongs[currentIndex];
+                if (audioPlayer.src !== song.fallback) {
+                    audioPlayer.src = song.fallback;
                     audioPlayer.load();
-                } else {
-                    showLoading(false);
                 }
             });
         }
 
+        // 显示/隐藏加载状态
         function showLoading(show) {
-            document.getElementById('loading').classList.toggle('show', show);
+            const loading = document.getElementById('loading');
+            loading.classList.toggle('show', show);
         }
 
+        // 切换语言
         function switchLanguage(lang) {
             audioPlayer.pause();
             currentLang = lang;
@@ -608,6 +635,7 @@
             loadAudio();
         }
 
+        // 渲染歌曲列表
         function renderSongList() {
             const container = document.getElementById('songItems');
             container.innerHTML = currentSongs.map((song, index) => `
@@ -622,6 +650,7 @@
             `).join('');
         }
 
+        // 选择歌曲
         function selectSong(index) {
             audioPlayer.pause();
             currentIndex = index;
@@ -632,6 +661,7 @@
             loadAudio();
         }
 
+        // 更新播放器
         function updatePlayer() {
             const song = currentSongs[currentIndex];
             document.getElementById('songEmoji').textContent = song.emoji;
@@ -640,22 +670,33 @@
             document.getElementById('lyrics').innerHTML = song.lyrics.replace(/\n/g, '<br>');
         }
 
+        // 加载音频
+        function loadAudio() {
+            const song = currentSongs[currentIndex];
+            audioPlayer.src = song.audio;
+            audioPlayer.load();
+        }
+
+        // 切换播放/暂停
         function togglePlay() {
             if (audioPlayer.paused) {
                 audioPlayer.play().catch(e => {
                     console.log('播放失败:', e);
+                    alert('播放失败，请检查网络连接');
                 });
             } else {
                 audioPlayer.pause();
             }
         }
 
+        // 更新播放按钮
         function updatePlayButton() {
             const btn = document.getElementById('playBtn');
             btn.textContent = isPlaying ? '⏸️' : '▶️';
             btn.classList.toggle('playing', isPlaying);
         }
 
+        // 更新进度显示
         function updateProgress() {
             if (audioPlayer.duration) {
                 const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
@@ -664,6 +705,7 @@
             }
         }
 
+        // 格式化时间
         function formatTime(seconds) {
             if (isNaN(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
@@ -671,6 +713,7 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
+        // 进度条点击
         function seekProgress(event) {
             if (!audioPlayer.duration) return;
             const bar = document.getElementById('progressBar');
@@ -679,6 +722,7 @@
             audioPlayer.currentTime = percent * audioPlayer.duration;
         }
 
+        // 上一首
         function prevSong() {
             audioPlayer.pause();
             currentIndex = (currentIndex - 1 + currentSongs.length) % currentSongs.length;
@@ -689,6 +733,7 @@
             loadAudio();
         }
 
+        // 下一首
         function nextSong() {
             audioPlayer.pause();
             currentIndex = (currentIndex + 1) % currentSongs.length;
@@ -699,16 +744,19 @@
             loadAudio();
         }
 
+        // 切换循环
         function toggleLoop() {
             isLoop = !isLoop;
             document.getElementById('loopBtn').classList.toggle('loop-active', isLoop);
         }
 
+        // 切换静音
         function toggleMute() {
             audioPlayer.muted = !audioPlayer.muted;
             document.getElementById('muteBtn').textContent = audioPlayer.muted ? '🔇' : '🔊';
         }
 
+        // 主题切换
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
@@ -730,6 +778,7 @@
             }
         }
 
+        // 页面加载时初始化
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme') || 'warm';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -738,6 +787,7 @@
             loadAudio();
         });
 
+        // 键盘控制
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space') {
                 e.preventDefault();
