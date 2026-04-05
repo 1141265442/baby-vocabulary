@@ -11,21 +11,21 @@
             box-sizing: border-box;
         }
 
-        /* 马卡龙配色方案 */
+        /* 淡雅马卡龙配色方案 */
         :root {
-            --bg-primary: #FFF9F5;
-            --bg-secondary: #FFF5EE;
+            --bg-primary: #FAF9F7;
+            --bg-secondary: #F7F6F4;
             --card-bg: #FFFFFF;
-            --text-primary: #6B5B5B;
-            --text-secondary: #A8A0A0;
-            --accent-pink: #FFB5BA;
-            --accent-blue: #B5D8FF;
-            --accent-yellow: #FFF4B5;
-            --accent-green: #C5E8C5;
-            --accent-purple: #E5D5FF;
-            --accent-peach: #FFE5D5;
-            --shadow-soft: 0 4px 20px rgba(200, 180, 170, 0.15);
-            --shadow-hover: 0 8px 30px rgba(200, 180, 170, 0.25);
+            --text-primary: #8A8080;
+            --text-secondary: #C0B8B8;
+            --accent-pink: #F5E0E2;
+            --accent-blue: #E0E8F0;
+            --accent-yellow: #F8F4EB;
+            --accent-green: #EBF0E5;
+            --accent-purple: #EBE8F0;
+            --accent-peach: #F5EBE5;
+            --shadow-soft: 0 4px 20px rgba(140, 130, 120, 0.06);
+            --shadow-hover: 0 8px 30px rgba(140, 130, 120, 0.12);
         }
 
         body {
@@ -46,7 +46,7 @@
         .header-logo {
             font-size: 48px;
             margin-bottom: 20px;
-            opacity: 0.9;
+            opacity: 0.85;
         }
 
         .header h1 {
@@ -82,7 +82,7 @@
 
         .section-icon {
             font-size: 22px;
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         .section-title {
@@ -95,7 +95,7 @@
         .section-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, rgba(200, 180, 170, 0.3) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(180, 170, 160, 0.25) 0%, transparent 100%);
         }
 
         .grid {
@@ -123,7 +123,7 @@
         .card:hover:not(.disabled) {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
-            border-color: rgba(200, 180, 170, 0.2);
+            border-color: rgba(180, 170, 160, 0.15);
         }
 
         .card.disabled {
@@ -131,11 +131,11 @@
             cursor: default;
         }
 
-        /* 不同卡片的柔和背景色 */
-        .card:nth-child(4n+1) { background: linear-gradient(135deg, #FFF 0%, #FFF9F5 100%); }
-        .card:nth-child(4n+2) { background: linear-gradient(135deg, #FFF 0%, #F5F9FF 100%); }
-        .card:nth-child(4n+3) { background: linear-gradient(135deg, #FFF 0%, #F9FFF5 100%); }
-        .card:nth-child(4n+4) { background: linear-gradient(135deg, #FFF 0%, #FFF5FF 100%); }
+        /* 不同卡片的柔和背景色 - 更淡 */
+        .card:nth-child(4n+1) { background: linear-gradient(135deg, #FFF 0%, #FAF9F7 100%); }
+        .card:nth-child(4n+2) { background: linear-gradient(135deg, #FFF 0%, #F7F9FB 100%); }
+        .card:nth-child(4n+3) { background: linear-gradient(135deg, #FFF 0%, #F9FBF7 100%); }
+        .card:nth-child(4n+4) { background: linear-gradient(135deg, #FFF 0%, #FAF9FB 100%); }
 
         .card-icon {
             font-size: 52px;
@@ -145,7 +145,7 @@
         }
 
         .card:hover:not(.disabled) .card-icon {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .card-title {
@@ -175,12 +175,12 @@
 
         .badge.done {
             background: var(--accent-green);
-            color: #5A8A5A;
+            color: #6A8A6A;
         }
 
         .badge.soon {
             background: var(--accent-peach);
-            color: #A87860;
+            color: #A08070;
         }
 
         .footer {
@@ -279,7 +279,7 @@
             position: fixed;
             width: 4px;
             height: 4px;
-            background: rgba(200, 180, 170, 0.3);
+            background: rgba(170, 160, 150, 0.2);
             border-radius: 50%;
             pointer-events: none;
         }
