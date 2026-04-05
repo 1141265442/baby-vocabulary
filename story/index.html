@@ -414,7 +414,8 @@
 
     <script>
         // 故事数据
-        const bedtimeStories = [
+        // 支持添加本地音频文件（将 mp3 文件放在 story/audio/ 文件夹中）
+const bedtimeStories = [
             {
                 id: 1,
                 title: "小兔子乖乖",
@@ -843,10 +844,16 @@
                     p.style.color = i === paragraphIndex ? 'var(--macaron-pink)' : 'var(--text-primary)';
                 });
 
-                speak(paragraphs[paragraphIndex]);
+                const paragraph = paragraphs[paragraphIndex];
+                
+                // 根据段落长度动态调整停顿时间
+                const wordCount = paragraph.length;
+                const pauseTime = Math.max(4000, Math.min(8000, wordCount * 25));
+                
+                speak(paragraph);
 
                 paragraphIndex++;
-                setTimeout(readParagraph, 5500);
+                setTimeout(readParagraph, pauseTime);
             }
 
             readParagraph();
@@ -859,6 +866,12 @@
                 p.style.color = 'var(--text-primary)';
             });
             speechSynthesis.cancel();
+            
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
         }
 
         // 字体大小调整
@@ -921,12 +934,22 @@
         // 语音合成
         let selectedVoice = null;
         let availableVoices = [];
+        let currentAudio = null;
         
         function speak(text) {
             if (!('speechSynthesis' in window)) return;
             speechSynthesis.cancel();
             
-            const utterance = new SpeechSynthesisUtterance(text);
+            // 处理文本，添加更自然的停顿
+            let processedText = text
+                .replace(/([。！？])/g, '$1、') // 在句号后添加停顿标记
+                .replace(/([，；：])/g, '$1、') // 在逗号后添加停顿标记
+                .replace(/、/g, ',、');       // 替换为带停顿的逗号
+            
+            // 移除多余的停顿标记
+            processedText = processedText.replace(/,+、/g, '、');
+            
+            const utterance = new SpeechSynthesisUtterance(processedText);
             
             // 使用选中的语音或自动选择第一个中文语音
             if (!selectedVoice) {
@@ -942,9 +965,9 @@
             }
             
             utterance.lang = 'zh-CN';
-            utterance.rate = 0.85;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
+            utterance.rate = 0.82;      // 稍微再慢一点
+            utterance.pitch = 0.95;     // 稍微降低音调，更温柔
+            utterance.volume = 0.95;    // 稍微降低音量，更柔和
             
             speechSynthesis.speak(utterance);
         }

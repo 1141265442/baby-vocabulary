@@ -17,3 +17,5 @@ Thumbs.db
 # 系统文件
 Desktop.ini
 music/bak/
+*.mp3
+story/audio/*.mp3
