@@ -11,7 +11,6 @@
             box-sizing: border-box;
         }
 
-        /* 温暖模式 - 暖色调样式 */
         :root {
             --bg-primary: #FFF8F0;
             --bg-secondary: #FFEDDE;
@@ -314,14 +313,6 @@
             border-radius: 2px;
         }
 
-        .lyrics .current-line {
-            color: var(--text-primary);
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 4px;
-            padding: 2px 8px;
-        }
-
         .song-list {
             background: var(--bg-card);
             border-radius: 28px;
@@ -410,7 +401,6 @@
             50% { transform: scale(1.2); }
         }
 
-        /* 提示信息 */
         .tip {
             font-size: 12px;
             color: var(--text-tertiary);
@@ -419,6 +409,17 @@
             background: var(--bg-secondary);
             border-radius: 12px;
             display: inline-block;
+        }
+
+        .loading {
+            display: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .loading.show {
+            display: block;
         }
 
         @media (min-width: 768px) {
@@ -493,7 +494,7 @@
                 </div>
                 <div class="time-display">
                     <span id="currentTime">0:00</span>
-                    <span id="totalTime">2:30</span>
+                    <span id="totalTime">0:00</span>
                 </div>
             </div>
 
@@ -523,7 +524,7 @@
                 真奇怪，真奇怪
             </div>
 
-            <div class="tip">💡 点击播放按钮聆听歌词朗读</div>
+            <div class="loading" id="loading">🎵 加载中...</div>
         </div>
 
         <div class="song-list">
@@ -536,53 +537,56 @@
         </div>
     </div>
 
+    <!-- 隐藏的音频元素 -->
+    <audio id="audioPlayer" preload="auto"></audio>
+
     <script>
-        // 中文儿歌数据
+        // 中文儿歌数据 - 使用免费音频资源
         const chineseSongs = [
-            { emoji: "🐯", name: "两只老虎", desc: "动物认知", lyrics: "两只老虎，两只老虎\n跑得快，跑得快\n一只没有耳朵\n一只没有尾巴\n真奇怪，真奇怪" },
-            { emoji: "⭐", name: "小星星", desc: "睡前安抚", lyrics: "一闪一闪亮晶晶\n满天都是小星星\n挂在天上放光明\n好像许多小眼睛" },
-            { emoji: "💰", name: "一分钱", desc: "品德教育", lyrics: "我在马路边捡到一分钱\n把它交给警察叔叔手里\n叔叔拿了钱对我把头点\n我高兴地说了声：叔叔再见" },
-            { emoji: "🐦", name: "小燕子", desc: "动物认知", lyrics: "小燕子，穿花衣\n年年春天来这里\n我问燕子你为啥来\n燕子说，这里的春天最美丽" },
-            { emoji: "🥕", name: "拔萝卜", desc: "团队合作", lyrics: "拔萝卜，拔萝卜\n嗨吆嗨吆拔萝卜\n嗨吆嗨吆拔不动\n老太婆，快快来\n快来帮我们拔萝卜" },
-            { emoji: "👋", name: "找朋友", desc: "社交能力", lyrics: "找呀找呀找朋友\n找到一个好朋友\n敬个礼，握握手\n你是我的好朋友" },
-            { emoji: "🎈", name: "丢手绢", desc: "游戏互动", lyrics: "丢，丢，丢手绢\n轻轻地放在小朋友的后面\n大家不要告诉他\n快点快点捉住他" },
-            { emoji: "🐰", name: "小兔子乖乖", desc: "安全意识", lyrics: "小兔子乖乖，把门儿开开\n快点儿开开，我要进来\n不开不开我不开\n妈妈没回来，谁来也不开" },
-            { emoji: "💝", name: "世上只有妈妈好", desc: "亲情教育", lyrics: "世上只有妈妈好\n有妈的孩子像个宝\n投进妈妈的怀抱\n幸福享不了" },
-            { emoji: "🫏", name: "小毛驴", desc: "动物认知", lyrics: "我有一只小毛驴\n我从来也不骑\n有一天我心血来潮\n骑着去赶集" },
-            { emoji: "🦆", name: "数鸭子", desc: "数学启蒙", lyrics: "门前大桥下，游过一群鸭\n快来快来数一数\n二四六七八\n嘎嘎，嘎嘎，真呀真多呀" },
-            { emoji: "🍄", name: "采蘑菇的小姑娘", desc: "劳动教育", lyrics: "采蘑菇的小姑娘\n背着一个大竹筐\n清晨光着小脚丫\n走遍树林和山冈" },
-            { emoji: "🚣", name: "让我们荡起双桨", desc: "童年快乐", lyrics: "让我们荡起双桨\n小船儿推开波浪\n海面上倒映着美丽的白塔\n四周环绕着绿树红墙" },
-            { emoji: "📰", name: "卖报歌", desc: "历史教育", lyrics: "啦啦啦，啦啦啦\n我是卖报的小行家\n不等天明去等派报\n一面走，一面叫" },
-            { emoji: "🥤", name: "娃哈哈", desc: "快乐童年", lyrics: "我们的祖国是花园\n花园里花朵真鲜艳\n和暖的阳光照耀着我们\n每个人脸上都笑开颜" },
-            { emoji: "☀️", name: "种太阳", desc: "想象力培养", lyrics: "我有一个美丽的愿望\n长大以后能播种太阳\n播种一个，一个就够了\n会结出许多的许多的太阳" },
-            { emoji: "📚", name: "读书郎", desc: "学习意识", lyrics: "小嘛小儿郎\n背着那书包上学堂\n不怕太阳晒\n也不怕那风雨狂" },
-            { emoji: "🐌", name: "蜗牛与黄鹂鸟", desc: "坚持精神", lyrics: "阿门阿前一棵葡萄树\n阿嫩阿嫩绿地刚发芽\n蜗牛背着那重重的壳呀\n一步一步地往上爬" },
-            { emoji: "🐚", name: "小螺号", desc: "海洋认知", lyrics: "小螺号，嘀嘀地吹\n海鸥听了展翅飞\n小螺号，嘀嘀地吹\n浪花听了笑微微" },
-            { emoji: "🌸", name: "春天在哪里", desc: "季节认知", lyrics: "春天在哪里呀\n春天在哪里\n春天在那青翠的山林里\n这里有红花呀\n这里有绿草\n还有那会唱歌的小黄鹂" }
+            { emoji: "🐯", name: "两只老虎", desc: "动物认知", lyrics: "两只老虎，两只老虎\n跑得快，跑得快\n一只没有耳朵\n一只没有尾巴\n真奇怪，真奇怪", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { emoji: "⭐", name: "小星星", desc: "睡前安抚", lyrics: "一闪一闪亮晶晶\n满天都是小星星\n挂在天上放光明\n好像许多小眼睛", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { emoji: "💰", name: "一分钱", desc: "品德教育", lyrics: "我在马路边捡到一分钱\n把它交给警察叔叔手里\n叔叔拿了钱对我把头点\n我高兴地说了声：叔叔再见", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { emoji: "🐦", name: "小燕子", desc: "动物认知", lyrics: "小燕子，穿花衣\n年年春天来这里\n我问燕子你为啥来\n燕子说，这里的春天最美丽", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { emoji: "🥕", name: "拔萝卜", desc: "团队合作", lyrics: "拔萝卜，拔萝卜\n嗨吆嗨吆拔萝卜\n嗨吆嗨吆拔不动\n老太婆，快快来\n快来帮我们拔萝卜", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "👋", name: "找朋友", desc: "社交能力", lyrics: "找呀找呀找朋友\n找到一个好朋友\n敬个礼，握握手\n你是我的好朋友", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { emoji: "🎈", name: "丢手绢", desc: "游戏互动", lyrics: "丢，丢，丢手绢\n轻轻地放在小朋友的后面\n大家不要告诉他\n快点快点捉住他", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { emoji: "🐰", name: "小兔子乖乖", desc: "安全意识", lyrics: "小兔子乖乖，把门儿开开\n快点儿开开，我要进来\n不开不开我不开\n妈妈没回来，谁来也不开", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { emoji: "💝", name: "世上只有妈妈好", desc: "亲情教育", lyrics: "世上只有妈妈好\n有妈的孩子像个宝\n投进妈妈的怀抱\n幸福享不了", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { emoji: "🫏", name: "小毛驴", desc: "动物认知", lyrics: "我有一只小毛驴\n我从来也不骑\n有一天我心血来潮\n骑着去赶集", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+            { emoji: "🦆", name: "数鸭子", desc: "数学启蒙", lyrics: "门前大桥下，游过一群鸭\n快来快来数一数\n二四六七八\n嘎嘎，嘎嘎，真呀真多呀", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { emoji: "🍄", name: "采蘑菇的小姑娘", desc: "劳动教育", lyrics: "采蘑菇的小姑娘\n背着一个大竹筐\n清晨光着小脚丫\n走遍树林和山冈", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { emoji: "🚣", name: "让我们荡起双桨", desc: "童年快乐", lyrics: "让我们荡起双桨\n小船儿推开波浪\n海面上倒映着美丽的白塔\n四周环绕着绿树红墙", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { emoji: "📰", name: "卖报歌", desc: "历史教育", lyrics: "啦啦啦，啦啦啦\n我是卖报的小行家\n不等天明去等派报\n一面走，一面叫", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { emoji: "🥤", name: "娃哈哈", desc: "快乐童年", lyrics: "我们的祖国是花园\n花园里花朵真鲜艳\n和暖的阳光照耀着我们\n每个人脸上都笑开颜", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "☀️", name: "种太阳", desc: "想象力培养", lyrics: "我有一个美丽的愿望\n长大以后能播种太阳\n播种一个，一个就够了\n会结出许多的许多的太阳", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { emoji: "📚", name: "读书郎", desc: "学习意识", lyrics: "小嘛小儿郎\n背着那书包上学堂\n不怕太阳晒\n也不怕那风雨狂", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { emoji: "🐌", name: "蜗牛与黄鹂鸟", desc: "坚持精神", lyrics: "阿门阿前一棵葡萄树\n阿嫩阿嫩绿地刚发芽\n蜗牛背着那重重的壳呀\n一步一步地往上爬", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { emoji: "🐚", name: "小螺号", desc: "海洋认知", lyrics: "小螺号，嘀嘀地吹\n海鸥听了展翅飞\n小螺号，嘀嘀地吹\n浪花听了笑微微", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { emoji: "🌸", name: "春天在哪里", desc: "季节认知", lyrics: "春天在哪里呀\n春天在哪里\n春天在那青翠的山林里\n这里有红花呀\n这里有绿草\n还有那会唱歌的小黄鹂", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
         ];
 
         // 英文儿歌数据
         const englishSongs = [
-            { emoji: "⭐", name: "Twinkle Twinkle Little Star", desc: "睡前安抚", lyrics: "Twinkle, twinkle, little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky" },
-            { emoji: "🅰️", name: "ABC Song", desc: "字母学习", lyrics: "A B C D E F G\nH I J K L M N O P\nQ R S T U V\nW X Y Z\nNow I know my ABCs\nNext time won't you sing with me" },
-            { emoji: "🎂", name: "Happy Birthday", desc: "节日祝福", lyrics: "Happy birthday to you\nHappy birthday to you\nHappy birthday dear friend\nHappy birthday to you" },
-            { emoji: "🚣", name: "Row Row Row Your Boat", desc: "动作协调", lyrics: "Row, row, row your boat\nGently down the stream\nMerrily, merrily, merrily, merrily\nLife is but a dream" },
-            { emoji: "🐑", name: "Mary Had a Little Lamb", desc: "动物认知", lyrics: "Mary had a little lamb\nLittle lamb, little lamb\nMary had a little lamb\nIts fleece was white as snow" },
-            { emoji: "🌉", name: "London Bridge", desc: "文化认知", lyrics: "London Bridge is falling down\nFalling down, falling down\nLondon Bridge is falling down\nMy fair lady" },
-            { emoji: "🚜", name: "Old MacDonald Had a Farm", desc: "动物叫声", lyrics: "Old MacDonald had a farm\nE-I-E-I-O\nAnd on his farm he had a cow\nE-I-E-I-O\nWith a moo-moo here\nAnd a moo-moo there" },
-            { emoji: "🚌", name: "The Wheels on the Bus", desc: "交通工具", lyrics: "The wheels on the bus go round and round\nRound and round, round and round\nThe wheels on the bus go round and round\nAll through the town" },
-            { emoji: "👤", name: "Head Shoulders Knees and Toes", desc: "身体部位", lyrics: "Head, shoulders, knees and toes\nKnees and toes\nHead, shoulders, knees and toes\nKnees and toes\nAnd eyes and ears and mouth and nose" },
-            { emoji: "😊", name: "If You're Happy", desc: "情绪表达", lyrics: "If you're happy and you know it\nClap your hands\nIf you're happy and you know it\nClap your hands\nIf you're happy and you know it\nAnd you really want to show it\nIf you're happy and you know it\nClap your hands" },
-            { emoji: "🐑", name: "Baa Baa Black Sheep", desc: "动物认知", lyrics: "Baa, baa, black sheep\nHave you any wool?\nYes, sir, yes, sir\nThree bags full" },
-            { emoji: "🕐", name: "Hickory Dickory Dock", desc: "数字认知", lyrics: "Hickory dickory dock\nThe mouse ran up the clock\nThe clock struck one\nThe mouse ran down\nHickory dickory dock" },
-            { emoji: "🐵", name: "Five Little Monkeys", desc: "倒数练习", lyrics: "Five little monkeys jumping on the bed\nOne fell off and bumped his head\nMama called the doctor\nAnd the doctor said\nNo more monkeys jumping on the bed" },
-            { emoji: "🌧️", name: "Rain Rain Go Away", desc: "自然现象", lyrics: "Rain, rain, go away\nCome again another day\nLittle children want to play\nRain, rain, go away" },
-            { emoji: "🕷️", name: "Itsy Bitsy Spider", desc: "动物认知", lyrics: "The itsy bitsy spider\nWent up the water spout\nDown came the rain\nAnd washed the spider out\nOut came the sun\nAnd dried up all the rain\nAnd the itsy bitsy spider\nWent up the spout again" },
-            { emoji: "🎵", name: "Do-Re-Mi", desc: "音乐启蒙", lyrics: "Doe, a deer, a female deer\nRay, a drop of golden sun\nMe, a name I call myself\nFar, a long, long way to run" },
-            { emoji: "☀️", name: "You Are My Sunshine", desc: "亲情表达", lyrics: "You are my sunshine\nMy only sunshine\nYou make me happy\nWhen skies are gray\nYou'll never know, dear\nHow much I love you\nPlease don't take my sunshine away" },
-            { emoji: "🌸", name: "Ring Around the Rosie", desc: "游戏互动", lyrics: "Ring around the rosie\nA pocket full of posies\nAshes, ashes\nWe all fall down" },
-            { emoji: "👴", name: "This Old Man", desc: "数字认知", lyrics: "This old man, he played one\nHe played knick-knack on his thumb\nWith a knick-knack paddywhack\nGive a dog a bone\nThis old man came rolling home" },
-            { emoji: "🏰", name: "London Bridge is Falling Down", desc: "文化认知", lyrics: "London Bridge is falling down\nFalling down, falling down\nLondon Bridge is falling down\nMy fair lady" }
+            { emoji: "⭐", name: "Twinkle Twinkle Little Star", desc: "睡前安抚", lyrics: "Twinkle, twinkle, little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { emoji: "🅰️", name: "ABC Song", desc: "字母学习", lyrics: "A B C D E F G\nH I J K L M N O P\nQ R S T U V\nW X Y Z\nNow I know my ABCs\nNext time won't you sing with me", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { emoji: "🎂", name: "Happy Birthday", desc: "节日祝福", lyrics: "Happy birthday to you\nHappy birthday to you\nHappy birthday dear friend\nHappy birthday to you", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { emoji: "🚣", name: "Row Row Row Your Boat", desc: "动作协调", lyrics: "Row, row, row your boat\nGently down the stream\nMerrily, merrily, merrily, merrily\nLife is but a dream", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { emoji: "🐑", name: "Mary Had a Little Lamb", desc: "动物认知", lyrics: "Mary had a little lamb\nLittle lamb, little lamb\nMary had a little lamb\nIts fleece was white as snow", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "🌉", name: "London Bridge", desc: "文化认知", lyrics: "London Bridge is falling down\nFalling down, falling down\nLondon Bridge is falling down\nMy fair lady", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { emoji: "🚜", name: "Old MacDonald Had a Farm", desc: "动物叫声", lyrics: "Old MacDonald had a farm\nE-I-E-I-O\nAnd on his farm he had a cow\nE-I-E-I-O\nWith a moo-moo here\nAnd a moo-moo there", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { emoji: "🚌", name: "The Wheels on the Bus", desc: "交通工具", lyrics: "The wheels on the bus go round and round\nRound and round, round and round\nThe wheels on the bus go round and round\nAll through the town", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { emoji: "👤", name: "Head Shoulders Knees and Toes", desc: "身体部位", lyrics: "Head, shoulders, knees and toes\nKnees and toes\nHead, shoulders, knees and toes\nKnees and toes\nAnd eyes and ears and mouth and nose", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { emoji: "😊", name: "If You're Happy", desc: "情绪表达", lyrics: "If you're happy and you know it\nClap your hands\nIf you're happy and you know it\nClap your hands\nIf you're happy and you know it\nAnd you really want to show it\nIf you're happy and you know it\nClap your hands", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+            { emoji: "🐑", name: "Baa Baa Black Sheep", desc: "动物认知", lyrics: "Baa, baa, black sheep\nHave you any wool?\nYes, sir, yes, sir\nThree bags full", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { emoji: "🕐", name: "Hickory Dickory Dock", desc: "数字认知", lyrics: "Hickory dickory dock\nThe mouse ran up the clock\nThe clock struck one\nThe mouse ran down\nHickory dickory dock", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { emoji: "🐵", name: "Five Little Monkeys", desc: "倒数练习", lyrics: "Five little monkeys jumping on the bed\nOne fell off and bumped his head\nMama called the doctor\nAnd the doctor said\nNo more monkeys jumping on the bed", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { emoji: "🌧️", name: "Rain Rain Go Away", desc: "自然现象", lyrics: "Rain, rain, go away\nCome again another day\nLittle children want to play\nRain, rain, go away", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { emoji: "🕷️", name: "Itsy Bitsy Spider", desc: "动物认知", lyrics: "The itsy bitsy spider\nWent up the water spout\nDown came the rain\nAnd washed the spider out\nOut came the sun\nAnd dried up all the rain\nAnd the itsy bitsy spider\nWent up the spout again", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { emoji: "🎵", name: "Do-Re-Mi", desc: "音乐启蒙", lyrics: "Doe, a deer, a female deer\nRay, a drop of golden sun\nMe, a name I call myself\nFar, a long, long way to run", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { emoji: "☀️", name: "You Are My Sunshine", desc: "亲情表达", lyrics: "You are my sunshine\nMy only sunshine\nYou make me happy\nWhen skies are gray\nYou'll never know, dear\nHow much I love you\nPlease don't take my sunshine away", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { emoji: "🌸", name: "Ring Around the Rosie", desc: "游戏互动", lyrics: "Ring around the rosie\nA pocket full of posies\nAshes, ashes\nWe all fall down", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { emoji: "👴", name: "This Old Man", desc: "数字认知", lyrics: "This old man, he played one\nHe played knick-knack on his thumb\nWith a knick-knack paddywhack\nGive a dog a bone\nThis old man came rolling home", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { emoji: "🏰", name: "London Bridge is Falling Down", desc: "文化认知", lyrics: "London Bridge is falling down\nFalling down, falling down\nLondon Bridge is falling down\nMy fair lady", audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
         ];
 
         // 当前状态
@@ -591,106 +595,68 @@
         let currentIndex = 0;
         let isPlaying = false;
         let isLoop = false;
-        let progress = 0;
-        let progressInterval = null;
-        let speechUtterance = null;
 
-        // 歌词朗读
-        function speakLyrics() {
-            const song = currentSongs[currentIndex];
-            const lyrics = song.lyrics;
-
-            // 取消之前的朗读
-            if (speechUtterance) {
-                window.speechSynthesis.cancel();
-            }
-
-            speechUtterance = new SpeechSynthesisUtterance(lyrics);
-            speechUtterance.lang = currentLang === 'chinese' ? 'zh-CN' : 'en';
-            speechUtterance.rate = 0.8;
-            speechUtterance.pitch = 1.1;
-
-            // 高亮歌词行
-            const lines = lyrics.split('\n');
-            let currentLine = 0;
-            const lineDuration = (speechUtterance.text.length / 5) * 1000 / lines.length;
-
-            const highlightInterval = setInterval(() => {
-                if (currentLine < lines.length) {
-                    updateLyricsHighlight(currentLine);
-                    currentLine++;
-                } else {
-                    clearInterval(highlightInterval);
-                }
-            }, lineDuration);
-
-            speechUtterance.onend = () => {
-                clearInterval(highlightInterval);
-                updateLyricsHighlight(-1);
-                if (!isLoop) {
-                    nextSong();
-                } else {
-                    isPlaying = true;
-                    setTimeout(() => {
-                        if (isPlaying && isLoop) {
-                            speakLyrics();
-                        }
-                    }, 1000);
-                }
-            };
-
-            window.speechSynthesis.speak(speechUtterance);
-        }
-
-        // 更新歌词高亮
-        function updateLyricsHighlight(lineIndex) {
-            const song = currentSongs[currentIndex];
-            const lines = song.lyrics.split('\n');
-            const lyricsEl = document.getElementById('lyrics');
-
-            if (lineIndex === -1) {
-                lyricsEl.innerHTML = lines.join('<br>');
-            } else {
-                lyricsEl.innerHTML = lines.map((line, i) => {
-                    if (i === lineIndex) {
-                        return `<span class="current-line">${line}</span>`;
-                    }
-                    return line;
-                }).join('<br>');
-                lyricsEl.scrollTop = lineIndex * 30;
-            }
-        }
-
-        // 停止朗读
-        function stopSpeaking() {
-            if (speechUtterance) {
-                window.speechSynthesis.cancel();
-            }
-            updateLyricsHighlight(-1);
-        }
+        // 获取音频元素
+        const audioPlayer = document.getElementById('audioPlayer');
 
         // 初始化
         function init() {
             renderSongList();
             updatePlayer();
+            setupAudioEvents();
+        }
+
+        // 设置音频事件
+        function setupAudioEvents() {
+            audioPlayer.addEventListener('timeupdate', updateProgress);
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                document.getElementById('totalTime').textContent = formatTime(audioPlayer.duration);
+            });
+            audioPlayer.addEventListener('ended', function() {
+                if (isLoop) {
+                    audioPlayer.currentTime = 0;
+                    audioPlayer.play();
+                } else {
+                    nextSong();
+                }
+            });
+            audioPlayer.addEventListener('play', function() {
+                isPlaying = true;
+                updatePlayButton();
+            });
+            audioPlayer.addEventListener('pause', function() {
+                isPlaying = false;
+                updatePlayButton();
+            });
+            audioPlayer.addEventListener('loadstart', function() {
+                showLoading(true);
+            });
+            audioPlayer.addEventListener('canplay', function() {
+                showLoading(false);
+            });
+        }
+
+        // 显示/隐藏加载状态
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            loading.classList.toggle('show', show);
         }
 
         // 切换语言
         function switchLanguage(lang) {
-            stopSpeaking();
+            audioPlayer.pause();
             currentLang = lang;
             currentSongs = lang === 'chinese' ? chineseSongs : englishSongs;
             currentIndex = 0;
-            progress = 0;
             isPlaying = false;
             updatePlayButton();
-            updateProgress();
 
             document.getElementById('chineseBtn').classList.toggle('active', lang === 'chinese');
             document.getElementById('englishBtn').classList.toggle('active', lang === 'english');
 
             renderSongList();
             updatePlayer();
+            loadAudio();
         }
 
         // 渲染歌曲列表
@@ -710,14 +676,13 @@
 
         // 选择歌曲
         function selectSong(index) {
-            stopSpeaking();
+            audioPlayer.pause();
             currentIndex = index;
-            progress = 0;
             isPlaying = false;
             updatePlayButton();
-            updateProgress();
             updatePlayer();
             renderSongList();
+            loadAudio();
         }
 
         // 更新播放器
@@ -729,17 +694,22 @@
             document.getElementById('lyrics').innerHTML = song.lyrics.replace(/\n/g, '<br>');
         }
 
+        // 加载音频
+        function loadAudio() {
+            const song = currentSongs[currentIndex];
+            audioPlayer.src = song.audio;
+            audioPlayer.load();
+        }
+
         // 切换播放/暂停
         function togglePlay() {
-            isPlaying = !isPlaying;
-            updatePlayButton();
-
-            if (isPlaying) {
-                startProgress();
-                speakLyrics();
+            if (audioPlayer.paused) {
+                audioPlayer.play().catch(e => {
+                    console.log('播放失败:', e);
+                    alert('播放失败，请检查网络连接');
+                });
             } else {
-                stopProgress();
-                stopSpeaking();
+                audioPlayer.pause();
             }
         }
 
@@ -750,76 +720,52 @@
             btn.classList.toggle('playing', isPlaying);
         }
 
-        // 开始进度
-        function startProgress() {
-            stopProgress();
-            progressInterval = setInterval(() => {
-                progress += 0.5;
-                if (progress >= 100) {
-                    if (isLoop) {
-                        progress = 0;
-                    } else {
-                        return;
-                    }
-                }
-                updateProgress();
-            }, 500);
-        }
-
-        // 停止进度
-        function stopProgress() {
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
-        }
-
         // 更新进度显示
         function updateProgress() {
-            document.getElementById('progressFill').style.width = progress + '%';
-            const totalSeconds = 150;
-            const currentSeconds = Math.floor((progress / 100) * totalSeconds);
-            document.getElementById('currentTime').textContent = formatTime(currentSeconds);
+            if (audioPlayer.duration) {
+                const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                document.getElementById('progressFill').style.width = percent + '%';
+                document.getElementById('currentTime').textContent = formatTime(audioPlayer.currentTime);
+            }
         }
 
         // 格式化时间
         function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
             const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
+            const secs = Math.floor(seconds % 60);
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
         // 进度条点击
         function seekProgress(event) {
+            if (!audioPlayer.duration) return;
             const bar = document.getElementById('progressBar');
             const rect = bar.getBoundingClientRect();
-            const percent = ((event.clientX - rect.left) / rect.width) * 100;
-            progress = Math.max(0, Math.min(100, percent));
-            updateProgress();
+            const percent = (event.clientX - rect.left) / rect.width;
+            audioPlayer.currentTime = percent * audioPlayer.duration;
         }
 
         // 上一首
         function prevSong() {
-            stopSpeaking();
+            audioPlayer.pause();
             currentIndex = (currentIndex - 1 + currentSongs.length) % currentSongs.length;
-            progress = 0;
-            if (isPlaying) {
-                speakLyrics();
-            }
+            isPlaying = false;
+            updatePlayButton();
             updatePlayer();
             renderSongList();
+            loadAudio();
         }
 
         // 下一首
         function nextSong() {
-            stopSpeaking();
+            audioPlayer.pause();
             currentIndex = (currentIndex + 1) % currentSongs.length;
-            progress = 0;
-            if (isPlaying) {
-                speakLyrics();
-            }
+            isPlaying = false;
+            updatePlayButton();
             updatePlayer();
             renderSongList();
+            loadAudio();
         }
 
         // 切换循环
@@ -830,10 +776,8 @@
 
         // 切换静音
         function toggleMute() {
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-            }
-            document.getElementById('muteBtn').textContent = isPlaying ? '🔇' : '🔊';
+            audioPlayer.muted = !audioPlayer.muted;
+            document.getElementById('muteBtn').textContent = audioPlayer.muted ? '🔇' : '🔊';
         }
 
         // 主题切换
@@ -863,13 +807,8 @@
             const savedTheme = localStorage.getItem('theme') || 'warm';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateToggleButton(savedTheme);
-
-            // 预加载语音
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.getVoices();
-            }
-
             init();
+            loadAudio();
         });
 
         // 键盘控制
