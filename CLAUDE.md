@@ -22,7 +22,13 @@ baby/
 │   ├── 词汇学习表.md
 │   └── 词汇翻译.md
 ├── music/                      # 音乐启蒙（中英文儿歌各20首）
+│   ├── index.html              # 音乐播放器页面
+│   ├── chinese/                # 中文儿歌音频文件夹
+│   ├── english/                # 英文儿歌音频文件夹
 │   └── README.md               # 功能规划文档
+├── scripts/                    # 工具脚本
+│   ├── update_songs.js         # 歌曲数据更新脚本（Node.js）
+│   └── README.md               # 脚本使用说明
 ├── pinyin/                     # 拼音启蒙（声母/韵母/整体认读）
 │   └── README.md               # 功能规划文档
 ├── chinese/                    # 汉字启蒙（笔画/简单汉字）
@@ -189,12 +195,55 @@ function speak() { }
 function toggleMode() { }
 ```
 
+### 语音合成模式
+学习模块使用 Web Speech API 实现朗读功能：
+
+```javascript
+// 鸿蒙/国产浏览器兼容：使用最简单的配置
+const utterance = new SpeechSynthesisUtterance(text);
+utterance.lang = 'en';  // 避免使用 'en-US'，鸿蒙不支持
+utterance.rate = 1.0;
+utterance.pitch = 1.0;
+speechSynthesis.speak(utterance);
+```
+
+**重要兼容性说明**：
+- iOS Safari 需要用户交互触发语音预加载
+- 鸿蒙浏览器使用 `lang='en'` 而非 `lang='en-US'`
+- 移动端使用 `touchend` 事件增强响应
+- 在页面加载时调用 `speechSynthesis.getVoices()` 预加载语音列表
+
 ### 统一UI风格
-- 渐变背景色
-- 大卡片居中显示
-- 大字体适合幼儿
-- 大按钮方便触摸
-- 动画反馈增强交互
+所有模块应遵循与主页 `index.html` 一致的设计风格：
+
+**色彩系统**：
+- 使用 CSS 变量定义颜色，便于主题切换
+- 马卡龙色系：柔和的粉彩配色
+- 温暖模式：橙色、粉色、桃色为主
+- 清凉模式：蓝色、薄荷色、紫色为主
+
+**卡片设计**：
+- 大圆角：`border-radius: 20-30px`
+- 卡片渐变背景：从白色渐变到主题色
+- 柔和阴影：`box-shadow: 0 6px 24px rgba(..., 0.12)`
+- 白色卡片背景：`background: #FFFFFF`
+
+**交互反馈**：
+- 悬停效果：`transform: translateY(-8px)` + 阴影加深
+- 点击效果：`transform: scale(0.98)`
+- 过渡动画：`transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)`
+
+**字体规范**：
+- 系统字体栈：`-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif`
+- 标题：24-36px，字重 600
+- 正文：14-16px，字重 400
+- Emoji 图标：44-54px
+
+**布局规范**：
+- 居中对齐，最大宽度 1080px
+- 网格布局：`grid-template-columns: repeat(auto-fill, minmax(165px, 1fr))`
+- 间距：18-24px
+- 内边距：卡片 28-32px，按钮 12-16px
 
 ## 代码规范
 
@@ -215,12 +264,61 @@ function toggleMode() { }
 - 模块卡片网格（每个模块一个卡片）
 - 已完成/规划中状态标识
 - 点击跳转到各模块
+- **主题切换功能**：温暖模式（默认，暖色调）/ 清凉模式（冷色调）
+
+### 主题系统实现
+主页使用 CSS 自定义属性实现主题切换：
+- **温暖模式**（默认）：暖色调（橙色、粉色、桃色），背景 `#FFF8F0`
+- **清凉模式**：冷色调（蓝色、薄荷色、紫色），背景 `#E8EDF0`
+- 主题通过 `data-theme="cool"` 属性切换
+- 使用 `localStorage` 持久化主题偏好
+- 键盘快捷键 `T` 切换主题
+
+```css
+/* 默认温暖模式 */
+:root {
+    --bg-primary: #FFF8F0;
+    --macaron-blue: #FFB888;
+    --macaron-pink: #FF9CAA;
+    /* ... */
+}
+
+/* 清凉模式 */
+[data-theme="cool"] {
+    --bg-primary: #E8EDF0;
+    --macaron-blue: #9DB8D8;
+    --macaron-pink: #B8C8E8;
+    /* ... */
+}
+```
 
 ## 数据同步规范
 
 每个模块的数据文件存放在对应文件夹：
 - `.html` 文件：嵌入数据
 - `.md` 文件：可读格式备份
+
+### 音乐模块数据更新
+
+音乐模块使用 `scripts/update_songs.js` 脚本来管理歌曲数据：
+
+```bash
+# 查看歌曲状态
+node scripts/update_songs.js
+
+# 更新 index.html 中的歌曲数据
+node scripts/update_songs.js --update
+
+# 查看所有歌曲列表
+node scripts/update_songs.js --list
+```
+
+**添加新歌曲流程**：
+1. 将音频文件放入 `music/chinese/` 或 `music/english/`
+2. 在 `scripts/update_songs.js` 的 `songDatabase` 中添加歌曲元数据
+3. 运行 `node scripts/update_songs.js --update` 更新
+
+详细说明请参考 `scripts/README.md`
 
 ## 本地运行
 
@@ -257,6 +355,14 @@ git config --global https.proxy http://127.0.0.1:7890
 - 语音需用户交互触发
 - 响应式布局适配不同屏幕
 - 鸿蒙浏览器使用简化的语音配置（lang='en' 而非 'en-US'）
+
+## 键盘快捷键
+
+- `T` - 切换主题（温暖模式/清凉模式）
+- 学习模块内：
+  - `←` / `→` - 上一个/下一个
+  - `空格` / `Enter` - 朗读
+  - `S` - 切换顺序/乱序模式
 
 ## 自定义命令
 

@@ -1,0 +1,23 @@
+{
+  "chinese": [
+    {
+      "id": "liang_lao_hu",
+      "name": "涓ゅ彧鑰佽檸",
+      "filename": "涓ゅ彧鑰佽檸.mp3",
+      "emoji": "Tiger",
+      "desc": "鍔ㄧ墿璁ょ煡",
+      "lyrics": "涓ゅ彧鑰佽檸锛屼袱鍙€佽檸\n璺戝緱蹇紝璺戝緱蹇玕n涓€鍙病鏈夎€虫湹\n涓€鍙病鏈夊熬宸碶n鐪熷鎬紝鐪熷鎬?
+    }
+  ],
+  "english": [
+    {
+      "id": "twinkle",
+      "name": "Twinkle Twinkle Little Star",
+      "filename": "Twinkle Twinkle Little Star.mp3",
+      "emoji": "Star",
+      "desc": "Sleep Time",
+      "lyrics": "Twinkle, twinkle, little star\nHow I wonder what you are\nUp above the world so high\nLike a diamond in the sky"
+    }
+  ],
+  "fallbackAudio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-"
+}

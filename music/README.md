@@ -71,9 +71,89 @@
 
 ## 开发状态
 
-- [ ] 页面框架
-- [ ] 中文儿歌列表
-- [ ] 英文儿歌列表
-- [ ] 音频播放器
-- [ ] 歌词显示
-- [ ] 样式美化
+- [x] 页面框架
+- [x] 中文儿歌列表
+- [x] 英文儿歌列表
+- [x] 音频播放器
+- [x] 歌词显示
+- [x] 样式美化
+
+## 歌曲数据管理
+
+### 文件结构
+
+```
+music/
+├── index.html          # 音乐播放器页面
+├── chinese/            # 中文儿歌音频文件夹
+│   └── 两只老虎.mp3    # 音频文件
+└── english/            # 英文儿歌音频文件夹
+    ├── Twinkle Twinkle Little Star.mp3
+    ├── abcsongs.mp3
+    └── ...
+```
+
+### 歌曲数据更新脚本
+
+项目使用 `scripts/update_songs.js` 脚本自动管理歌曲数据：
+
+```bash
+# 查看歌曲状态
+node scripts/update_songs.js
+
+# 更新 index.html 中的歌曲数据
+node scripts/update_songs.js --update
+
+# 列出所有歌曲
+node scripts/update_songs.js --list
+
+# 生成 JavaScript 数据
+node scripts/update_songs.js --generate
+```
+
+### 添加新歌曲
+
+1. **放置音频文件**：将 `.mp3` 文件放入 `chinese/` 或 `english/` 文件夹
+
+2. **添加歌曲元数据**：在 `scripts/update_songs.js` 的 `songDatabase` 中添加歌曲信息：
+
+   ```javascript
+   const songDatabase = {
+     '歌曲名称.mp3': {
+       name: '歌曲名称',
+       emoji: '🎵',
+       desc: '分类描述',
+       lyrics: '歌曲的歌词内容\n第二行...'
+     },
+     // ... 更多歌曲
+   };
+   ```
+
+3. **更新页面**：运行更新脚本
+
+   ```bash
+   node scripts/update_songs.js --update
+   ```
+
+### 歌曲元数据字段
+
+| 字段 | 说明 | 示例 |
+|------|------|------|
+| `name` | 歌曲名称 | `"两只老虎"` |
+| `emoji` | 歌曲图标/表情 | `"🐯"` |
+| `desc` | 分类描述 | `"动物认知"` |
+| `lyrics` | 歌词内容（支持 `\n` 换行） | `"两只老虎，两只老虎\n..."` |
+
+### 支持的音频格式
+
+- `.mp3`（推荐）
+- `.wav`
+- `.ogg`
+- `.m4a`
+- `.aac`
+
+### 注意事项
+
+- 音频文件名必须与 `songDatabase` 中的键完全匹配
+- 更新会自动创建 `.bak` 备份文件
+- 如果扫描到未映射的文件，会使用默认元数据（标记为 `[?]`）
