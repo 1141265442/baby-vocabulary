@@ -239,6 +239,43 @@
             color: white;
         }
 
+        .voice-option {
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .voice-option:hover {
+            border-color: var(--macaron-pink);
+            background: var(--bg-card);
+        }
+
+        .voice-option.selected {
+            border-color: var(--macaron-blue);
+            background: linear-gradient(135deg, rgba(255, 156, 170, 0.1), rgba(255, 184, 136, 0.1));
+        }
+
+        .voice-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .voice-lang {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .voice-test {
+            font-size: 11px;
+            color: var(--macaron-pink);
+            margin-top: 4px;
+        }
+
         .story-content {
             background: var(--bg-card);
             border-radius: 24px;
@@ -353,9 +390,19 @@
             <button class="control-btn primary" id="playBtn" onclick="toggleReading()">🔊 朗读</button>
             <button class="control-btn" onclick="adjustFontSize(-1)">🔤 小字</button>
             <button class="control-btn" onclick="adjustFontSize(1)">📏 大字</button>
+            <button class="control-btn" onclick="showVoiceSelector()">🎙️ 音色</button>
             <button class="control-btn" onclick="toggleNightMode()">🌙 夜间</button>
             <button class="control-btn" onclick="backToList()">📋 列表</button>
             <button class="control-btn" onclick="nextStory()">➡️ 下一篇</button>
+        </div>
+
+        <!-- 语音选择器 -->
+        <div id="voiceSelector" style="display: none; background: var(--bg-card); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div style="font-size: 18px; font-weight: 600;">选择语音</div>
+                <button class="control-btn" onclick="hideVoiceSelector()">✕ 关闭</button>
+            </div>
+            <div id="voiceList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;"></div>
         </div>
 
         <div class="story-content" id="storyContent"></div>
@@ -872,7 +919,8 @@
         }
 
         // 语音合成
-        let bestVoice = null;
+        let selectedVoice = null;
+        let availableVoices = [];
         
         function speak(text) {
             if (!('speechSynthesis' in window)) return;
@@ -880,20 +928,17 @@
             
             const utterance = new SpeechSynthesisUtterance(text);
             
-            // 尝试获取最佳中文语音
-            if (!bestVoice) {
+            // 使用选中的语音或自动选择第一个中文语音
+            if (!selectedVoice) {
                 const voices = speechSynthesis.getVoices();
-                // 优先选择中文语音
                 const chineseVoices = voices.filter(v => v.lang.includes('zh'));
                 if (chineseVoices.length > 0) {
-                    // 优先选择 Microsoft 或 Google 的语音
-                    bestVoice = chineseVoices.find(v => v.name.includes('Microsoft') || v.name.includes('Google')) 
-                                || chineseVoices[0];
+                    selectedVoice = chineseVoices[0];
                 }
             }
             
-            if (bestVoice) {
-                utterance.voice = bestVoice;
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
             }
             
             utterance.lang = 'zh-CN';
@@ -902,6 +947,53 @@
             utterance.volume = 1.0;
             
             speechSynthesis.speak(utterance);
+        }
+
+        // 显示语音选择器
+        function showVoiceSelector() {
+            const selector = document.getElementById('voiceSelector');
+            const voiceList = document.getElementById('voiceList');
+            
+            // 获取所有语音
+            const voices = speechSynthesis.getVoices();
+            availableVoices = voices.filter(v => v.lang.includes('zh') || v.lang.includes('zh-CN') || v.lang.includes('zh-TW'));
+            
+            if (availableVoices.length === 0) {
+                availableVoices = voices; // 如果没有中文语音，显示所有语音
+            }
+            
+            voiceList.innerHTML = availableVoices.map((voice, index) => `
+                <div class="voice-option ${selectedVoice && selectedVoice.name === voice.name ? 'selected' : ''}" 
+                     onclick="selectVoice(${index})">
+                    <div class="voice-name">${voice.name}</div>
+                    <div class="voice-lang">${voice.lang}</div>
+                    <div class="voice-test">点击试听</div>
+                </div>
+            `).join('');
+            
+            selector.style.display = 'block';
+        }
+
+        // 隐藏语音选择器
+        function hideVoiceSelector() {
+            document.getElementById('voiceSelector').style.display = 'none';
+        }
+
+        // 选择语音
+        function selectVoice(index) {
+            selectedVoice = availableVoices[index];
+            
+            // 更新选中状态
+            document.querySelectorAll('.voice-option').forEach((el, i) => {
+                if (i === index) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+            
+            // 试听
+            speak('你好，这是语音测试。');
         }
 
         // 页面加载
@@ -915,7 +1007,8 @@
                 speechSynthesis.getVoices();
                 // 监听语音列表变化
                 speechSynthesis.onvoiceschanged = function() {
-                    bestVoice = null; // 重置，让speak函数重新选择
+                    selectedVoice = null;
+                    availableVoices = [];
                 };
             }
 
