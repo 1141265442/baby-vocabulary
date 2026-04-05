@@ -11,26 +11,151 @@
             box-sizing: border-box;
         }
 
+        /* 温暖模式 - 暖色调样式 */
+        :root {
+            /* 背景 - 温暖柔和 */
+            --bg-primary: #FFF8F0;
+            --bg-secondary: #FFEDDE;
+            --bg-card: #FFFFFF;
+
+            /* 暖色系马卡龙 */
+            --macaron-blue: #FFB888;
+            --macaron-pink: #FF9CAA;
+            --macaron-peach: #FFCC99;
+            --macaron-mint: #FFB6A6;
+            --macaron-lavender: #E8B8D8;
+            --macaron-yellow: #FFE4AA;
+
+            /* 文字 */
+            --text-primary: #5A4A3A;
+            --text-secondary: #8A7A6A;
+            --text-tertiary: #AA9080;
+
+            /* 功能色 */
+            --success: #7AC89A;
+            --pending: #FFA060;
+
+            /* 阴影 */
+            --shadow-sm: 0 2px 12px rgba(255, 150, 100, 0.08);
+            --shadow-md: 0 6px 24px rgba(255, 150, 100, 0.12);
+            --shadow-lg: 0 12px 40px rgba(255, 150, 100, 0.18);
+
+            /* UI */
+            --toggle-bg: rgba(255, 255, 255, 0.95);
+            --toggle-shadow: 0 4px 20px rgba(255, 150, 100, 0.15);
+        }
+
+        /* 清凉模式 - 冷色调样式 */
+        [data-theme="cool"] {
+            --bg-primary: #E8EDF0;
+            --bg-secondary: #DCE4E8;
+            --bg-card: #FFFFFF;
+
+            /* 冷色系马卡龙 */
+            --macaron-blue: #9DB8D8;
+            --macaron-pink: #B8C8E8;
+            --macaron-peach: #C8D8E8;
+            --macaron-mint: #A8D0C8;
+            --macaron-lavender: #C8C0E0;
+            --macaron-yellow: #D8E0D0;
+
+            /* 文字 */
+            --text-primary: #2A3A4A;
+            --text-secondary: #5A6A7A;
+            --text-tertiary: #8A9AAA;
+
+            /* 功能色 */
+            --success: #5AB88A;
+            --pending: #7AB8E8;
+
+            /* 阴影 */
+            --shadow-sm: 0 2px 12px rgba(100, 130, 160, 0.08);
+            --shadow-md: 0 6px 24px rgba(100, 130, 160, 0.12);
+            --shadow-lg: 0 12px 40px rgba(100, 130, 160, 0.18);
+
+            /* UI */
+            --toggle-bg: rgba(255, 255, 255, 0.95);
+            --toggle-shadow: 0 4px 20px rgba(100, 130, 160, 0.15);
+        }
+
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 20px 16px;
+            color: var(--text-primary);
+            transition: background 0.4s ease, color 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            padding: 10px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--toggle-shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-icon {
+            font-size: 16px;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--toggle-shadow);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
         }
 
         .card {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
+            background: var(--bg-card);
+            border-radius: 28px;
+            padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-lg);
             max-width: 400px;
             width: 100%;
             animation: fadeIn 0.5s ease;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -41,104 +166,115 @@
         .emoji {
             font-size: 100px;
             margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .english {
-            font-size: 48px;
-            color: #667eea;
+            font-size: 40px;
+            color: var(--macaron-pink);
             margin-bottom: 15px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .chinese {
-            font-size: 36px;
-            color: #764ba2;
-            margin-bottom: 15px;
+            font-size: 32px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
         }
 
         .pronunciation {
-            font-size: 24px;
-            color: #999;
+            font-size: 18px;
+            color: var(--text-secondary);
             margin-bottom: 30px;
             font-style: italic;
         }
 
         .speak-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--macaron-pink) 0%, var(--macaron-blue) 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 24px;
-            border-radius: 50px;
+            padding: 16px 32px;
+            font-size: 20px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
             -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
 
         .speak-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
         }
 
         .speak-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.98);
         }
 
         .speak-btn.speaking {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            background: linear-gradient(135deg, var(--macaron-mint) 0%, var(--macaron-lavender) 100%);
         }
 
         .nav {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             justify-content: center;
         }
 
         .nav-btn {
-            background: #f0f0f0;
-            color: #666;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             border: none;
-            padding: 12px 30px;
-            font-size: 18px;
-            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            font-weight: 500;
         }
 
         .nav-btn:hover {
-            background: #667eea;
-            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(90deg, var(--macaron-peach) 0%, transparent 100%);
         }
 
         .progress {
             margin-top: 30px;
-            color: white;
-            font-size: 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+            font-weight: 500;
         }
 
+        /* 模式切换按钮 */
         .mode-toggle {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: var(--bg-card);
             border: none;
-            padding: 15px 25px;
-            font-size: 18px;
+            padding: 12px 20px;
+            font-size: 15px;
             border-radius: 25px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
         .mode-toggle:hover {
@@ -146,18 +282,56 @@
         }
 
         .mode-toggle.shuffle {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, var(--macaron-mint) 0%, var(--macaron-lavender) 100%);
             color: white;
+            box-shadow: var(--shadow-lg);
         }
 
         .mode-toggle.ordered {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--macaron-pink) 0%, var(--macaron-blue) 100%);
             color: white;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 24px;
+            }
+
+            .card {
+                padding: 50px 40px;
+            }
+
+            .english {
+                font-size: 48px;
+            }
+
+            .chinese {
+                font-size: 36px;
+            }
+
+            .pronunciation {
+                font-size: 20px;
+            }
+
+            .speak-btn {
+                padding: 18px 40px;
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <button class="mode-toggle ordered" id="modeToggle">🔢 顺序</button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <span class="theme-icon">❄️</span>
+        <span id="themeText">清凉模式</span>
+    </button>
+
+    <a href="../index.html" class="back-btn">
+        <span>🏠</span>
+        <span>返回首页</span>
+    </a>
+
+    <button class="mode-toggle ordered" id="modeToggle" style="position: static; margin-bottom: 20px;">🔢 顺序</button>
 
     <div class="card">
         <div class="emoji" id="emoji">🥬</div>
@@ -175,6 +349,28 @@
     </div>
 
     <script>
+        // 主题切换
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'cool' ? 'warm' : 'cool';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton(newTheme);
+        }
+
+        function updateToggleButton(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            if (theme === 'cool') {
+                icon.textContent = '🌸';
+                text.textContent = '温暖模式';
+            } else {
+                icon.textContent = '❄️';
+                text.textContent = '清凉模式';
+            }
+        }
+
         const originalWords = [
             { emoji: "🥬", en: "Chinese Cabbage", zh: "白菜", pron: "/ˌtʃaɪˈniːz ˈkæbɪdʒ/" },
             { emoji: "✈️", en: "Airplane", zh: "飞机", pron: "/ˈɛrpleɪn/" },
@@ -226,10 +422,7 @@
         // 初始化语音（iOS需要）
         function initSpeech() {
             if ('speechSynthesis' in window) {
-                // 先调用一次触发加载
                 speechSynthesis.getVoices();
-
-                // 监听语音加载完成
                 speechSynthesis.onvoiceschanged = function() {
                     voicesLoaded = true;
                     console.log('Voices loaded:', speechSynthesis.getVoices().length);
@@ -293,13 +486,11 @@
         }
 
         function speak() {
-            // 检查浏览器支持
             if (!('speechSynthesis' in window)) {
                 alert('您的浏览器不支持语音功能\n建议安装 Chrome 浏览器使用');
                 return;
             }
 
-            // 取消之前的语音
             speechSynthesis.cancel();
 
             const word = words[currentIndex];
@@ -307,14 +498,12 @@
             btn.classList.add('speaking');
             btn.textContent = '🔊 播放中...';
 
-            // 鸿蒙/国产浏览器兼容：使用最简单的配置
             const utterance = new SpeechSynthesisUtterance(word.en);
             utterance.lang = 'en';
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
             utterance.volume = 1.0;
 
-            // 事件处理
             utterance.onend = function() {
                 btn.classList.remove('speaking');
                 btn.textContent = '🔊 朗读';
@@ -324,16 +513,14 @@
                 console.log('Speech error:', event.error);
                 btn.classList.remove('speaking');
                 btn.textContent = '🔊 朗读';
-                alert('语音播放失败，请检查：\n1. 手机是否开启音量\n2. 或尝试使用 Chrome 浏览器');
             };
 
-            // 延迟播放（确保语音引擎准备就绪）
             setTimeout(() => {
                 speechSynthesis.speak(utterance);
             }, 50);
         }
 
-        // 绑定事件（使用addEventListener确保移动端兼容）
+        // 绑定事件
         document.getElementById('speakBtn').addEventListener('click', speak);
         document.getElementById('speakBtn').addEventListener('touchend', function(e) {
             e.preventDefault();
@@ -352,13 +539,12 @@
             if (e.key === 's' || e.key === 'S') toggleMode();
         });
 
-        // 页面点击初始化语音（iOS需要用户交互）
-        document.body.addEventListener('click', function initOnClick() {
-            if (!voicesLoaded) {
-                speechSynthesis.getVoices();
-                voicesLoaded = true;
-            }
-        }, { once: true });
+        // 页面加载时恢复主题
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'warm';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateToggleButton(savedTheme);
+        });
 
         // 初始化
         initSpeech();
