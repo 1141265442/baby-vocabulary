@@ -11,52 +11,8 @@
             box-sizing: border-box;
         }
 
-        /* 温柔模式 - 现代应用界面风格 */
+        /* 温柔模式 - 清晰模式样式 */
         :root {
-            /* 中性背景 */
-            --bg-primary: #F8F9FB;
-            --bg-secondary: #EEF2F6;
-            --bg-card: #FFFFFF;
-
-            /* 明亮强调色 */
-            --accent-blue: #4F8AFF;
-            --accent-pink: #FF6B9D;
-            --accent-orange: #FF9500;
-            --accent-green: #00D287;
-            --accent-purple: #9B6BFF;
-            --accent-yellow: #FFD233;
-
-            /* 卡片渐变色 */
-            --card-blue: linear-gradient(135deg, #E3F2FF 0%, #BBDEFB 100%);
-            --card-pink: linear-gradient(135deg, #FCE4EC 0%, #F8BBD 100%);
-            --card-orange: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-            --card-green: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-            --card-purple: linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%);
-            --card-yellow: linear-gradient(135deg, #FFFDE7 0%, #FFECB3 100%);
-
-            /* 文字 - 强可读性 */
-            --text-primary: #1A1A1A;
-            --text-secondary: #5A6B7A;
-            --text-tertiary: #9AA0A6;
-
-            /* 功能色 */
-            --success: #00C853;
-            --pending:FFA726;
-
-            /* 阴影 */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-
-            /* UI */
-            --toggle-bg: #FFFFFF;
-            --toggle-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-            --card-border: 1px solid rgba(0, 0, 0, 0.06);
-            --section-divider: rgba(0, 0, 0, 0.08);
-        }
-
-        /* 温馨模式 - 清晰模式样式 */
-        [data-theme="clear"] {
             /* 背景 */
             --bg-primary: #FFFFFF;
             --bg-secondary: #F8F9FA;
@@ -90,14 +46,50 @@
             --section-divider: rgba(200, 180, 160, 0.3);
         }
 
+        /* 温馨模式 - 柔和马卡龙样式 */
+        [data-theme="warm"] {
+            /* 背景 */
+            --bg-primary: #FFFBF7;
+            --bg-secondary: #FFF5ED;
+            --bg-card: #FFFFFF;
+
+            /* 柔和马卡龙色 */
+            --macaron-blue: #B8D4F0;
+            --macaron-pink: #FFB5C5;
+            --macaron-peach: #FFD4B8;
+            --macaron-mint: #B8E8D8;
+            --macaron-lavender: #D8C8F0;
+            --macaron-yellow: #FFF0B8;
+
+            /* 文字 */
+            --text-primary: #5A4A4A;
+            --text-secondary: #8A7A7A;
+            --text-tertiary: #AAA0A0;
+
+            /* 功能色 */
+            --success: #7AC89A;
+            --pending: #FFB888;
+
+            /* 阴影 */
+            --shadow-sm: 0 2px 12px rgba(100, 80, 60, 0.08);
+            --shadow-md: 0 6px 24px rgba(100, 80, 60, 0.12);
+            --shadow-lg: 0 12px 40px rgba(100, 80, 60, 0.18);
+
+            /* UI */
+            --toggle-bg: rgba(255, 255, 255, 0.9);
+            --toggle-shadow: 0 4px 20px rgba(100, 80, 60, 0.15);
+            --card-border: 2px solid transparent;
+            --section-divider: rgba(200, 180, 160, 0.3);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
-            background: var(--bg-primary);
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             padding: 40px 24px;
             color: var(--text-primary);
             line-height: 1.5;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
         /* 主题切换按钮 */
@@ -107,59 +99,59 @@
             right: 20px;
             z-index: 1000;
             background: var(--toggle-bg);
-            border: var(--card-border);
-            padding: 11px 18px;
-            border-radius: 12px;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50px;
             cursor: pointer;
             box-shadow: var(--toggle-shadow);
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-primary);
-            transition: all 0.25s ease;
+            transition: all 0.3s ease;
         }
 
         .theme-toggle:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
+            transform: scale(1.05);
         }
 
         .theme-toggle:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         .theme-icon {
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .header {
             text-align: center;
-            padding: 45px 16px 55px;
+            padding: 50px 16px 60px;
             max-width: 580px;
             margin: 0 auto;
         }
 
         .header-logo {
-            font-size: 48px;
-            margin-bottom: 14px;
+            font-size: 52px;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 2px 8px rgba(255, 150, 150, 0.2));
         }
 
         .header h1 {
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 36px;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            transition: color 0.4s ease;
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-secondary);
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 400;
+            transition: color 0.4s ease;
         }
 
         .container {
@@ -168,115 +160,112 @@
         }
 
         .section {
-            margin-bottom: 45px;
+            margin-bottom: 50px;
         }
 
         .section-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            padding-left: 2px;
+            margin-bottom: 22px;
+            padding-left: 4px;
         }
 
         .section-icon {
-            font-size: 20px;
+            font-size: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             background: var(--bg-secondary);
-            border-radius: 10px;
-            transition: background 0.3s ease;
+            border-radius: 12px;
+            transition: background 0.4s ease;
         }
 
         .section-title {
-            font-size: 17px;
-            font-weight: 700;
+            font-size: 18px;
+            font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: 0.3px;
-            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+            transition: color 0.4s ease;
         }
 
         .section-line {
             flex: 1;
             height: 2px;
-            background: linear-gradient(90deg, var(--section-divider) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(200, 180, 160, 0.3) 0%, transparent 100%);
             border-radius: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+            gap: 18px;
         }
 
         .card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 28px 18px 24px;
+            background: #FFFFFF;
+            border-radius: 22px;
+            padding: 32px 20px 28px;
             text-align: center;
             box-shadow: var(--shadow-sm);
-            border: var(--card-border);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
+            border: var(--card-border);
             position: relative;
             overflow: hidden;
         }
 
-        /* 温柔模式的彩色卡片 */
-        .card:nth-child(5n+1) { background: var(--card-blue); }
-        .card:nth-child(5n+2) { background: var(--card-pink); }
-        .card:nth-child(5n+3) { background: var(--card-orange); }
-        .card:nth-child(5n+4) { background: var(--card-green); }
-        .card:nth-child(5n+5) { background: var(--card-purple); }
-
-        /* 温馨模式使用原来的渐变卡片 */
-        [data-theme="clear"] .card {
-            background: #FFFFFF !important;
-        }
-
-        [data-theme="clear"] .card::before {
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            border-radius: 16px 16px 0 0;
-            opacity: 0.9;
+            height: 4px;
+            border-radius: 22px 22px 0 0;
+            opacity: 0.8;
         }
 
-        [data-theme="clear"] .card:nth-child(5n+1)::before { background: var(--macaron-blue); }
-        [data-theme="clear"] .card:nth-child(5n+2)::before { background: var(--macaron-pink); }
-        [data-theme="clear"] .card:nth-child(5n+3)::before { background: var(--macaron-peach); }
-        [data-theme="clear"] .card:nth-child(5n+4)::before { background: var(--macaron-mint); }
-        [data-theme="clear"] .card:nth-child(5n+5)::before { background: var(--macaron-lavender); }
+        /* 不同卡片的顶部色条 */
+        .card:nth-child(5n+1)::before { background: var(--macaron-blue); }
+        .card:nth-child(5n+2)::before { background: var(--macaron-pink); }
+        .card:nth-child(5n+3)::before { background: var(--macaron-peach); }
+        .card:nth-child(5n+4)::before { background: var(--macaron-mint); }
+        .card:nth-child(5n+5)::before { background: var(--macaron-lavender); }
 
-        [data-theme="clear"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, #E8F4FF 100%) !important; }
-        [data-theme="clear"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, #FFE8F0 100%) !important; }
-        [data-theme="clear"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, #FFF0E0 100%) !important; }
-        [data-theme="clear"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, #E8FFF4 100%) !important; }
-        [data-theme="clear"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, #F4E8FF 100%) !important; }
+        /* 不同卡片的背景渐变 */
+        .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-blue) 100%); }
+        .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-pink) 100%); }
+        .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-peach) 100%); }
+        .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-mint) 100%); }
+        .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
+
+        /* 温馨模式的卡片背景 - 更明显的渐变 */
+        [data-theme="warm"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-blue) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-pink) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-peach) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-mint) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-lavender) 100%); }
 
         .card:hover:not(.disabled) {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
-            border-color: rgba(0, 0, 0, 0.08);
+            border-color: rgba(180, 160, 140, 0.2);
         }
 
-        [data-theme="clear"] .card:hover:not(.disabled) {
-            border-color: rgba(0, 0, 0, 0.15);
+        [data-theme="warm"] .card:hover:not(.disabled) {
+            border-color: rgba(100, 80, 60, 0.2);
         }
 
         .card:active:not(.disabled) {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
         }
 
         .card.disabled {
@@ -289,42 +278,47 @@
         }
 
         .card-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 54px;
+            margin-bottom: 12px;
             display: inline-block;
-            transition: transform 0.25s ease;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+        }
+
+        [data-theme="warm"] .card-icon {
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
         }
 
         .card:hover:not(.disabled) .card-icon {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .card-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 4px;
-            letter-spacing: 0.3px;
-            transition: color 0.3s ease;
+            letter-spacing: 0.5px;
+            transition: color 0.4s ease;
         }
 
         .card-desc {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 400;
+            transition: color 0.4s ease;
         }
 
         .badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
+            top: 12px;
+            right: 12px;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
             letter-spacing: 0.3px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .badge.done {
@@ -339,14 +333,14 @@
 
         .footer {
             text-align: center;
-            padding: 55px 20px 35px;
+            padding: 60px 20px 40px;
             color: var(--text-tertiary);
             font-size: 13px;
-            transition: color 0.3s ease;
+            transition: color 0.4s ease;
         }
 
         .footer-text {
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
         }
 
         /* 移动端优化 */
@@ -358,90 +352,94 @@
             .theme-toggle {
                 top: 16px;
                 right: 16px;
-                padding: 9px 14px;
+                padding: 10px 14px;
                 font-size: 13px;
             }
 
             .theme-icon {
-                font-size: 14px;
+                font-size: 16px;
             }
 
             .header {
-                padding: 30px 12px 40px;
+                padding: 35px 12px 45px;
             }
 
             .header-logo {
-                font-size: 42px;
+                font-size: 44px;
             }
 
             .header h1 {
-                font-size: 26px;
+                font-size: 28px;
             }
 
             .header p {
-                font-size: 13px;
+                font-size: 14px;
             }
 
             .grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 11px;
+                gap: 12px;
             }
 
             .card {
-                padding: 22px 14px 18px;
-                border-radius: 14px;
+                padding: 26px 16px 22px;
+                border-radius: 18px;
             }
 
             .card-icon {
-                font-size: 40px;
+                font-size: 44px;
             }
 
             .card-title {
-                font-size: 14px;
+                font-size: 15px;
             }
 
             .card-desc {
-                font-size: 11px;
+                font-size: 12px;
             }
 
             .section {
-                margin-bottom: 35px;
+                margin-bottom: 38px;
             }
 
             .badge {
-                padding: 3px 8px;
-                font-size: 9px;
+                padding: 4px 10px;
+                font-size: 10px;
             }
         }
 
-        /* 页面加载动画 */
-        .card {
-            animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        /* 简洁装饰 - 只在温馨模式显示 */
+        .bg-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(180, 160, 140, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .card:nth-child(1) { animation-delay: 0.03s; }
-        .card:nth-child(2) { animation-delay: 0.06s; }
-        .card:nth-child(3) { animation-delay: 0.09s; }
-        .card:nth-child(4) { animation-delay: 0.12s; }
-        .card:nth-child(5) { animation-delay: 0.15s; }
-        .card:nth-child(6) { animation-delay: 0.18s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        [data-theme="warm"] .bg-dot {
+            display: block;
         }
+
+        .bg-dot:nth-child(1) { top: 8%; left: 6%; }
+        .bg-dot:nth-child(2) { top: 16%; right: 10%; }
+        .bg-dot:nth-child(3) { top: 42%; left: 5%; }
+        .bg-dot:nth-child(4) { top: 62%; right: 8%; }
+        .bg-dot:nth-child(5) { bottom: 18%; left: 10%; }
+        .bg-dot:nth-child(6) { bottom: 32%; right: 5%; }
     </style>
 </head>
 <body>
+    <div class="bg-dot"></div>
+    <div class="bg-dot"></div>
+    <div class="bg-dot"></div>
+    <div class="bg-dot"></div>
+    <div class="bg-dot"></div>
+
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-        <span class="theme-icon" id="themeIcon">☀️</span>
+        <span class="theme-icon" id="themeIcon">🌸</span>
         <span id="themeText">温馨模式</span>
     </button>
 
@@ -625,7 +623,7 @@
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'clear' ? 'gentle' : 'clear';
+            const newTheme = currentTheme === 'warm' ? 'clear' : 'warm';
 
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
@@ -636,18 +634,18 @@
             const icon = document.getElementById('themeIcon');
             const text = document.getElementById('themeText');
 
-            if (theme === 'clear') {
+            if (theme === 'warm') {
                 icon.textContent = '🌸';
                 text.textContent = '温柔模式';
             } else {
-                icon.textContent = '☀️';
+                icon.textContent = '🌙';
                 text.textContent = '温馨模式';
             }
         }
 
         // 页面加载时应用保存的主题
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'gentle';
+            const savedTheme = localStorage.getItem('theme') || 'clear';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateToggleButton(savedTheme);
         });
