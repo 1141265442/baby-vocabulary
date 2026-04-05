@@ -11,75 +11,76 @@
             box-sizing: border-box;
         }
 
-        /* 温柔模式 - 清晰模式样式 */
+        /* 温暖模式 - 暖色调样式 */
         :root {
-            /* 背景 - 偏暗色 */
-            --bg-primary: #F0F2F5;
-            --bg-secondary: #E4E7EB;
-
-            /* 更饱和的颜色 */
-            --macaron-blue: #7AB8E8;
-            --macaron-pink: #FF8A9A;
-            --macaron-peach: #FFB86A;
-            --macaron-mint: #7AC8A8;
-            --macaron-lavender: #B898D8;
-            --macaron-yellow: #FFE06A;
-
-            /* 文字 - 更深，高对比度 */
-            --text-primary: #1A1A1A;
-            --text-secondary: #4A4A4A;
-            --text-tertiary: #7A7A7A;
-
-            /* 功能色 */
-            --success: #5AB88A;
-            --pending: #FFA060;
-
-            /* 阴影 - 更明显 */
-            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.18);
-
-            /* UI */
-            --toggle-bg: rgba(255, 255, 255, 0.95);
-            --toggle-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            --card-border: 2px solid transparent;
-            --section-divider: rgba(150, 150, 150, 0.3);
-        }
-
-        /* 温馨模式 - 柔和马卡龙样式 */
-        [data-theme="warm"] {
             /* 背景 - 温暖柔和 */
-            --bg-primary: #FFFBF7;
-            --bg-secondary: #FFF5ED;
+            --bg-primary: #FFF8F0;
+            --bg-secondary: #FFEDDE;
             --bg-card: #FFFFFF;
 
-            /* 柔和马卡龙色 */
-            --macaron-blue: #B8D4F0;
-            --macaron-pink: #FFB5C5;
-            --macaron-peach: #FFD4B8;
-            --macaron-mint: #B8E8D8;
-            --macaron-lavender: #D8C8F0;
-            --macaron-yellow: #FFF0B8;
+            /* 暖色系马卡龙 */
+            --macaron-blue: #FFB888;
+            --macaron-pink: #FF9CAA;
+            --macaron-peach: #FFCC99;
+            --macaron-mint: #FFB6A6;
+            --macaron-lavender: #E8B8D8;
+            --macaron-yellow: #FFE4AA;
 
             /* 文字 */
-            --text-primary: #5A4A4A;
-            --text-secondary: #8A7A7A;
-            --text-tertiary: #AAA0A0;
+            --text-primary: #5A4A3A;
+            --text-secondary: #8A7A6A;
+            --text-tertiary: #AA9080;
 
             /* 功能色 */
             --success: #7AC89A;
-            --pending: #FFB888;
+            --pending: #FFA060;
 
             /* 阴影 */
-            --shadow-sm: 0 2px 12px rgba(100, 80, 60, 0.08);
-            --shadow-md: 0 6px 24px rgba(100, 80, 60, 0.12);
-            --shadow-lg: 0 12px 40px rgba(100, 80, 60, 0.18);
+            --shadow-sm: 0 2px 12px rgba(255, 150, 100, 0.08);
+            --shadow-md: 0 6px 24px rgba(255, 150, 100, 0.12);
+            --shadow-lg: 0 12px 40px rgba(255, 150, 100, 0.18);
 
             /* UI */
-            --toggle-bg: rgba(255, 255, 255, 0.9);
-            --toggle-shadow: 0 4px 20px rgba(100, 80, 60, 0.15);
+            --toggle-bg: rgba(255, 255, 255, 0.95);
+            --toggle-shadow: 0 4px 20px rgba(255, 150, 100, 0.15);
             --card-border: 2px solid transparent;
-            --section-divider: rgba(200, 180, 160, 0.3);
+            --section-divider: rgba(255, 180, 140, 0.3);
+        }
+
+        /* 清凉模式 - 冷色调样式 */
+        [data-theme="cool"] {
+            /* 背景 - 清凉偏暗 */
+            --bg-primary: #E8EDF0;
+            --bg-secondary: #DCE4E8;
+            --bg-card: #FFFFFF;
+
+            /* 冷色系马卡龙 */
+            --macaron-blue: #9DB8D8;
+            --macaron-pink: #B8C8E8;
+            --macaron-peach: #C8D8E8;
+            --macaron-mint: #A8D0C8;
+            --macaron-lavender: #C8C0E0;
+            --macaron-yellow: #D8E0D0;
+
+            /* 文字 */
+            --text-primary: #2A3A4A;
+            --text-secondary: #5A6A7A;
+            --text-tertiary: #8A9AAA;
+
+            /* 功能色 */
+            --success: #5AB88A;
+            --pending: #7AB8E8;
+
+            /* 阴影 */
+            --shadow-sm: 0 2px 12px rgba(100, 130, 160, 0.08);
+            --shadow-md: 0 6px 24px rgba(100, 130, 160, 0.12);
+            --shadow-lg: 0 12px 40px rgba(100, 130, 160, 0.18);
+
+            /* UI */
+            --toggle-bg: rgba(255, 255, 255, 0.95);
+            --toggle-shadow: 0 4px 20px rgba(100, 130, 160, 0.15);
+            --card-border: 2px solid transparent;
+            --section-divider: rgba(120, 150, 180, 0.3);
         }
 
         body {
@@ -194,7 +195,7 @@
         .section-line {
             flex: 1;
             height: 2px;
-            background: linear-gradient(90deg, rgba(200, 180, 160, 0.3) 0%, transparent 100%);
+            background: linear-gradient(90deg, var(--section-divider) 0%, transparent 100%);
             border-radius: 1px;
         }
 
@@ -247,12 +248,12 @@
         .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-mint) 100%); }
         .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
 
-        /* 温馨模式的卡片背景 - 更明显的渐变 */
-        [data-theme="warm"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-blue) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-pink) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-peach) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-mint) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-lavender) 100%); }
+        /* 清凉模式的卡片背景 - 更明显的渐变 */
+        [data-theme="cool"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-blue) 100%); }
+        [data-theme="cool"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-pink) 100%); }
+        [data-theme="cool"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-peach) 100%); }
+        [data-theme="cool"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-mint) 100%); }
+        [data-theme="cool"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-lavender) 100%); }
 
         .card:hover:not(.disabled) {
             transform: translateY(-8px);
@@ -411,10 +412,10 @@
             display: none;
         }
 
-        /* 温馨模式的背景点 - 更明显 */
-        [data-theme="warm"] .bg-dot {
+        /* 清凉模式的背景点 - 更明显 */
+        [data-theme="cool"] .bg-dot {
             display: block;
-            background: rgba(180, 160, 140, 0.2);
+            background: rgba(120, 150, 180, 0.2);
         }
 
         .bg-dot:nth-child(1) { top: 8%; left: 6%; }
@@ -434,8 +435,8 @@
 
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-        <span class="theme-icon" id="themeIcon">🌸</span>
-        <span id="themeText">温馨模式</span>
+        <span class="theme-icon" id="themeIcon">❄️</span>
+        <span id="themeText">清凉模式</span>
     </button>
 
     <div class="header">
@@ -618,7 +619,7 @@
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'warm' ? 'clear' : 'warm';
+            const newTheme = currentTheme === 'cool' ? 'warm' : 'cool';
 
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
@@ -629,18 +630,18 @@
             const icon = document.getElementById('themeIcon');
             const text = document.getElementById('themeText');
 
-            if (theme === 'warm') {
+            if (theme === 'cool') {
                 icon.textContent = '🌸';
-                text.textContent = '温柔模式';
+                text.textContent = '温暖模式';
             } else {
-                icon.textContent = '🌙';
-                text.textContent = '温馨模式';
+                icon.textContent = '❄️';
+                text.textContent = '清凉模式';
             }
         }
 
         // 页面加载时应用保存的主题
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'clear';
+            const savedTheme = localStorage.getItem('theme') || 'warm';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateToggleButton(savedTheme);
         });
