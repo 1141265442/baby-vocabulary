@@ -665,11 +665,13 @@
         function selectSong(index) {
             audioPlayer.pause();
             currentIndex = index;
-            isPlaying = false;
-            updatePlayButton();
             updatePlayer();
             renderSongList();
             loadAudio();
+            // 自动播放
+            setTimeout(() => {
+                audioPlayer.play().catch(e => console.log('播放失败:', e));
+            }, 100);
         }
 
         // 更新播放器
@@ -737,22 +739,26 @@
         function prevSong() {
             audioPlayer.pause();
             currentIndex = (currentIndex - 1 + currentSongs.length) % currentSongs.length;
-            isPlaying = false;
-            updatePlayButton();
             updatePlayer();
             renderSongList();
             loadAudio();
+            // 自动播放
+            setTimeout(() => {
+                audioPlayer.play().catch(e => console.log('播放失败:', e));
+            }, 100);
         }
 
         // 下一首
         function nextSong() {
             audioPlayer.pause();
             currentIndex = (currentIndex + 1) % currentSongs.length;
-            isPlaying = false;
-            updatePlayButton();
             updatePlayer();
             renderSongList();
             loadAudio();
+            // 自动播放
+            setTimeout(() => {
+                audioPlayer.play().catch(e => console.log('播放失败:', e));
+            }, 100);
         }
 
         // 切换循环
