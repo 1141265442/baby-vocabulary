@@ -11,13 +11,13 @@
             box-sizing: border-box;
         }
 
-        /* 马卡龙配色 - 饱和度适中，保证可读性 */
+        /* 默认温馨主题 */
         :root {
             /* 背景 */
             --bg-primary: #FFFBF7;
             --bg-secondary: #FFF5ED;
 
-            /* 马卡龙色 - 更有饱和度 */
+            /* 马卡龙色 */
             --macaron-blue: #B8D4F0;
             --macaron-pink: #FFB5C5;
             --macaron-peach: #FFD4B8;
@@ -25,7 +25,7 @@
             --macaron-lavender: #D8C8F0;
             --macaron-lemon: #FFF0B8;
 
-            /* 文字 - 确保可读性 */
+            /* 文字 */
             --text-primary: #5A4A4A;
             --text-secondary: #8A7A7A;
             --text-tertiary: #AAA0A0;
@@ -38,6 +38,43 @@
             --shadow-sm: 0 2px 12px rgba(100, 80, 60, 0.08);
             --shadow-md: 0 6px 24px rgba(100, 80, 60, 0.12);
             --shadow-lg: 0 12px 40px rgba(100, 80, 60, 0.18);
+
+            /* 切换按钮 */
+            --toggle-bg: rgba(255, 255, 255, 0.9);
+            --toggle-shadow: 0 4px 20px rgba(100, 80, 60, 0.15);
+        }
+
+        /* 清晰主题 */
+        [data-theme="clear"] {
+            /* 背景 */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8F9FA;
+
+            /* 更饱和的颜色 */
+            --macaron-blue: #7AB8E8;
+            --macaron-pink: #FF8A9A;
+            --macaron-peach: #FFB86A;
+            --macaron-mint: #7AC8A8;
+            --macaron-lavender: #B898D8;
+            --macaron-lemon: #FFE06A;
+
+            /* 文字 - 更深 */
+            --text-primary: #2A2A2A;
+            --text-secondary: #5A5A5A;
+            --text-tertiary: #8A8A8A;
+
+            /* 功能色 */
+            --success: #5AB88A;
+            --pending: #FFA060;
+
+            /* 阴影 - 更明显 */
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.18);
+
+            /* 切换按钮 */
+            --toggle-bg: rgba(255, 255, 255, 0.95);
+            --toggle-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
         body {
@@ -47,6 +84,40 @@
             padding: 40px 24px;
             color: var(--text-primary);
             line-height: 1.5;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--toggle-bg);
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: var(--toggle-shadow);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.98);
+        }
+
+        .theme-icon {
+            font-size: 18px;
         }
 
         .header {
@@ -68,12 +139,14 @@
             color: var(--text-primary);
             margin-bottom: 10px;
             letter-spacing: 2px;
+            transition: color 0.4s ease;
         }
 
         .header p {
             font-size: 15px;
             color: var(--text-secondary);
             font-weight: 400;
+            transition: color 0.4s ease;
         }
 
         .container {
@@ -102,6 +175,7 @@
             height: 36px;
             background: var(--bg-secondary);
             border-radius: 12px;
+            transition: background 0.4s ease;
         }
 
         .section-title {
@@ -109,6 +183,7 @@
             font-weight: 600;
             color: var(--text-primary);
             letter-spacing: 0.5px;
+            transition: color 0.4s ease;
         }
 
         .section-line {
@@ -160,17 +235,28 @@
         .card:nth-child(5n+4)::before { background: var(--macaron-mint); }
         .card:nth-child(5n+5)::before { background: var(--macaron-lavender); }
 
-        /* 不同卡片的背景渐变 - 更明显 */
-        .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 0%, #F5FAFF 100%); }
-        .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 0%, #FFF5F8 100%); }
-        .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 0%, #FFFBF5 100%); }
-        .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, #F5FFF8 100%); }
-        .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, #FAF5FF 100%); }
+        /* 不同卡片的背景渐变 */
+        .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-blue) 100%); }
+        .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-pink) 100%); }
+        .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-peach) 100%); }
+        .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-mint) 100%); }
+        .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
+
+        /* 清晰主题的卡片背景 - 更明显的渐变 */
+        [data-theme="clear"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, #E8F4FF 100%); }
+        [data-theme="clear"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, #FFE8F0 100%); }
+        [data-theme="clear"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, #FFF0E0 100%); }
+        [data-theme="clear"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, #E8FFF4 100%); }
+        [data-theme="clear"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, #F4E8FF 100%); }
 
         .card:hover:not(.disabled) {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
             border-color: rgba(180, 160, 140, 0.2);
+        }
+
+        [data-theme="clear"] .card:hover:not(.disabled) {
+            border-color: rgba(0, 0, 0, 0.15);
         }
 
         .card:active:not(.disabled) {
@@ -194,6 +280,10 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
         }
 
+        [data-theme="clear"] .card-icon {
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+        }
+
         .card:hover:not(.disabled) .card-icon {
             transform: scale(1.08);
         }
@@ -204,12 +294,14 @@
             color: var(--text-primary);
             margin-bottom: 4px;
             letter-spacing: 0.5px;
+            transition: color 0.4s ease;
         }
 
         .card-desc {
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 400;
+            transition: color 0.4s ease;
         }
 
         .badge {
@@ -239,6 +331,7 @@
             padding: 60px 20px 40px;
             color: var(--text-tertiary);
             font-size: 13px;
+            transition: color 0.4s ease;
         }
 
         .footer-text {
@@ -249,6 +342,17 @@
         @media (max-width: 600px) {
             body {
                 padding: 20px 16px;
+            }
+
+            .theme-toggle {
+                top: 16px;
+                right: 16px;
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .theme-icon {
+                font-size: 16px;
             }
 
             .header {
@@ -347,6 +451,12 @@
     <div class="bg-dot"></div>
     <div class="bg-dot"></div>
     <div class="bg-dot"></div>
+
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span id="themeText">清晰模式</span>
+    </button>
 
     <div class="header">
         <div class="header-logo">🌱</div>
@@ -522,5 +632,45 @@
     <div class="footer">
         <p class="footer-text">用心陪伴 每一刻成长</p>
     </div>
+
+    <script>
+        // 主题切换功能
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'clear' ? 'warm' : 'clear';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton(newTheme);
+        }
+
+        function updateToggleButton(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+
+            if (theme === 'clear') {
+                icon.textContent = '☀️';
+                text.textContent = '温馨模式';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = '清晰模式';
+            }
+        }
+
+        // 页面加载时应用保存的主题
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'warm';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateToggleButton(savedTheme);
+        });
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 't' || e.key === 'T') {
+                toggleTheme();
+            }
+        });
+    </script>
 </body>
 </html>
