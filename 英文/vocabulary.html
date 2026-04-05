@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>儿童英语词汇学习 - Kids Vocabulary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .emoji {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .english {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .chinese {
+            font-size: 36px;
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+
+        .pronunciation {
+            font-size: 24px;
+            color: #999;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .speak-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .speak-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .speak-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: #f0f0f0;
+            color: #666;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .progress {
+            margin-top: 30px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .mode-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .mode-toggle.shuffle {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .mode-toggle.ordered {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <button class="mode-toggle ordered" id="modeToggle" onclick="toggleMode()">🔢 顺序</button>
+
+    <div class="card">
+        <div class="emoji" id="emoji">🥬</div>
+        <div class="english" id="english">Chinese Cabbage</div>
+        <div class="chinese" id="chinese">白菜</div>
+        <div class="pronunciation" id="pronunciation">/ˌtʃaɪˈniːz ˈkæbɪdʒ/</div>
+        <button class="speak-btn" onclick="speak()">🔊 朗读</button>
+        <div class="nav">
+            <button class="nav-btn" onclick="prevWord()">⬅️ 上一个</button>
+            <button class="nav-btn" onclick="nextWord()">下一个 ➡️</button>
+        </div>
+    </div>
+    <div class="progress">
+        <span id="current">1</span> / <span id="total">40</span>
+    </div>
+
+    <script>
+        const originalWords = [
+            { emoji: "🥬", en: "Chinese Cabbage", zh: "白菜", pron: "/ˌtʃaɪˈniːz ˈkæbɪdʒ/" },
+            { emoji: "✈️", en: "Airplane", zh: "飞机", pron: "/ˈɛrpleɪn/" },
+            { emoji: "🚗", en: "Car", zh: "小汽车", pron: "/kɑːr/" },
+            { emoji: "🍉", en: "Watermelon", zh: "西瓜", pron: "/ˈwɔːtərmɛlən/" },
+            { emoji: "🍒", en: "Cherry", zh: "樱桃", pron: "/ˈtʃɛri/" },
+            { emoji: "🐧", en: "Penguin", zh: "企鹅", pron: "/ˈpɛŋɡwɪn/" },
+            { emoji: "🦉", en: "Owl", zh: "猫头鹰", pron: "/aʊl/" },
+            { emoji: "🐴", en: "Horse", zh: "马", pron: "/hɔːrs/" },
+            { emoji: "🐼", en: "Panda", zh: "熊猫", pron: "/ˈpændə/" },
+            { emoji: "🔺", en: "Triangle", zh: "三角形", pron: "/ˈtraɪæŋɡəl/" },
+            { emoji: "⭕", en: "Circle", zh: "圆形", pron: "/ˈsɜːrkəl/" },
+            { emoji: "🐤", en: "Chick", zh: "小鸡", pron: "/tʃɪk/" },
+            { emoji: "🐘", en: "Elephant", zh: "大象", pron: "/ˈɛlɪfənt/" },
+            { emoji: "👣", en: "Footprint", zh: "脚印", pron: "/ˈfʊtprɪnt/" },
+            { emoji: "✋", en: "Hand", zh: "手", pron: "/hænd/" },
+            { emoji: "🍓", en: "Strawberry", zh: "草莓", pron: "/ˈstrɔːbɛri/" },
+            { emoji: "🍇", en: "Grape", zh: "葡萄", pron: "/ɡreɪp/" },
+            { emoji: "🍐", en: "Pear", zh: "梨", pron: "/pɛr/" },
+            { emoji: "🍎", en: "Apple", zh: "苹果", pron: "/ˈæpəl/" },
+            { emoji: "☁️", en: "Cloudy", zh: "多云", pron: "/ˈklaʊdi/" },
+            { emoji: "🌙", en: "Night", zh: "晚上", pron: "/naɪt/" },
+            { emoji: "⭐", en: "Star", zh: "星星", pron: "/stɑːr/" },
+            { emoji: "❤️", en: "Heart", zh: "爱心", pron: "/hɑːrt/" },
+            { emoji: "🌟", en: "Star", zh: "五角星", pron: "/stɑːr/" },
+            { emoji: "👁️", en: "Eye", zh: "眼睛", pron: "/aɪ/" },
+            { emoji: "🌽", en: "Corn", zh: "玉米", pron: "/kɔːrn/" },
+            { emoji: "🍆", en: "Eggplant", zh: "茄子", pron: "/ˈɛɡplænt/" },
+            { emoji: "🐿️", en: "Squirrel", zh: "松鼠", pron: "/ˈskwɜːrəl/" },
+            { emoji: "🐌", en: "Snail", zh: "蜗牛", pron: "/sneɪl/" },
+            { emoji: "🍅", en: "Persimmon", zh: "柿子", pron: "/pərˈsɪmən/" },
+            { emoji: "🐝", en: "Bee", zh: "蜜蜂", pron: "/biː/" },
+            { emoji: "🦋", en: "Butterfly", zh: "蝴蝶", pron: "/ˈbʌtərflaɪ/" },
+            { emoji: "🐬", en: "Dolphin", zh: "海豚", pron: "/ˈdɑːlfɪn/" },
+            { emoji: "🐟", en: "Fish", zh: "鱼", pron: "/fɪʃ/" },
+            { emoji: "🐭", en: "Mouse", zh: "老鼠", pron: "/maʊs/" },
+            { emoji: "🐱", en: "Cat", zh: "猫儿", pron: "/kæt/" },
+            { emoji: "🐶", en: "Dog", zh: "小狗", pron: "/dɔːɡ/" },
+            { emoji: "🦆", en: "Duck", zh: "鸭子", pron: "/dʌk/" },
+            { emoji: "🐰", en: "Rabbit", zh: "小白兔", pron: "/ˈræbɪt/" }
+        ];
+
+        let words = [...originalWords];
+        let currentIndex = 0;
+        let isShuffle = false;
+        let lastIndex = -1;
+
+        function toggleMode() {
+            isShuffle = !isShuffle;
+            const btn = document.getElementById('modeToggle');
+
+            if (isShuffle) {
+                btn.textContent = "🔀 乱序";
+                btn.className = "mode-toggle shuffle";
+            } else {
+                const currentWord = words[currentIndex];
+                words = [...originalWords];
+                currentIndex = words.findIndex(w => w.en === currentWord.en);
+                if (currentIndex === -1) currentIndex = 0;
+                btn.textContent = "🔢 顺序";
+                btn.className = "mode-toggle ordered";
+            }
+            updateCard();
+        }
+
+        function getRandomIndex() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * words.length);
+            } while (newIndex === lastIndex && words.length > 1);
+            lastIndex = newIndex;
+            return newIndex;
+        }
+
+        function updateCard() {
+            const word = words[currentIndex];
+            document.getElementById('emoji').textContent = word.emoji;
+            document.getElementById('english').textContent = word.en;
+            document.getElementById('chinese').textContent = word.zh;
+            document.getElementById('pronunciation').textContent = word.pron;
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('total').textContent = words.length;
+        }
+
+        function nextWord() {
+            if (isShuffle) {
+                currentIndex = getRandomIndex();
+            } else {
+                currentIndex = (currentIndex + 1) % words.length;
+            }
+            updateCard();
+        }
+
+        function prevWord() {
+            if (isShuffle) {
+                currentIndex = getRandomIndex();
+            } else {
+                currentIndex = (currentIndex - 1 + words.length) % words.length;
+            }
+            updateCard();
+        }
+
+        function speak() {
+            const word = words[currentIndex];
+            const utterance = new SpeechSynthesisUtterance(word.en);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8;
+            utterance.pitch = 1.1;
+            speechSynthesis.speak(utterance);
+        }
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextWord();
+            if (e.key === 'ArrowLeft') prevWord();
+            if (e.key === ' ' || e.key === 'Enter') speak();
+            if (e.key === 's' || e.key === 'S') toggleMode();
+        });
+
+        updateCard();
+    </script>
+</body>
+</html>
