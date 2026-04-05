@@ -6,52 +6,26 @@
 
 ## 功能列表
 
-### 中文儿歌（20首）
+### 中文儿歌（7首）
 
 1. 两只老虎 - 动物认知
-2. 小星星 - 睡前安抚
-3. 一分钱 - 品德教育
-4. 小燕子 - 动物认知
+2. 世上只有妈妈好 - 亲情教育
+3. 娃哈哈 - 快乐童年
+4. 我上幼儿园 - 校园生活
 5. 拔萝卜 - 团队合作
-6. 找朋友 - 社交能力
-7. 丢手绢 - 游戏互动
-8. 小兔子乖乖 - 安全意识
-9. 世上只有妈妈好 - 亲情教育
-10. 小毛驴 - 动物认知
-11. 数鸭子 - 数学启蒙
-12. 采蘑菇的小姑娘 - 劳动教育
-13. 让我们荡起双桨 - 童年快乐
-14. 卖报歌 - 历史教育
-15. 娃哈哈 - 快乐童年
-16. 种太阳 - 想象力培养
-17. 读书郎 - 学习意识
-18. 蜗牛与黄鹂鸟 - 坚持精神
-19. 小螺号 - 海洋认知
-20. 春天在哪里 - 季节认知
+6. 甩葱歌 - 游戏互动
 
-### 英文儿歌（20首）
+### 英文儿歌（9首）
 
 1. Twinkle Twinkle Little Star - 睡前安抚
 2. ABC Song - 字母学习
-3. Happy Birthday - 节日祝福
-4. Row Row Row Your Boat - 动作协调
-5. Mary Had a Little Lamb - 动物认知
-6. London Bridge - 文化认知
-7. Old MacDonald Had a Farm - 动物叫声
-8. The Wheels on the Bus - 交通工具
-9. Head Shoulders Knees and Toes - 身体部位
-10. If You're Happy and You Know It - 情绪表达
-11. Baa Baa Black Sheep - 动物认知
-12. Hickory Dickory Dock - 数字认知
-13. Five Little Monkeys - 倒数练习
-14. Rain Rain Go Away - 自然现象
-15. Itsy Bitsy Spider - 动物认知
-16. Do-Re-Mi - 音乐启蒙
-17. You Are My Sunshine - 亲情表达
-18. Ring Around the Rosie - 游戏互动
-19. This Old Man - 数字认知
-20. London Bridge is Falling Down - 文化认知
-21. 3S儿歌
+3. Old MacDonald Had a Farm - 动物叫声
+4. The Wheels on the Bus - 交通工具
+5. Head Shoulders Knees and Toes - 身体部位
+6. Five Little Monkeys - 倒数练习
+7. Itsy Bitsy Spider - 动物认知
+8. Pat a Cake - 游戏互动
+9. One Little Finger - 身体部位
 
 ## 功能设计
 
@@ -86,11 +60,22 @@
 music/
 ├── index.html          # 音乐播放器页面
 ├── chinese/            # 中文儿歌音频文件夹
-│   └── 两只老虎.mp3    # 音频文件
+│   ├── 两只老虎.mp3
+│   ├── 世上只有妈妈好.mp3
+│   ├── 娃哈哈.mp3
+│   ├── 我上幼儿园.mp3
+│   ├── 拔萝卜.mp3
+│   └── 甩葱歌.mp3
 └── english/            # 英文儿歌音频文件夹
     ├── Twinkle Twinkle Little Star.mp3
     ├── abcsongs.mp3
-    └── ...
+    ├── OldMacDonald.mp3
+    ├── WheelsBus.mp3
+    ├── HeadShoulders.mp3
+    ├── Five little monkeys.mp3
+    ├── Eensy Weensy Spider.mp3
+    ├── Pat a cake.mp3
+    └── One little finger.mp3
 ```
 
 ### 歌曲数据更新脚本
@@ -106,9 +91,6 @@ node scripts/update_songs.js --update
 
 # 列出所有歌曲
 node scripts/update_songs.js --list
-
-# 生成 JavaScript 数据
-node scripts/update_songs.js --generate
 ```
 
 ### 添加新歌曲
