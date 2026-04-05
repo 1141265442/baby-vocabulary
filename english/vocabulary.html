@@ -295,7 +295,7 @@
         function speak() {
             // 检查浏览器支持
             if (!('speechSynthesis' in window)) {
-                alert('您的浏览器不支持语音功能\n请尝试使用 Safari 或 Chrome 浏览器');
+                alert('您的浏览器不支持语音功能\n建议安装 Chrome 浏览器使用');
                 return;
             }
 
@@ -303,29 +303,16 @@
             speechSynthesis.cancel();
 
             const word = words[currentIndex];
-            const utterance = new SpeechSynthesisUtterance(word.en);
-
-            // 基础设置（移动端兼容）
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-
-            // 尝试设置英文语音（可选，不强制）
-            try {
-                const voices = speechSynthesis.getVoices();
-                const englishVoice = voices.find(v => v.lang && v.lang.startsWith('en'));
-                if (englishVoice) {
-                    utterance.voice = englishVoice;
-                }
-            } catch (e) {
-                console.log('Voice selection skipped:', e);
-            }
-
-            // 视觉反馈
             const btn = document.getElementById('speakBtn');
             btn.classList.add('speaking');
             btn.textContent = '🔊 播放中...';
+
+            // 鸿蒙/国产浏览器兼容：使用最简单的配置
+            const utterance = new SpeechSynthesisUtterance(word.en);
+            utterance.lang = 'en';
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
 
             // 事件处理
             utterance.onend = function() {
@@ -337,20 +324,13 @@
                 console.log('Speech error:', event.error);
                 btn.classList.remove('speaking');
                 btn.textContent = '🔊 朗读';
-
-                // iOS特殊处理：重试一次
-                if (event.error === 'canceled' || event.error === 'interrupted') {
-                    setTimeout(() => {
-                        const retry = new SpeechSynthesisUtterance(word.en);
-                        retry.lang = 'en-US';
-                        retry.rate = 0.9;
-                        speechSynthesis.speak(retry);
-                    }, 100);
-                }
+                alert('语音播放失败，请检查：\n1. 手机是否开启音量\n2. 或尝试使用 Chrome 浏览器');
             };
 
-            // 播放
-            speechSynthesis.speak(utterance);
+            // 延迟播放（确保语音引擎准备就绪）
+            setTimeout(() => {
+                speechSynthesis.speak(utterance);
+            }, 50);
         }
 
         // 绑定事件（使用addEventListener确保移动端兼容）
