@@ -12,78 +12,150 @@
         }
 
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Comic Sans MS', 'YouYuan', cursive, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            padding: 20px;
+            background: linear-gradient(180deg, #FFE5EC 0%, #E8F5FF 30%, #FFF0E5 60%, #F0FFF4 100%);
+            padding: 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 装饰性背景元素 */
+        .bg-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .bg-decoration.star {
+            font-size: 30px;
+            animation: twinkle 2s infinite;
+        }
+
+        .bg-decoration.cloud {
+            font-size: 60px;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
         .header {
             text-align: center;
-            padding: 30px 20px;
-            color: white;
+            padding: 25px 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-emoji {
+            font-size: 70px;
+            animation: bounce 1s infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         .header h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 42px;
+            margin: 15px 0 8px;
+            color: #FF6B9D;
+            text-shadow: 3px 3px 0 #FFE5EC, 5px 5px 10px rgba(255,107,157,0.3);
         }
 
         .header p {
-            font-size: 20px;
-            opacity: 0.9;
+            font-size: 18px;
+            color: #7CB9E8;
+            font-weight: bold;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .section-title {
-            color: white;
-            font-size: 28px;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            font-size: 26px;
+            margin-bottom: 18px;
+            padding-left: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            color: #FF6B9D;
+            font-weight: bold;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 6px;
+            height: 30px;
+            background: linear-gradient(180deg, #FF6B9D, #FFD93D);
+            border-radius: 10px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 18px;
         }
 
         .card {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 30px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
             position: relative;
             overflow: hidden;
+            border: 4px solid transparent;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #FF6B9D, #FFD93D, #6BCB77, #4D96FF);
+            border-radius: 30px 30px 0 0;
+        }
+
+        .card:hover:not(.disabled) {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255,107,157,0.3);
+            border-color: #FFD93D;
+        }
+
+        .card:active:not(.disabled) {
+            transform: translateY(-5px) scale(0.98);
         }
 
         .card.disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
-            filter: grayscale(0.5);
+            filter: saturate(0.3);
         }
 
         .card.disabled:hover {
@@ -91,100 +163,196 @@
         }
 
         .card-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
+            font-size: 70px;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: iconFloat 3s infinite ease-in-out;
+        }
+
+        .card:nth-child(1) .card-icon { animation-delay: 0s; }
+        .card:nth-child(2) .card-icon { animation-delay: 0.2s; }
+        .card:nth-child(3) .card-icon { animation-delay: 0.4s; }
+        .card:nth-child(4) .card-icon { animation-delay: 0.6s; }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(5deg); }
         }
 
         .card-title {
-            font-size: 22px;
+            font-size: 20px;
             color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
         .card-desc {
             font-size: 14px;
-            color: #888;
+            color: #999;
         }
 
         .badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 5px 12px;
+            top: 12px;
+            right: 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
         }
 
         .badge.done {
-            background: #4caf50;
+            background: linear-gradient(135deg, #6BCB77, #4CAF50);
             color: white;
+            animation: pulse 2s infinite;
         }
 
         .badge.soon {
-            background: #ff9800;
+            background: linear-gradient(135deg, #FFD93D, #FF9F1C);
             color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .footer {
             text-align: center;
-            padding: 30px;
-            color: white;
-            opacity: 0.8;
+            padding: 25px;
+            color: #FF6B9D;
+            font-size: 16px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
         }
 
+        .footer-emoji {
+            font-size: 25px;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+        }
+
+        /* 移动端优化 */
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 32px;
             }
+            .header-emoji {
+                font-size: 55px;
+            }
+            .header p {
+                font-size: 16px;
+            }
             .grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                gap: 12px;
             }
             .card {
-                padding: 20px 15px;
+                padding: 25px 15px;
             }
             .card-icon {
-                font-size: 45px;
+                font-size: 55px;
             }
             .card-title {
-                font-size: 18px;
+                font-size: 17px;
             }
+            .card-desc {
+                font-size: 12px;
+            }
+            .section-title {
+                font-size: 22px;
+            }
+        }
+
+        /* 卡片进入动画 */
+        .card {
+            animation: slideIn 0.6s ease-out backwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+        .card:nth-child(5) { animation-delay: 0.25s; }
+        .card:nth-child(6) { animation-delay: 0.3s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 可点击提示 */
+        .card:not(.disabled)::after {
+            content: '👆';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:not(.disabled):hover::after {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
+    <!-- 装饰背景 -->
+    <div class="bg-decoration star" style="top: 10%; left: 5%;">⭐</div>
+    <div class="bg-decoration star" style="top: 15%; right: 10%; animation-delay: 0.5s;">✨</div>
+    <div class="bg-decoration star" style="top: 40%; left: 8%; animation-delay: 1s;">🌟</div>
+    <div class="bg-decoration star" style="top: 60%; right: 5%; animation-delay: 1.5s;">💫</div>
+    <div class="bg-decoration cloud" style="top: 5%; right: 15%;">☁️</div>
+    <div class="bg-decoration cloud" style="bottom: 10%; left: 10%; animation-delay: 2s;">☁️</div>
+
     <div class="header">
-        <h1>👶 宝宝启蒙学习</h1>
-        <p>0-6岁儿童趣味学习平台</p>
+        <div class="header-emoji">👶</div>
+        <h1>宝宝启蒙学习</h1>
+        <p>快乐学习 · 茁壮成长 · 0-6岁</p>
     </div>
 
     <div class="container">
         <!-- 语言启蒙 -->
         <div class="section">
-            <h2 class="section-title">📚 语言启蒙</h2>
+            <h2 class="section-title">📚 语言学习</h2>
             <div class="grid">
                 <a href="english/vocabulary.html" class="card">
-                    <span class="badge done">已完成</span>
+                    <span class="badge done">✓ 完成</span>
                     <div class="card-icon">🔤</div>
                     <div class="card-title">英语词汇</div>
-                    <div class="card-desc">40个基础单词</div>
+                    <div class="card-desc">40个单词</div>
                 </a>
                 <div class="card disabled">
-                    <span class="badge soon">即将上线</span>
-                    <div class="card-icon">🔡</div>
+                    <span class="badge soon">🔜 即将</span>
+                    <div class="card-icon">🅰️</div>
                     <div class="card-title">英语字母</div>
-                    <div class="card-desc">A-Z 学习</div>
+                    <div class="card-desc">A-Z</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
-                    <div class="card-icon">🅰️</div>
+                    <span class="badge soon">🔜 即将</span>
+                    <div class="card-icon">🆎</div>
                     <div class="card-title">中文拼音</div>
                     <div class="card-desc">声母韵母</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">✍️</div>
                     <div class="card-title">汉字笔画</div>
                     <div class="card-desc">基础汉字</div>
@@ -194,65 +362,65 @@
 
         <!-- 认知启蒙 -->
         <div class="section">
-            <h2 class="section-title">🧠 认知启蒙</h2>
+            <h2 class="section-title">🧠 认知世界</h2>
             <div class="grid">
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🔢</div>
                     <div class="card-title">认数字</div>
-                    <div class="card-desc">1-100 数字</div>
+                    <div class="card-desc">1-100</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🔺</div>
                     <div class="card-title">形状认知</div>
-                    <div class="card-desc">几何形状</div>
+                    <div class="card-desc">各种形状</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🎨</div>
                     <div class="card-title">颜色认知</div>
                     <div class="card-desc">认识颜色</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🐾</div>
                     <div class="card-title">动物世界</div>
                     <div class="card-desc">可爱动物</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🍎</div>
                     <div class="card-title">水果蔬菜</div>
                     <div class="card-desc">健康食物</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🚗</div>
                     <div class="card-title">交通工具</div>
-                    <div class="card-desc">各种车辆</div>
+                    <div class="card-desc">各种车车</div>
                 </div>
             </div>
         </div>
 
         <!-- 生活启蒙 -->
         <div class="section">
-            <h2 class="section-title">🏠 生活启蒙</h2>
+            <h2 class="section-title">🏠 生活常识</h2>
             <div class="grid">
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">👨‍👩‍👧‍👦</div>
                     <div class="card-title">家庭成员</div>
-                    <div class="card-desc">认识家人</div>
+                    <div class="card-desc">我的家人</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">👂</div>
                     <div class="card-title">身体部位</div>
-                    <div class="card-desc">认识身体</div>
+                    <div class="card-desc">我的身体</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">👕</div>
                     <div class="card-title">日常用品</div>
                     <div class="card-desc">生活物品</div>
@@ -262,22 +430,22 @@
 
         <!-- 艺术启蒙 -->
         <div class="section">
-            <h2 class="section-title">🎨 艺术启蒙</h2>
+            <h2 class="section-title">🎨 艺术音乐</h2>
             <div class="grid">
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🖍️</div>
                     <div class="card-title">在线涂色</div>
                     <div class="card-desc">创意涂色</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">✏️</div>
                     <div class="card-title">简笔画</div>
                     <div class="card-desc">跟着画</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🎵</div>
                     <div class="card-title">儿歌欣赏</div>
                     <div class="card-desc">经典儿歌</div>
@@ -287,26 +455,28 @@
 
         <!-- 故事启蒙 -->
         <div class="section">
-            <h2 class="section-title">📖 故事启蒙</h2>
+            <h2 class="section-title">📖 故事时间</h2>
             <div class="grid">
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🌙</div>
                     <div class="card-title">睡前故事</div>
                     <div class="card-desc">温馨故事</div>
                 </div>
                 <div class="card disabled">
-                    <span class="badge soon">规划中</span>
+                    <span class="badge soon">🔜 即将</span>
                     <div class="card-icon">🦊</div>
                     <div class="card-title">寓言故事</div>
-                    <div class="card-desc">教育寓言</div>
+                    <div class="card-desc">聪明故事</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <p>💜 用爱陪伴宝宝成长 💜</p>
+        <span class="footer-emoji">💖</span>
+        用爱陪伴宝宝健康成长
+        <span class="footer-emoji">💖</span>
     </div>
 </body>
 </html>
