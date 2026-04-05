@@ -845,15 +845,7 @@ const bedtimeStories = [
                 });
 
                 const paragraph = paragraphs[paragraphIndex];
-                
-                // 根据段落长度动态调整停顿时间
-                const wordCount = paragraph.length;
-                const pauseTime = Math.max(4000, Math.min(8000, wordCount * 25));
-                
-                speak(paragraph);
-
-                paragraphIndex++;
-                setTimeout(readParagraph, pauseTime);
+                speak(paragraph, () => { paragraphIndex++; readParagraph(); });
             }
 
             readParagraph();
@@ -936,8 +928,11 @@ const bedtimeStories = [
         let availableVoices = [];
         let currentAudio = null;
         
-        function speak(text) {
-            if (!('speechSynthesis' in window)) return;
+        function speak(text, callback = null) {
+            if (!('speechSynthesis' in window)) {
+                if (callback) callback();
+                return;
+            }
             speechSynthesis.cancel();
             
             // 处理文本，添加更自然的停顿
@@ -968,6 +963,14 @@ const bedtimeStories = [
             utterance.rate = 0.82;      // 稍微再慢一点
             utterance.pitch = 0.95;     // 稍微降低音调，更温柔
             utterance.volume = 0.95;    // 稍微降低音量，更柔和
+            
+            // 读完后的回调
+            if (callback) {
+                utterance.onend = () => {
+                    // 添加一点停顿再读下一段
+                    setTimeout(callback, 800);
+                };
+            }
             
             speechSynthesis.speak(utterance);
         }
