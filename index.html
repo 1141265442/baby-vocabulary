@@ -13,45 +13,9 @@
 
         /* 温柔模式 - 清晰模式样式 */
         :root {
-            /* 背景 */
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F8F9FA;
-
-            /* 更饱和的颜色 */
-            --macaron-blue: #7AB8E8;
-            --macaron-pink: #FF8A9A;
-            --macaron-peach: #FFB86A;
-            --macaron-mint: #7AC8A8;
-            --macaron-lavender: #B898D8;
-            --macaron-yellow: #FFE06A;
-
-            /* 文字 - 更深 */
-            --text-primary: #2A2A2A;
-            --text-secondary: #5A5A5A;
-            --text-tertiary: #8A8A8A;
-
-            /* 功能色 */
-            --success: #5AB88A;
-            --pending: #FFA060;
-
-            /* 阴影 - 更明显 */
-            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.18);
-
-            /* UI */
-            --toggle-bg: rgba(255, 255, 255, 0.95);
-            --toggle-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            --card-border: 2px solid transparent;
-            --section-divider: rgba(200, 180, 160, 0.3);
-        }
-
-        /* 温馨模式 - 清晰模式样式 */
-        [data-theme="warm"] {
             /* 背景 - 偏暗色 */
             --bg-primary: #F0F2F5;
             --bg-secondary: #E4E7EB;
-            --bg-card: #FFFFFF;
 
             /* 更饱和的颜色 */
             --macaron-blue: #7AB8E8;
@@ -80,6 +44,42 @@
             --toggle-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             --card-border: 2px solid transparent;
             --section-divider: rgba(150, 150, 150, 0.3);
+        }
+
+        /* 温馨模式 - 柔和马卡龙样式 */
+        [data-theme="warm"] {
+            /* 背景 - 温暖柔和 */
+            --bg-primary: #FFFBF7;
+            --bg-secondary: #FFF5ED;
+            --bg-card: #FFFFFF;
+
+            /* 柔和马卡龙色 */
+            --macaron-blue: #B8D4F0;
+            --macaron-pink: #FFB5C5;
+            --macaron-peach: #FFD4B8;
+            --macaron-mint: #B8E8D8;
+            --macaron-lavender: #D8C8F0;
+            --macaron-yellow: #FFF0B8;
+
+            /* 文字 */
+            --text-primary: #5A4A4A;
+            --text-secondary: #8A7A7A;
+            --text-tertiary: #AAA0A0;
+
+            /* 功能色 */
+            --success: #7AC89A;
+            --pending: #FFB888;
+
+            /* 阴影 */
+            --shadow-sm: 0 2px 12px rgba(100, 80, 60, 0.08);
+            --shadow-md: 0 6px 24px rgba(100, 80, 60, 0.12);
+            --shadow-lg: 0 12px 40px rgba(100, 80, 60, 0.18);
+
+            /* UI */
+            --toggle-bg: rgba(255, 255, 255, 0.9);
+            --toggle-shadow: 0 4px 20px rgba(100, 80, 60, 0.15);
+            --card-border: 2px solid transparent;
+            --section-divider: rgba(200, 180, 160, 0.3);
         }
 
         body {
@@ -248,11 +248,11 @@
         .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
 
         /* 温馨模式的卡片背景 - 更明显的渐变 */
-        [data-theme="warm"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-blue) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-pink) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-peach) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-mint) 100%); }
-        [data-theme="warm"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-blue) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-pink) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-peach) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-mint) 100%); }
+        [data-theme="warm"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, var(--macaron-lavender) 100%); }
 
         .card:hover:not(.disabled) {
             transform: translateY(-8px);
@@ -414,7 +414,7 @@
         /* 温馨模式的背景点 - 更明显 */
         [data-theme="warm"] .bg-dot {
             display: block;
-            background: rgba(100, 100, 100, 0.15);
+            background: rgba(180, 160, 140, 0.2);
         }
 
         .bg-dot:nth-child(1) { top: 8%; left: 6%; }
