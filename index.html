@@ -11,19 +11,20 @@
             box-sizing: border-box;
         }
 
-        /* 默认温馨主题 */
+        /* 温柔模式 - 默认 */
         :root {
             /* 背景 */
             --bg-primary: #FFFBF7;
             --bg-secondary: #FFF5ED;
+            --bg-card: #FFFFFF;
 
-            /* 马卡龙色 */
+            /* 柔和马卡龙色 */
             --macaron-blue: #B8D4F0;
             --macaron-pink: #FFB5C5;
             --macaron-peach: #FFD4B8;
             --macaron-mint: #B8E8D8;
             --macaron-lavender: #D8C8F0;
-            --macaron-lemon: #FFF0B8;
+            --macaron-yellow: #FFF0B8;
 
             /* 文字 */
             --text-primary: #5A4A4A;
@@ -39,52 +40,57 @@
             --shadow-md: 0 6px 24px rgba(100, 80, 60, 0.12);
             --shadow-lg: 0 12px 40px rgba(100, 80, 60, 0.18);
 
-            /* 切换按钮 */
+            /* UI */
             --toggle-bg: rgba(255, 255, 255, 0.9);
             --toggle-shadow: 0 4px 20px rgba(100, 80, 60, 0.15);
+            --card-border: 2px solid transparent;
+            --section-divider: rgba(200, 180, 160, 0.3);
         }
 
-        /* 清晰主题 */
-        [data-theme="clear"] {
+        /* 温馨模式 - Dashboard 风格 */
+        [data-theme="dashboard"] {
             /* 背景 */
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F8F9FA;
+            --bg-primary: #F8FAFC;
+            --bg-secondary: #F1F5F9;
+            --bg-card: #FFFFFF;
 
-            /* 更饱和的颜色 */
-            --macaron-blue: #7AB8E8;
-            --macaron-pink: #FF8A9A;
-            --macaron-peach: #FFB86A;
-            --macaron-mint: #7AC8A8;
-            --macaron-lavender: #B898D8;
-            --macaron-lemon: #FFE06A;
+            /* 更饱和的配色 */
+            --macaron-blue: #3B82F6;
+            --macaron-pink: #EC4899;
+            --macaron-peach: #F97316;
+            --macaron-mint: #10B981;
+            --macaron-lavender: #8B5CF6;
+            --macaron-yellow: #EAB308;
 
-            /* 文字 - 更深 */
-            --text-primary: #2A2A2A;
-            --text-secondary: #5A5A5A;
-            --text-tertiary: #8A8A8A;
+            /* 文字 - 更清晰 */
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-tertiary: #94A3B8;
 
             /* 功能色 */
-            --success: #5AB88A;
-            --pending: #FFA060;
+            --success: #22C55E;
+            --pending: #F59E0B;
 
             /* 阴影 - 更明显 */
-            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.18);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
 
-            /* 切换按钮 */
-            --toggle-bg: rgba(255, 255, 255, 0.95);
-            --toggle-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            /* UI */
+            --toggle-bg: #FFFFFF;
+            --toggle-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            --card-border: 1px solid rgba(0, 0, 0, 0.08);
+            --section-divider: rgba(0, 0, 0, 0.08);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            padding: 40px 24px;
+            background: var(--bg-primary);
+            padding: 32px 24px;
             color: var(--text-primary);
-            line-height: 1.5;
-            transition: background 0.4s ease, color 0.4s ease;
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         /* 主题切换按钮 */
@@ -94,9 +100,9 @@
             right: 20px;
             z-index: 1000;
             background: var(--toggle-bg);
-            border: none;
-            padding: 12px 16px;
-            border-radius: 50px;
+            border: var(--card-border);
+            padding: 11px 18px;
+            border-radius: 12px;
             cursor: pointer;
             box-shadow: var(--toggle-shadow);
             display: flex;
@@ -105,116 +111,141 @@
             font-size: 14px;
             font-weight: 500;
             color: var(--text-primary);
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         .theme-toggle:hover {
-            transform: scale(1.05);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .theme-toggle:active {
-            transform: scale(0.98);
+            transform: translateY(0);
         }
 
         .theme-icon {
-            font-size: 18px;
+            font-size: 17px;
         }
 
         .header {
             text-align: center;
-            padding: 50px 16px 60px;
-            max-width: 580px;
+            padding: 40px 16px 50px;
+            max-width: 640px;
             margin: 0 auto;
         }
 
         .header-logo {
-            font-size: 52px;
+            font-size: 48px;
             margin-bottom: 16px;
-            filter: drop-shadow(0 2px 8px rgba(255, 150, 150, 0.2));
         }
 
         .header h1 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            transition: color 0.4s ease;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
 
         .header p {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-secondary);
             font-weight: 400;
-            transition: color 0.4s ease;
+            transition: color 0.3s ease;
         }
 
         .container {
-            max-width: 1080px;
+            max-width: 1120px;
             margin: 0 auto;
         }
 
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 44px;
         }
 
         .section-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 22px;
-            padding-left: 4px;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-left: 0;
+        }
+
+        [data-theme="dashboard"] .section-header {
+            margin-bottom: 18px;
         }
 
         .section-icon {
-            font-size: 22px;
+            font-size: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             background: var(--bg-secondary);
-            border-radius: 12px;
-            transition: background 0.4s ease;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .section-icon {
+            background: var(--bg-card);
+            border: var(--card-border);
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: 0.5px;
-            transition: color 0.4s ease;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
 
         .section-line {
             flex: 1;
             height: 2px;
-            background: linear-gradient(90deg, rgba(200, 180, 160, 0.3) 0%, transparent 100%);
+            background: linear-gradient(90deg, var(--section-divider) 0%, transparent 100%);
             border-radius: 1px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        [data-theme="dashboard"] .grid {
+            gap: 14px;
         }
 
         .card {
-            background: #FFFFFF;
-            border-radius: 22px;
-            padding: 32px 20px 28px;
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 28px 18px 24px;
             text-align: center;
             box-shadow: var(--shadow-sm);
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: var(--card-border);
+            transition: all 0.3s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 2px solid transparent;
             position: relative;
             overflow: hidden;
+        }
+
+        [data-theme="dashboard"] .card {
+            border-radius: 14px;
+            padding: 20px 16px 18px;
         }
 
         .card::before {
@@ -223,9 +254,15 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            border-radius: 22px 22px 0 0;
-            opacity: 0.8;
+            height: 3px;
+            border-radius: 18px 18px 0 0;
+            opacity: 0.75;
+        }
+
+        [data-theme="dashboard"] .card::before {
+            height: 2px;
+            border-radius: 14px 14px 0 0;
+            opacity: 1;
         }
 
         /* 不同卡片的顶部色条 */
@@ -236,35 +273,41 @@
         .card:nth-child(5n+5)::before { background: var(--macaron-lavender); }
 
         /* 不同卡片的背景渐变 */
-        .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-blue) 100%); }
-        .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-pink) 100%); }
-        .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-peach) 100%); }
-        .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-mint) 100%); }
-        .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 0%, var(--macaron-lavender) 100%); }
+        .card:nth-child(5n+1) { background: linear-gradient(180deg, var(--bg-card) 0%, var(--macaron-blue) 100%); }
+        .card:nth-child(5n+2) { background: linear-gradient(180deg, var(--bg-card) 0%, var(--macaron-pink) 100%); }
+        .card:nth-child(5n+3) { background: linear-gradient(180deg, var(--bg-card) 0%, var(--macaron-peach) 100%); }
+        .card:nth-child(5n+4) { background: linear-gradient(180deg, var(--bg-card) 0%, var(--macaron-mint) 100%); }
+        .card:nth-child(5n+5) { background: linear-gradient(180deg, var(--bg-card) 0%, var(--macaron-lavender) 100%); }
 
-        /* 清晰主题的卡片背景 - 更明显的渐变 */
-        [data-theme="clear"] .card:nth-child(5n+1) { background: linear-gradient(180deg, #FFFFFF 20%, #E8F4FF 100%); }
-        [data-theme="clear"] .card:nth-child(5n+2) { background: linear-gradient(180deg, #FFFFFF 20%, #FFE8F0 100%); }
-        [data-theme="clear"] .card:nth-child(5n+3) { background: linear-gradient(180deg, #FFFFFF 20%, #FFF0E0 100%); }
-        [data-theme="clear"] .card:nth-child(5n+4) { background: linear-gradient(180deg, #FFFFFF 20%, #E8FFF4 100%); }
-        [data-theme="clear"] .card:nth-child(5n+5) { background: linear-gradient(180deg, #FFFFFF 20%, #F4E8FF 100%); }
-
-        .card:hover:not(.disabled) {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(180, 160, 140, 0.2);
+        /* Dashboard 模式的卡片 - 纯白背景带彩色左边框 */
+        [data-theme="dashboard"] .card {
+            background: var(--bg-card) !important;
         }
 
-        [data-theme="clear"] .card:hover:not(.disabled) {
-            border-color: rgba(0, 0, 0, 0.15);
+        [data-theme="dashboard"] .card::before {
+            width: 3px;
+            height: 100%;
+            border-radius: 0;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .card:hover:not(.disabled) {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        [data-theme="dashboard"] .card:hover:not(.disabled) {
+            border-color: var(--macaron-blue);
         }
 
         .card:active:not(.disabled) {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
         }
 
         .card.disabled {
-            opacity: 0.5;
+            opacity: 0.45;
             cursor: default;
         }
 
@@ -273,15 +316,15 @@
         }
 
         .card-icon {
-            font-size: 54px;
-            margin-bottom: 12px;
+            font-size: 48px;
+            margin-bottom: 10px;
             display: inline-block;
-            transition: transform 0.3s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+            transition: transform 0.25s ease;
         }
 
-        [data-theme="clear"] .card-icon {
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+        [data-theme="dashboard"] .card-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
         }
 
         .card:hover:not(.disabled) .card-icon {
@@ -289,31 +332,49 @@
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 4px;
-            letter-spacing: 0.5px;
-            transition: color 0.4s ease;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .card-title {
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .card-desc {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
             font-weight: 400;
-            transition: color 0.4s ease;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .card-desc {
+            font-size: 12px;
+            color: var(--text-tertiary);
         }
 
         .badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 11px;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.3px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dashboard"] .badge {
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .badge.done {
@@ -328,97 +389,111 @@
 
         .footer {
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 50px 20px 30px;
             color: var(--text-tertiary);
             font-size: 13px;
-            transition: color 0.4s ease;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .footer {
+            padding: 40px 20px 24px;
+            font-size: 12px;
         }
 
         .footer-text {
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
 
         /* 移动端优化 */
         @media (max-width: 600px) {
             body {
-                padding: 20px 16px;
+                padding: 16px 14px;
             }
 
             .theme-toggle {
-                top: 16px;
-                right: 16px;
-                padding: 10px 14px;
+                top: 14px;
+                right: 14px;
+                padding: 9px 14px;
                 font-size: 13px;
             }
 
             .theme-icon {
-                font-size: 16px;
+                font-size: 15px;
             }
 
             .header {
-                padding: 35px 12px 45px;
+                padding: 30px 8px 36px;
             }
 
             .header-logo {
-                font-size: 44px;
+                font-size: 40px;
             }
 
             .header h1 {
-                font-size: 28px;
+                font-size: 26px;
             }
 
             .header p {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+                gap: 10px;
             }
 
             .card {
-                padding: 26px 16px 22px;
-                border-radius: 18px;
+                padding: 22px 14px 18px;
+                border-radius: 14px;
+            }
+
+            [data-theme="dashboard"] .card {
+                padding: 18px 12px 14px;
+                border-radius: 12px;
             }
 
             .card-icon {
-                font-size: 44px;
+                font-size: 38px;
+            }
+
+            [data-theme="dashboard"] .card-icon {
+                font-size: 34px;
             }
 
             .card-title {
-                font-size: 15px;
+                font-size: 14px;
             }
 
             .card-desc {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .section {
-                margin-bottom: 38px;
+                margin-bottom: 32px;
             }
 
             .badge {
-                padding: 4px 10px;
-                font-size: 10px;
+                padding: 3px 8px;
+                font-size: 9px;
             }
         }
 
         /* 页面加载动画 */
         .card {
-            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+            animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
         }
 
-        .card:nth-child(1) { animation-delay: 0.04s; }
-        .card:nth-child(2) { animation-delay: 0.08s; }
-        .card:nth-child(3) { animation-delay: 0.12s; }
-        .card:nth-child(4) { animation-delay: 0.16s; }
-        .card:nth-child(5) { animation-delay: 0.20s; }
-        .card:nth-child(6) { animation-delay: 0.24s; }
+        .card:nth-child(1) { animation-delay: 0.03s; }
+        .card:nth-child(2) { animation-delay: 0.06s; }
+        .card:nth-child(3) { animation-delay: 0.09s; }
+        .card:nth-child(4) { animation-delay: 0.12s; }
+        .card:nth-child(5) { animation-delay: 0.15s; }
+        .card:nth-child(6) { animation-delay: 0.18s; }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -426,14 +501,19 @@
             }
         }
 
-        /* 简洁装饰 */
+        /* 简洁装饰 - 只在温柔模式显示 */
         .bg-dot {
             position: fixed;
-            width: 4px;
-            height: 4px;
-            background: rgba(180, 160, 140, 0.2);
+            width: 3px;
+            height: 3px;
+            background: rgba(180, 160, 140, 0.15);
             border-radius: 50%;
             pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        [data-theme="dashboard"] .bg-dot {
+            opacity: 0;
         }
 
         .bg-dot:nth-child(1) { top: 8%; left: 6%; }
@@ -454,8 +534,8 @@
 
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-        <span class="theme-icon" id="themeIcon">🌙</span>
-        <span id="themeText">清晰模式</span>
+        <span class="theme-icon" id="themeIcon">📊</span>
+        <span id="themeText">温馨模式</span>
     </button>
 
     <div class="header">
@@ -638,7 +718,7 @@
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'clear' ? 'warm' : 'clear';
+            const newTheme = currentTheme === 'dashboard' ? 'gentle' : 'dashboard';
 
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
@@ -649,18 +729,18 @@
             const icon = document.getElementById('themeIcon');
             const text = document.getElementById('themeText');
 
-            if (theme === 'clear') {
-                icon.textContent = '☀️';
-                text.textContent = '温馨模式';
+            if (theme === 'dashboard') {
+                icon.textContent = '🌸';
+                text.textContent = '温柔模式';
             } else {
-                icon.textContent = '🌙';
-                text.textContent = '清晰模式';
+                icon.textContent = '📊';
+                text.textContent = '温馨模式';
             }
         }
 
         // 页面加载时应用保存的主题
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'warm';
+            const savedTheme = localStorage.getItem('theme') || 'gentle';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateToggleButton(savedTheme);
         });
