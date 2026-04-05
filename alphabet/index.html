@@ -247,39 +247,6 @@
             font-size: 16px;
         }
 
-        /* 配对游戏 */
-        .matching-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .match-card {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--macaron-pink), var(--macaron-blue));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .match-card.flipped {
-            background: white;
-            color: var(--macaron-pink);
-            border: 3px solid var(--macaron-pink);
-        }
-
-        .match-card.matched {
-            visibility: hidden;
-            opacity: 0;
-        }
-
         /* 气球游戏 */
         .balloon-game {
             background: var(--bg-card);
@@ -359,54 +326,192 @@
         .match-item.selected { background: var(--macaron-pink); color: white; }
         .match-item.matched { background: var(--success); color: white; }
 
-        /* 字母歌 */
-        .song-display {
+        /* 拖拽拼写游戏 */
+        .spelling-game {
             background: var(--bg-card);
             border-radius: 20px;
-            padding: 30px;
+            padding: 24px;
             box-shadow: var(--shadow-lg);
-            text-align: center;
         }
 
-        .song-letters {
+        .spelling-image {
+            text-align: center;
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .spelling-word {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
-            margin: 20px 0;
+            margin-bottom: 24px;
+            min-height: 50px;
         }
 
-        .song-letter {
-            font-size: 32px;
-            font-weight: 600;
-            padding: 10px 14px;
-            border-radius: 12px;
+        .spelling-slot {
+            width: 44px;
+            height: 50px;
+            border: 3px dashed var(--macaron-blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
             background: var(--bg-secondary);
-            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
-        .song-letter.active {
-            background: linear-gradient(135deg, var(--macaron-pink), var(--macaron-blue));
-            color: white;
-            transform: scale(1.2);
+        .spelling-slot.filled {
+            border-style: solid;
+            border-color: var(--success);
+            background: white;
         }
 
-        .song-controls {
+        .letter-pool {
             display: flex;
             justify-content: center;
-            gap: 16px;
-            margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
 
-        .song-btn {
+        .pool-letter {
+            width: 46px;
+            height: 46px;
             background: linear-gradient(135deg, var(--macaron-pink), var(--macaron-blue));
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: 700;
             cursor: pointer;
-            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .pool-letter:hover { transform: scale(1.1); }
+        .pool-letter.used { opacity: 0.3; pointer-events: none; }
+
+        .spelling-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* 描红游戏 */
+        .tracing-game {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tracing-canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tracing-canvas {
+            border: 3px dashed var(--macaron-blue);
+            border-radius: 15px;
+            background: var(--bg-secondary);
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .tracing-letter {
+            position: absolute;
+            font-size: 180px;
+            font-weight: 700;
+            color: rgba(255, 156, 170, 0.2);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tracing-info {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .tracing-hint {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        /* 捉迷藏游戏 */
+        .hide-seek-game {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .hide-target {
+            text-align: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--macaron-pink);
+            margin-bottom: 16px;
+        }
+
+        .hide-area {
+            position: relative;
+            height: 320px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .hidden-letter {
+            position: absolute;
+            font-size: 32px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .hidden-letter {
+            background: linear-gradient(135deg, var(--macaron-peach), var(--macaron-yellow));
+            color: var(--text-primary);
+        }
+
+        .hidden-letter.found {
+            animation: found 0.5s ease forwards;
+        }
+
+        @keyframes found {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3) rotate(10deg); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .decoration {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .hide-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
         }
 
         .success-msg {
@@ -421,7 +526,6 @@
 
         @media (min-width: 768px) {
             .mode-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
-            .matching-grid { grid-template-columns: repeat(6, 1fr); }
             .letter-upper { font-size: 120px; }
             .letter-lower { font-size: 90px; }
         }
@@ -448,11 +552,6 @@
                 <div class="mode-name">字母卡片</div>
                 <div class="mode-desc">学习26个字母</div>
             </div>
-            <div class="mode-card" onclick="startMatchingMode()">
-                <div class="mode-icon">🃏</div>
-                <div class="mode-name">字母配对</div>
-                <div class="mode-desc">记忆翻牌游戏</div>
-            </div>
             <div class="mode-card" onclick="startBalloonMode()">
                 <div class="mode-icon">🎈</div>
                 <div class="mode-name">气球大爆炸</div>
@@ -463,10 +562,20 @@
                 <div class="mode-name">字母连线</div>
                 <div class="mode-desc">大小写配对</div>
             </div>
-            <div class="mode-card" onclick="startSongMode()">
-                <div class="mode-icon">🎵</div>
-                <div class="mode-name">字母歌</div>
-                <div class="mode-desc">ABC歌曲</div>
+            <div class="mode-card" onclick="startSpellingMode()">
+                <div class="mode-icon">✏️</div>
+                <div class="mode-name">字母拼写</div>
+                <div class="mode-desc">拖拽拼单词</div>
+            </div>
+            <div class="mode-card" onclick="startTracingMode()">
+                <div class="mode-icon">✍️</div>
+                <div class="mode-name">字母描红</div>
+                <div class="mode-desc">跟着画字母</div>
+            </div>
+            <div class="mode-card" onclick="startHideSeekMode()">
+                <div class="mode-icon">🔍</div>
+                <div class="mode-name">捉迷藏</div>
+                <div class="mode-desc">找出隐藏字母</div>
             </div>
         </div>
     </div>
@@ -489,17 +598,6 @@
         <div class="progress">
             <span id="current">1</span> / <span id="total">26</span>
         </div>
-    </div>
-
-    <!-- 配对游戏 -->
-    <div id="matchingMode" class="game-container">
-        <button class="game-back" onclick="backToModeSelect()">⬅️ 返回</button>
-        <div class="game-header">
-            <div class="game-title">🃏 字母配对</div>
-            <div class="game-info">找出相同字母的大小写</div>
-        </div>
-        <div class="matching-grid" id="matchingGrid"></div>
-        <div class="progress">配对: <span id="matchCount">0</span> / <span id="matchTotal">6</span></div>
     </div>
 
     <!-- 气球游戏 -->
@@ -531,18 +629,68 @@
         <div class="progress">配对: <span id="lineCount">0</span> / <span id="lineTotal">6</span></div>
     </div>
 
-    <!-- 字母歌 -->
-    <div id="songMode" class="game-container">
+    <!-- 拼写游戏 -->
+    <div id="spellingMode" class="game-container">
         <button class="game-back" onclick="backToModeSelect()">⬅️ 返回</button>
         <div class="game-header">
-            <div class="game-title">🎵 ABC 字母歌</div>
+            <div class="game-title">✏️ 字母拼写</div>
+            <div class="game-info">点击字母拼出单词！</div>
         </div>
-        <div class="song-display">
-            <div class="song-letters" id="songLetters"></div>
-            <div class="song-controls">
-                <button class="song-btn" id="playSongBtn" onclick="toggleSong()">▶️ 播放</button>
-                <button class="song-btn" onclick="resetSong()">🔄 重播</button>
+        <div class="spelling-game">
+            <div class="spelling-image" id="spellingImage">🍎</div>
+            <div class="spelling-word" id="spellingWord"></div>
+            <div class="letter-pool" id="letterPool"></div>
+            <div class="spelling-controls">
+                <button class="nav-btn" onclick="resetSpelling()">🔄 重置</button>
+                <button class="nav-btn" onclick="nextSpellingWord()">➡️ 下一个</button>
             </div>
+        </div>
+        <div class="progress">
+            <span id="spellingProgress">1</span> / <span id="spellingTotal">26</span>
+        </div>
+    </div>
+
+    <!-- 描红游戏 -->
+    <div id="tracingMode" class="game-container">
+        <button class="game-back" onclick="backToModeSelect()">⬅️ 返回</button>
+        <div class="game-header">
+            <div class="game-title">✍️ 字母描红</div>
+            <div class="game-info">用手指或鼠标画出字母</div>
+        </div>
+        <div class="tracing-game">
+            <div class="tracing-info">
+                <span style="font-size: 16px; font-weight: 600;">当前字母: <span id="tracingLetterDisplay">A</span></span>
+            </div>
+            <div class="tracing-canvas-container">
+                <div style="position: relative;">
+                    <canvas id="tracingCanvas" class="tracing-canvas" width="300" height="300"></canvas>
+                    <div class="tracing-letter" id="tracingLetterBg">A</div>
+                </div>
+            </div>
+            <div class="spelling-controls">
+                <button class="nav-btn" onclick="clearTracing()">🧹 清除</button>
+                <button class="nav-btn" onclick="nextTracingLetter()">➡️ 下一个</button>
+            </div>
+            <div class="tracing-hint">💡 提示：沿着虚线字母画出来</div>
+        </div>
+        <div class="progress">
+            <span id="tracingProgress">1</span> / <span id="tracingTotal">26</span>
+        </div>
+    </div>
+
+    <!-- 捉迷藏游戏 -->
+    <div id="hideSeekMode" class="game-container">
+        <button class="game-back" onclick="backToModeSelect()">⬅️ 返回</button>
+        <div class="game-header">
+            <div class="game-title">🔍 字母捉迷藏</div>
+            <div class="game-info">找到所有隐藏的字母！</div>
+        </div>
+        <div class="hide-stats">
+            <span>找到: <span id="hideFound">0</span> / <span id="hideTotal">5</span></span>
+            <span>目标: <span id="hideTarget">A</span></span>
+        </div>
+        <div class="hide-seek-game">
+            <div class="hide-area" id="hideArea"></div>
         </div>
     </div>
 
@@ -553,7 +701,7 @@
             <div>太棒了！</div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button class="song-btn" onclick="restartGame()">🔄 再玩一次</button>
+            <button class="nav-btn" onclick="restartGame()">🔄 再玩一次</button>
             <button class="game-back" onclick="backToModeSelect()" style="margin-left: 10px;">⬅️ 返回</button>
         </div>
     </div>
@@ -591,6 +739,7 @@
 
         let currentMode = '';
         let currentIndex = 0;
+        let balloonTimer = null;
 
         // 主题切换
         function toggleTheme() {
@@ -618,18 +767,18 @@
         function hideAllModes() {
             document.getElementById('modeSelect').style.display = 'none';
             document.getElementById('cardMode').style.display = 'none';
-            document.getElementById('matchingMode').style.display = 'none';
             document.getElementById('balloonMode').style.display = 'none';
             document.getElementById('linesMode').style.display = 'none';
-            document.getElementById('songMode').style.display = 'none';
+            document.getElementById('spellingMode').style.display = 'none';
+            document.getElementById('tracingMode').style.display = 'none';
+            document.getElementById('hideSeekMode').style.display = 'none';
             document.getElementById('winScreen').style.display = 'none';
+            clearInterval(balloonTimer);
         }
 
         function backToModeSelect() {
             hideAllModes();
             document.getElementById('modeSelect').style.display = 'flex';
-            clearInterval(balloonTimer);
-            clearInterval(songTimer);
         }
 
         function showWinScreen() {
@@ -637,8 +786,17 @@
             document.getElementById('winScreen').style.display = 'block';
         }
 
+        function restartGame() {
+            if (currentMode === 'balloon') initBalloonGame();
+            else if (currentMode === 'lines') initLinesGame();
+            else if (currentMode === 'spelling') initSpellingGame();
+            else if (currentMode === 'tracing') initTracingGame();
+            else if (currentMode === 'hideseek') initHideSeekGame();
+        }
+
         // 字母卡片模式
         function startCardMode() {
+            currentMode = 'card';
             hideAllModes();
             document.getElementById('cardMode').style.display = 'block';
             updateCard();
@@ -676,86 +834,14 @@
             speak(letter.upper);
         }
 
-        // 配对游戏
-        let matchCards = [];
-        let flippedCards = [];
-        let matchedPairs = 0;
-
-        function startMatchingMode() {
-            hideAllModes();
-            document.getElementById('matchingMode').style.display = 'block';
-            initMatchingGame();
-        }
-
-        function initMatchingGame() {
-            const pairsCount = 6;
-            const letters = alphabetData.slice(0, pairsCount);
-            matchCards = [];
-            flippedCards = [];
-            matchedPairs = 0;
-
-            letters.forEach(l => {
-                matchCards.push({ id: l.upper, letter: l.upper, type: 'upper', matched: false });
-                matchCards.push({ id: l.lower, letter: l.lower, type: 'lower', matched: false });
-            });
-
-            // Shuffle
-            matchCards.sort(() => Math.random() - 0.5);
-
-            renderMatchingCards();
-            document.getElementById('matchCount').textContent = '0';
-            document.getElementById('matchTotal').textContent = pairsCount;
-        }
-
-        function renderMatchingCards() {
-            const grid = document.getElementById('matchingGrid');
-            grid.innerHTML = matchCards.map((card, i) => `
-                <div class="match-card ${card.matched ? 'matched' : ''}" onclick="flipCard(${i})">
-                    ${card.matched || !card.flipped ? '?' : card.letter}
-                </div>
-            `).join('');
-        }
-
-        function flipCard(index) {
-            const card = matchCards[index];
-            if (card.flipped || card.matched) return;
-
-            card.flipped = true;
-            flippedCards.push(index);
-
-            renderMatchingCards();
-
-            if (flippedCards.length === 2) {
-                const [first, second] = flippedCards;
-                if (matchCards[first].letter.toLowerCase() === matchCards[second].letter.toLowerCase()) {
-                    matchCards[first].matched = true;
-                    matchCards[second].matched = true;
-                    matchedPairs++;
-                    document.getElementById('matchCount').textContent = matchedPairs;
-                    flippedCards = [];
-
-                    if (matchedPairs === 6) {
-                        setTimeout(showWinScreen, 500);
-                    }
-                } else {
-                    setTimeout(() => {
-                        matchCards[first].flipped = false;
-                        matchCards[second].flipped = false;
-                        flippedCards = [];
-                        renderMatchingCards();
-                    }, 800);
-                }
-            }
-        }
-
         // 气球游戏
         let balloonScore = 0;
         let balloonTime = 60;
-        let balloonTimer;
         let targetLetter = '';
         let balloons = [];
 
         function startBalloonMode() {
+            currentMode = 'balloon';
             hideAllModes();
             document.getElementById('balloonMode').style.display = 'block';
             initBalloonGame();
@@ -786,7 +872,7 @@
             const existing = game.querySelectorAll('.balloon');
             existing.forEach(e => e.remove());
 
-            letters = alphabetData.slice(0, 8);
+            const letters = alphabetData.slice(0, 8);
             balloons = [];
 
             letters.forEach((l, i) => {
@@ -832,6 +918,7 @@
         let lineMatches = 0;
 
         function startLinesMode() {
+            currentMode = 'lines';
             hideAllModes();
             document.getElementById('linesMode').style.display = 'block';
             initLinesGame();
@@ -871,7 +958,6 @@
                 if (lineSelected.type !== type &&
                     alphabetData.find(l => l.upper === letter && l.lower === lineSelected.letter ||
                                        l.upper === lineSelected.letter && l.lower === letter)) {
-                    // Match found
                     items.forEach(item => {
                         if ((item.dataset.letter === letter && item.dataset.letter.toLowerCase() === lineSelected.letter.toLowerCase()) ||
                             (item.dataset.letter === lineSelected.letter && item.dataset.letter.toLowerCase() === letter.toLowerCase())) {
@@ -887,7 +973,6 @@
                         setTimeout(showWinScreen, 500);
                     }
                 } else {
-                    // No match
                     items.forEach(item => item.classList.remove('selected'));
                     speak('Try again');
                 }
@@ -895,87 +980,272 @@
             }
         }
 
-        // 字母歌
-        let songPlaying = false;
-        let songTimer;
-        let songIndex = 0;
-        const songLyrics = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // 拼写游戏
+        let spellingWord = '';
+        let spellingSlots = [];
+        let spellingIndex = 0;
 
-        function startSongMode() {
+        function startSpellingMode() {
+            currentMode = 'spelling';
             hideAllModes();
-            document.getElementById('songMode').style.display = 'block';
-            initSong();
+            document.getElementById('spellingMode').style.display = 'block';
+            spellingIndex = 0;
+            initSpellingGame();
         }
 
-        function initSong() {
-            songIndex = 0;
-            songPlaying = false;
-            document.getElementById('playSongBtn').textContent = '▶️ 播放';
+        function initSpellingGame() {
+            const letter = alphabetData[spellingIndex];
+            const word = letter.words[0]; // 使用第一个单词
+            spellingWord = word.en.toUpperCase();
+            spellingSlots = [];
 
-            const container = document.getElementById('songLetters');
-            container.innerHTML = songLyrics.split('').map(l =>
-                `<div class="song-letter" id="song-${l}">${l}</div>`
+            document.getElementById('spellingImage').textContent = word.emoji;
+            document.getElementById('spellingProgress').textContent = spellingIndex + 1;
+            document.getElementById('spellingTotal').textContent = alphabetData.length;
+
+            // 创建字母插槽
+            const wordContainer = document.getElementById('spellingWord');
+            wordContainer.innerHTML = '';
+            for (let i = 0; i < spellingWord.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'spelling-slot';
+                slot.dataset.index = i;
+                wordContainer.appendChild(slot);
+                spellingSlots.push({ letter: '', filled: false });
+            }
+
+            // 创建字母池（包含正确字母+一些干扰字母）
+            const poolContainer = document.getElementById('letterPool');
+            const poolLetters = spellingWord.split('');
+            // 添加2-3个随机干扰字母
+            const distractors = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T'];
+            for (let i = 0; i < 3; i++) {
+                poolLetters.push(distractors[Math.floor(Math.random() * distractors.length)]);
+            }
+            // 打乱
+            poolLetters.sort(() => Math.random() - 0.5);
+
+            poolContainer.innerHTML = poolLetters.map((l, i) =>
+                `<button class="pool-letter" data-letter="${l}" data-id="${i}" onclick="selectPoolLetter('${l}', ${i})">${l}</button>`
             ).join('');
+
+            speak(`Spell ${word.en}`);
         }
 
-        function toggleSong() {
-            if (songPlaying) {
-                stopSong();
-            } else {
-                playSong();
-            }
-        }
+        function selectPoolLetter(letter, id) {
+            const btn = document.querySelector(`.pool-letter[data-id="${id}"]`);
+            if (btn.classList.contains('used')) return;
 
-        function playSong() {
-            songPlaying = true;
-            songIndex = 0;
-            document.getElementById('playSongBtn').textContent = '⏸️ 暂停';
+            // 找到第一个空插槽
+            const emptySlotIndex = spellingSlots.findIndex(s => !s.filled);
+            if (emptySlotIndex === -1) return;
 
-            nextSongLetter();
-        }
+            // 填充插槽
+            spellingSlots[emptySlotIndex] = { letter, filled: true };
+            const slot = document.querySelector(`.spelling-slot[data-index="${emptySlotIndex}"]`);
+            slot.textContent = letter;
+            slot.classList.add('filled');
+            btn.classList.add('used');
 
-        function nextSongLetter() {
-            if (!songPlaying || songIndex >= songLyrics.length) {
-                if (songIndex >= songLyrics.length) {
-                    songPlaying = false;
-                    document.getElementById('playSongBtn').textContent = '▶️ 播放';
-                    speak('Now I know my ABCs!');
+            // 检查是否完成
+            const currentWord = spellingSlots.map(s => s.letter).join('');
+            if (currentWord.length === spellingWord.length) {
+                if (currentWord === spellingWord) {
+                    speak('Great! ' + spellingWord);
+                    setTimeout(() => {
+                        if (spellingIndex < alphabetData.length - 1) {
+                            spellingIndex++;
+                            initSpellingGame();
+                        } else {
+                            showWinScreen();
+                        }
+                    }, 1500);
+                } else {
+                    speak('Try again');
                 }
-                return;
+            }
+        }
+
+        function resetSpelling() {
+            initSpellingGame();
+        }
+
+        function nextSpellingWord() {
+            if (spellingIndex < alphabetData.length - 1) {
+                spellingIndex++;
+                initSpellingGame();
+            }
+        }
+
+        // 描红游戏
+        let tracingCanvas, tracingCtx;
+        let isDrawing = false;
+        let tracingIndex = 0;
+
+        function startTracingMode() {
+            currentMode = 'tracing';
+            hideAllModes();
+            document.getElementById('tracingMode').style.display = 'block';
+            tracingIndex = 0;
+            initTracingGame();
+        }
+
+        function initTracingGame() {
+            const letter = alphabetData[tracingIndex];
+
+            document.getElementById('tracingLetterDisplay').textContent = letter.upper + letter.lower;
+            document.getElementById('tracingLetterBg').textContent = letter.upper;
+            document.getElementById('tracingProgress').textContent = tracingIndex + 1;
+            document.getElementById('tracingTotal').textContent = alphabetData.length;
+
+            // 设置canvas
+            tracingCanvas = document.getElementById('tracingCanvas');
+            tracingCtx = tracingCanvas.getContext('2d');
+            clearTracing();
+
+            // 设置事件监听
+            setupCanvasEvents();
+
+            speak('Trace the letter ' + letter.upper);
+        }
+
+        function setupCanvasEvents() {
+            // 鼠标事件
+            tracingCanvas.onmousedown = startDrawing;
+            tracingCanvas.onmousemove = draw;
+            tracingCanvas.onmouseup = stopDrawing;
+            tracingCanvas.onmouseout = stopDrawing;
+
+            // 触摸事件
+            tracingCanvas.ontouchstart = (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = tracingCanvas.getBoundingClientRect();
+                startDrawing({ clientX: touch.clientX, clientY: touch.clientY });
+            };
+            tracingCanvas.ontouchmove = (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                draw({ clientX: touch.clientX, clientY: touch.clientY });
+            };
+            tracingCanvas.ontouchend = stopDrawing;
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const rect = tracingCanvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (tracingCanvas.width / rect.width);
+            const y = (e.clientY - rect.top) * (tracingCanvas.height / rect.height);
+            tracingCtx.beginPath();
+            tracingCtx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = tracingCanvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (tracingCanvas.width / rect.width);
+            const y = (e.clientY - rect.top) * (tracingCanvas.height / rect.height);
+
+            tracingCtx.lineTo(x, y);
+            tracingCtx.strokeStyle = '#FF6B6B';
+            tracingCtx.lineWidth = 8;
+            tracingCtx.lineCap = 'round';
+            tracingCtx.lineJoin = 'round';
+            tracingCtx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearTracing() {
+            if (tracingCtx) {
+                tracingCtx.clearRect(0, 0, tracingCanvas.width, tracingCanvas.height);
+            }
+        }
+
+        function nextTracingLetter() {
+            if (tracingIndex < alphabetData.length - 1) {
+                tracingIndex++;
+                initTracingGame();
+            }
+        }
+
+        // 捉迷藏游戏
+        let hideFound = 0;
+        let hideTarget = '';
+        let hideTotal = 5;
+
+        function startHideSeekMode() {
+            currentMode = 'hideseek';
+            hideAllModes();
+            document.getElementById('hideSeekMode').style.display = 'block';
+            initHideSeekGame();
+        }
+
+        function initHideSeekGame() {
+            hideFound = 0;
+            const targetIndex = Math.floor(Math.random() * 6);
+            hideTarget = alphabetData[targetIndex].upper;
+
+            document.getElementById('hideFound').textContent = '0';
+            document.getElementById('hideTotal').textContent = hideTotal;
+            document.getElementById('hideTarget').textContent = hideTarget;
+
+            const area = document.getElementById('hideArea');
+            area.innerHTML = '';
+
+            // 添加装饰
+            const decorations = ['🌸', '🌺', '🌻', '🌼', '⭐', '🌙', '☁️', '🦋'];
+            for (let i = 0; i < 8; i++) {
+                const dec = document.createElement('div');
+                dec.className = 'decoration';
+                dec.textContent = decorations[i % decorations.length];
+                dec.style.left = Math.random() * 80 + 10 + '%';
+                dec.style.top = Math.random() * 80 + 10 + '%';
+                area.appendChild(dec);
             }
 
-            // Remove active from previous
-            if (songIndex > 0) {
-                const prev = document.getElementById('song-' + songLyrics[songIndex - 1]);
-                if (prev) prev.classList.remove('active');
+            // 创建隐藏字母（包含目标和一些干扰字母）
+            const letters = [hideTarget, hideTarget, hideTarget, hideTarget, hideTarget];
+            const distractors = alphabetData.slice(0, 8).filter(l => l.upper !== hideTarget).map(l => l.upper);
+            for (let i = 0; i < 4; i++) {
+                letters.push(distractors[i % distractors.length]);
             }
+            letters.sort(() => Math.random() - 0.5);
 
-            // Add active to current
-            const current = document.getElementById('song-' + songLyrics[songIndex]);
-            if (current) current.classList.add('active');
+            letters.forEach((letter, i) => {
+                const el = document.createElement('div');
+                el.className = 'hidden-letter';
+                el.textContent = letter;
+                el.style.left = Math.random() * 70 + 15 + '%';
+                el.style.top = Math.random() * 70 + 15 + '%';
+                el.onclick = () => findHiddenLetter(el, letter);
+                area.appendChild(el);
+            });
 
-            speak(songLyrics[songIndex]);
-            songIndex++;
-
-            songTimer = setTimeout(nextSongLetter, 1500);
+            speak('Find all the letter ' + hideTarget);
         }
 
-        function stopSong() {
-            songPlaying = false;
-            clearTimeout(songTimer);
-            document.getElementById('playSongBtn').textContent = '▶️ 播放';
-            document.querySelectorAll('.song-letter').forEach(el => el.classList.remove('active'));
-        }
+        function findHiddenLetter(el, letter) {
+            if (el.classList.contains('found')) return;
 
-        function resetSong() {
-            stopSong();
-            setTimeout(() => playSong(), 300);
-        }
+            el.classList.add('found');
 
-        function restartGame() {
-            if (currentMode === 'matching') initMatchingGame();
-            else if (currentMode === 'balloon') initBalloonGame();
-            else if (currentMode === 'lines') initLinesGame();
+            if (letter === hideTarget) {
+                hideFound++;
+                document.getElementById('hideFound').textContent = hideFound;
+                speak('Yes! ' + letter);
+
+                if (hideFound >= hideTotal) {
+                    setTimeout(() => {
+                        speak('Great job!');
+                        setTimeout(showWinScreen, 1000);
+                    }, 500);
+                }
+            } else {
+                speak('No, try again');
+            }
         }
 
         // 语音合成
