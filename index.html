@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝宝启蒙学习 - Baby Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .card.disabled:hover {
+            transform: none;
+        }
+
+        .card-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge.done {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge.soon {
+            background: #ff9800;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .card {
+                padding: 20px 15px;
+            }
+            .card-icon {
+                font-size: 45px;
+            }
+            .card-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>👶 宝宝启蒙学习</h1>
+        <p>0-6岁儿童趣味学习平台</p>
+    </div>
+
+    <div class="container">
+        <!-- 语言启蒙 -->
+        <div class="section">
+            <h2 class="section-title">📚 语言启蒙</h2>
+            <div class="grid">
+                <a href="英文/vocabulary.html" class="card">
+                    <span class="badge done">已完成</span>
+                    <div class="card-icon">🔤</div>
+                    <div class="card-title">英语词汇</div>
+                    <div class="card-desc">40个基础单词</div>
+                </a>
+                <div class="card disabled">
+                    <span class="badge soon">即将上线</span>
+                    <div class="card-icon">🔡</div>
+                    <div class="card-title">英语字母</div>
+                    <div class="card-desc">A-Z 学习</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🅰️</div>
+                    <div class="card-title">中文拼音</div>
+                    <div class="card-desc">声母韵母</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">✍️</div>
+                    <div class="card-title">汉字笔画</div>
+                    <div class="card-desc">基础汉字</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 认知启蒙 -->
+        <div class="section">
+            <h2 class="section-title">🧠 认知启蒙</h2>
+            <div class="grid">
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🔢</div>
+                    <div class="card-title">认数字</div>
+                    <div class="card-desc">1-100 数字</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🔺</div>
+                    <div class="card-title">形状认知</div>
+                    <div class="card-desc">几何形状</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🎨</div>
+                    <div class="card-title">颜色认知</div>
+                    <div class="card-desc">认识颜色</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🐾</div>
+                    <div class="card-title">动物世界</div>
+                    <div class="card-desc">可爱动物</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🍎</div>
+                    <div class="card-title">水果蔬菜</div>
+                    <div class="card-desc">健康食物</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🚗</div>
+                    <div class="card-title">交通工具</div>
+                    <div class="card-desc">各种车辆</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生活启蒙 -->
+        <div class="section">
+            <h2 class="section-title">🏠 生活启蒙</h2>
+            <div class="grid">
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    <div class="card-title">家庭成员</div>
+                    <div class="card-desc">认识家人</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">👂</div>
+                    <div class="card-title">身体部位</div>
+                    <div class="card-desc">认识身体</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">👕</div>
+                    <div class="card-title">日常用品</div>
+                    <div class="card-desc">生活物品</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 艺术启蒙 -->
+        <div class="section">
+            <h2 class="section-title">🎨 艺术启蒙</h2>
+            <div class="grid">
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🖍️</div>
+                    <div class="card-title">在线涂色</div>
+                    <div class="card-desc">创意涂色</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">✏️</div>
+                    <div class="card-title">简笔画</div>
+                    <div class="card-desc">跟着画</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🎵</div>
+                    <div class="card-title">儿歌欣赏</div>
+                    <div class="card-desc">经典儿歌</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 故事启蒙 -->
+        <div class="section">
+            <h2 class="section-title">📖 故事启蒙</h2>
+            <div class="grid">
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🌙</div>
+                    <div class="card-title">睡前故事</div>
+                    <div class="card-desc">温馨故事</div>
+                </div>
+                <div class="card disabled">
+                    <span class="badge soon">规划中</span>
+                    <div class="card-icon">🦊</div>
+                    <div class="card-title">寓言故事</div>
+                    <div class="card-desc">教育寓言</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>💜 用爱陪伴宝宝成长 💜</p>
+    </div>
+</body>
+</html>
