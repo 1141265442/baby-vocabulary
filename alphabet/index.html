@@ -560,7 +560,7 @@
             <div class="mode-card" onclick="startLinesMode()">
                 <div class="mode-icon">🔗</div>
                 <div class="mode-name">字母连线</div>
-                <div class="mode-desc">大小写配对</div>
+                <div class="mode-desc">10对字母，随机排序</div>
             </div>
             <div class="mode-card" onclick="startSpellingMode()">
                 <div class="mode-icon">✏️</div>
@@ -621,7 +621,7 @@
         <button class="game-back" onclick="backToModeSelect()">⬅️ 返回</button>
         <div class="game-header">
             <div class="game-title">🔗 字母连线</div>
-            <div class="game-info">先点大写，再点对应小写</div>
+            <div class="game-info">小写字母已打乱，找出对应的大写字母！</div>
         </div>
         <div class="match-lines">
             <div class="match-row" id="matchRow"></div>
@@ -927,7 +927,7 @@
         function initLinesGame() {
             lineSelected = null;
             lineMatches = 0;
-            const pairsCount = 6;
+            const pairsCount = 10;
             const letters = alphabetData.slice(0, pairsCount);
 
             const row = document.getElementById('matchRow');
@@ -936,7 +936,7 @@
                     ${letters.map(l => `<div class="match-item" data-letter="${l.upper}" onclick="selectLineItem('${l.upper}', 'upper')">${l.upper}</div>`).join('')}
                 </div>
                 <div class="match-side">
-                    ${letters.map(l => `<div class="match-item" data-letter="${l.lower}" onclick="selectLineItem('${l.lower}', 'lower')">${l.lower}</div>`).join('')}
+                    ${[...letters].sort(() => Math.random() - 0.5).map(l => `<div class="match-item" data-letter="${l.lower}" onclick="selectLineItem('${l.lower}', 'lower')">${l.lower}</div>`).join('')}
                 </div>
             `;
 
@@ -969,7 +969,7 @@
                     document.getElementById('lineCount').textContent = lineMatches;
                     speak('Good match!');
 
-                    if (lineMatches === 6) {
+                    if (lineMatches === 10) {
                         setTimeout(showWinScreen, 500);
                     }
                 } else {
