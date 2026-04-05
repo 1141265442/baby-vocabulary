@@ -73,6 +73,8 @@
             cursor: pointer;
             transition: transform 0.2s;
             margin-bottom: 20px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         .speak-btn:hover {
@@ -108,6 +110,8 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         .nav-btn:hover {
@@ -133,6 +137,8 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         .mode-toggle:hover {
@@ -151,17 +157,17 @@
     </style>
 </head>
 <body>
-    <button class="mode-toggle ordered" id="modeToggle" onclick="toggleMode()">🔢 顺序</button>
+    <button class="mode-toggle ordered" id="modeToggle">🔢 顺序</button>
 
     <div class="card">
         <div class="emoji" id="emoji">🥬</div>
         <div class="english" id="english">Chinese Cabbage</div>
         <div class="chinese" id="chinese">白菜</div>
         <div class="pronunciation" id="pronunciation">/ˌtʃaɪˈniːz ˈkæbɪdʒ/</div>
-        <button class="speak-btn" onclick="speak()">🔊 朗读</button>
+        <button class="speak-btn" id="speakBtn">🔊 朗读</button>
         <div class="nav">
-            <button class="nav-btn" onclick="prevWord()">⬅️ 上一个</button>
-            <button class="nav-btn" onclick="nextWord()">下一个 ➡️</button>
+            <button class="nav-btn" id="prevBtn">⬅️ 上一个</button>
+            <button class="nav-btn" id="nextBtn">下一个 ➡️</button>
         </div>
     </div>
     <div class="progress">
@@ -215,6 +221,21 @@
         let currentIndex = 0;
         let isShuffle = false;
         let lastIndex = -1;
+        let voicesLoaded = false;
+
+        // 初始化语音（iOS需要）
+        function initSpeech() {
+            if ('speechSynthesis' in window) {
+                // 先调用一次触发加载
+                speechSynthesis.getVoices();
+
+                // 监听语音加载完成
+                speechSynthesis.onvoiceschanged = function() {
+                    voicesLoaded = true;
+                    console.log('Voices loaded:', speechSynthesis.getVoices().length);
+                };
+            }
+        }
 
         function toggleMode() {
             isShuffle = !isShuffle;
@@ -274,7 +295,7 @@
         function speak() {
             // 检查浏览器支持
             if (!('speechSynthesis' in window)) {
-                alert('您的浏览器不支持语音功能，请尝试使用Safari或Chrome浏览器');
+                alert('您的浏览器不支持语音功能\n请尝试使用 Safari 或 Chrome 浏览器');
                 return;
             }
 
@@ -284,39 +305,64 @@
             const word = words[currentIndex];
             const utterance = new SpeechSynthesisUtterance(word.en);
 
-            // 移动端优化设置
+            // 基础设置（移动端兼容）
             utterance.lang = 'en-US';
             utterance.rate = 0.9;
             utterance.pitch = 1.0;
             utterance.volume = 1.0;
 
-            // 获取所有可用语音，选择英文语音
-            const voices = speechSynthesis.getVoices();
-            const englishVoice = voices.find(v => v.lang.startsWith('en'));
-            if (englishVoice) {
-                utterance.voice = englishVoice;
+            // 尝试设置英文语音（可选，不强制）
+            try {
+                const voices = speechSynthesis.getVoices();
+                const englishVoice = voices.find(v => v.lang && v.lang.startsWith('en'));
+                if (englishVoice) {
+                    utterance.voice = englishVoice;
+                }
+            } catch (e) {
+                console.log('Voice selection skipped:', e);
             }
 
-            // 添加视觉反馈
-            const btn = document.querySelector('.speak-btn');
+            // 视觉反馈
+            const btn = document.getElementById('speakBtn');
             btn.classList.add('speaking');
             btn.textContent = '🔊 播放中...';
 
-            // 错误处理
-            utterance.onerror = function(event) {
-                console.log('Speech error:', event.error);
-                btn.classList.remove('speaking');
-                btn.textContent = '🔊 朗读';
-            };
-
+            // 事件处理
             utterance.onend = function() {
                 btn.classList.remove('speaking');
                 btn.textContent = '🔊 朗读';
             };
 
-            // 立即播放
+            utterance.onerror = function(event) {
+                console.log('Speech error:', event.error);
+                btn.classList.remove('speaking');
+                btn.textContent = '🔊 朗读';
+
+                // iOS特殊处理：重试一次
+                if (event.error === 'canceled' || event.error === 'interrupted') {
+                    setTimeout(() => {
+                        const retry = new SpeechSynthesisUtterance(word.en);
+                        retry.lang = 'en-US';
+                        retry.rate = 0.9;
+                        speechSynthesis.speak(retry);
+                    }, 100);
+                }
+            };
+
+            // 播放
             speechSynthesis.speak(utterance);
         }
+
+        // 绑定事件（使用addEventListener确保移动端兼容）
+        document.getElementById('speakBtn').addEventListener('click', speak);
+        document.getElementById('speakBtn').addEventListener('touchend', function(e) {
+            e.preventDefault();
+            speak();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', nextWord);
+        document.getElementById('prevBtn').addEventListener('click', prevWord);
+        document.getElementById('modeToggle').addEventListener('click', toggleMode);
 
         // 键盘控制
         document.addEventListener('keydown', (e) => {
@@ -326,18 +372,15 @@
             if (e.key === 's' || e.key === 'S') toggleMode();
         });
 
-        // 移动端优化：预加载语音
-        function initSpeech() {
-            if ('speechSynthesis' in window) {
-                // iOS需要提前调用getVoices
+        // 页面点击初始化语音（iOS需要用户交互）
+        document.body.addEventListener('click', function initOnClick() {
+            if (!voicesLoaded) {
                 speechSynthesis.getVoices();
-                speechSynthesis.onvoiceschanged = function() {
-                    speechSynthesis.getVoices();
-                };
+                voicesLoaded = true;
             }
-        }
+        }, { once: true });
 
-        // 页面加载时初始化
+        // 初始化
         initSpeech();
         updateCard();
     </script>
