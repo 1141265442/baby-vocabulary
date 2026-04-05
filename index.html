@@ -11,27 +11,27 @@
             box-sizing: border-box;
         }
 
-        /* 柔和粉彩配色方案 */
+        /* 柔和粉彩配色方案 - 提高对比度 */
         :root {
             /* 背景色 - 奶油白 */
             --bg-cream: #FEFEFA;
             --bg-warm: #FAF8F5;
 
             /* 粉彩色 */
-            --baby-blue: #D4E5F7;
-            --soft-pink: #F8DDE5;
-            --warm-beige: #F5EBE0;
-            --mint-green: #E0F2E8;
-            --lavender: #E8E5F2;
-            --cream-peach: #FFF0E8;
+            --baby-blue: #C8DCF5;
+            --soft-pink: #F5C5D0;
+            --warm-beige: #F2E6D8;
+            --mint-green: #D5EDE2;
+            --lavender: #E0DCF0;
+            --cream-peach: #FFE8DD;
 
-            /* 文字色 - 低对比度 */
-            --text-primary: #9A9090;
-            --text-secondary: #C0B8B5;
+            /* 文字色 - 提高对比度 */
+            --text-primary: #6B6060;
+            --text-secondary: #9A9090;
 
             /* 阴影 */
-            --shadow-soft: 0 6px 24px rgba(180, 170, 160, 0.08);
-            --shadow-hover: 0 10px 35px rgba(180, 170, 160, 0.14);
+            --shadow-soft: 0 6px 24px rgba(100, 90, 80, 0.10);
+            --shadow-hover: 0 10px 35px rgba(100, 90, 80, 0.18);
         }
 
         body {
@@ -52,7 +52,7 @@
         .header-logo {
             font-size: 50px;
             margin-bottom: 20px;
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .header h1 {
@@ -89,7 +89,7 @@
 
         .section-icon {
             font-size: 20px;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         .section-title {
@@ -102,7 +102,7 @@
         .section-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, rgba(180, 170, 160, 0.2) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(120, 110, 100, 0.25) 0%, transparent 100%);
         }
 
         .grid {
@@ -124,33 +124,33 @@
             display: block;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(200, 190, 180, 0.15);
+            border: 1px solid rgba(180, 170, 160, 0.2);
         }
 
         .card:hover:not(.disabled) {
             transform: translateY(-6px);
             box-shadow: var(--shadow-hover);
-            border-color: rgba(200, 190, 180, 0.25);
+            border-color: rgba(160, 150, 140, 0.3);
         }
 
         .card.disabled {
-            opacity: 0.45;
+            opacity: 0.5;
             cursor: default;
         }
 
-        /* 不同卡片的柔和背景色 */
-        .card:nth-child(5n+1) { background: linear-gradient(135deg, #FFF 0%, var(--baby-blue) 100%); }
-        .card:nth-child(5n+2) { background: linear-gradient(135deg, #FFF 0%, var(--soft-pink) 100%); }
-        .card:nth-child(5n+3) { background: linear-gradient(135deg, #FFF 0%, var(--warm-beige) 100%); }
-        .card:nth-child(5n+4) { background: linear-gradient(135deg, #FFF 0%, var(--mint-green) 100%); }
-        .card:nth-child(5n+5) { background: linear-gradient(135deg, #FFF 0%, var(--lavender) 100%); }
+        /* 不同卡片的柔和背景色 - 更明显 */
+        .card:nth-child(5n+1) { background: linear-gradient(135deg, #FFF 30%, var(--baby-blue) 100%); }
+        .card:nth-child(5n+2) { background: linear-gradient(135deg, #FFF 30%, var(--soft-pink) 100%); }
+        .card:nth-child(5n+3) { background: linear-gradient(135deg, #FFF 30%, var(--warm-beige) 100%); }
+        .card:nth-child(5n+4) { background: linear-gradient(135deg, #FFF 30%, var(--mint-green) 100%); }
+        .card:nth-child(5n+5) { background: linear-gradient(135deg, #FFF 30%, var(--lavender) 100%); }
 
         .card-icon {
             font-size: 48px;
             margin-bottom: 14px;
             display: inline-block;
             transition: transform 0.4s ease;
-            opacity: 0.85;
+            opacity: 0.9;
         }
 
         .card:hover:not(.disabled) .card-icon {
@@ -184,12 +184,12 @@
 
         .badge.done {
             background: var(--mint-green);
-            color: #7AB8A0;
+            color: #5A9A7A;
         }
 
         .badge.soon {
             background: var(--cream-peach);
-            color: #B8A090;
+            color: #A08070;
         }
 
         .footer {
@@ -289,7 +289,7 @@
             position: fixed;
             width: 3px;
             height: 3px;
-            background: rgba(180, 170, 160, 0.12);
+            background: rgba(150, 140, 130, 0.15);
             border-radius: 50%;
             pointer-events: none;
         }
