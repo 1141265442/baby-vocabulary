@@ -631,12 +631,9 @@
 
         // 切换语言
         function switchLanguage(lang) {
-            audioPlayer.pause();
             currentLang = lang;
             currentSongs = lang === 'chinese' ? chineseSongs : englishSongs;
             currentIndex = 0;
-            isPlaying = false;
-            updatePlayButton();
 
             document.getElementById('englishBtn').classList.toggle('active', lang === 'english');
             document.getElementById('chineseBtn').classList.toggle('active', lang === 'chinese');
@@ -644,6 +641,10 @@
             renderSongList();
             updatePlayer();
             loadAudio();
+            // 自动播放新语言的第一首歌
+            setTimeout(() => {
+                audioPlayer.play().catch(e => console.log('播放失败:', e));
+            }, 100);
         }
 
         // 渲染歌曲列表
