@@ -8,6 +8,7 @@
 2. **匹配映射关系** - 根据脚本内定义的映射关系，匹配实际文件
 3. **生成数据** - 生成可用于 `index.html` 的 JavaScript 数据
 4. **自动更新** - 可选地直接更新 `index.html` 中的歌曲数据
+5. **MinIO 集成** - 自动生成 MinIO 对象存储的访问 URL
 
 ## 文件结构
 
@@ -186,6 +187,38 @@ iconv -f ISO-8859-1 -t UTF-8 scripts/update_songs.js > scripts/update_songs_utf8
 ```bash
 # 恢复备份
 cp music/index.html.bak music/index.html
+```
+
+## MinIO 配置
+
+脚本默认使用 MinIO 对象存储来托管音频文件。音频 URL 格式：
+
+```
+https://minio.xlwang.top/api/v1/buckets/music/objects/download?preview=true&prefix=<路径>
+```
+
+### 修改 MinIO 地址
+
+如需更换 MinIO 服务器，修改 `update_songs.js` 中的配置：
+
+```javascript
+// MinIO 配置
+const MINIO_BASE_URL = 'https://your-minio-server.com/api/v1/buckets/music/objects/download?preview=true&prefix=';
+```
+
+### URL 编码说明
+
+中文文件名会自动进行 URL 编码：
+- `chinese/拔萝卜.mp3` → `chinese%2F%E6%8B%94%E8%90%9D%E5%8D%9C.mp3`
+- `english/abcsongs.mp3` → `english%2Fabcsongs.mp3`
+
+### 切换回本地文件
+
+如需使用本地文件而非 MinIO，修改 `buildJSArray` 函数：
+
+```javascript
+// 将 minioUrl 改为 s.audioPath
+return `            { emoji: "${s.emoji}", name: "${s.name}", desc: "${s.desc}", lyrics: "${lyrics}", audio: "${s.audioPath}", fallback: "${fallback}" }`;
 ```
 
 ## 扩展开发

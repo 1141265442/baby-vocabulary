@@ -12,6 +12,15 @@
 const fs = require('fs');
 const path = require('path');
 
+// MinIO 配置
+const MINIO_BASE_URL = 'https://minio.xlwang.top/api/v1/buckets/music/objects/download?preview=true&prefix=';
+
+// 生成 MinIO URL
+function generateMinioUrl(audioPath) {
+  const encoded = encodeURIComponent(audioPath);
+  return MINIO_BASE_URL + encoded;
+}
+
 // Project paths
 const projectRoot = path.resolve(__dirname, '..');
 const musicDir = path.join(projectRoot, 'music');
@@ -323,8 +332,9 @@ function escapeJSString(s) {
 function buildJSArray(songs) {
   const lines = songs.map((s, i) => {
     const lyrics = escapeJSString(s.lyrics);
+    const minioUrl = generateMinioUrl(s.audioPath);
     const fallback = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${i + 1}.mp3`;
-    return `            { emoji: "${s.emoji}", name: "${s.name}", desc: "${s.desc}", lyrics: "${lyrics}", audio: "${s.audioPath}", fallback: "${fallback}" }`;
+    return `            { emoji: "${s.emoji}", name: "${s.name}", desc: "${s.desc}", lyrics: "${lyrics}", audio: "${minioUrl}", fallback: "${fallback}" }`;
   });
   return lines.join(',\n');
 }
@@ -350,9 +360,19 @@ function updateIndexHtml() {
   const chineseJs = buildJSArray(chineseSongs);
   const englishJs = buildJSArray(englishSongs);
 
-  const newContent = content.replace(
+  let newContent = content.replace(
     songDataPattern,
     `const chineseSongs = [\n${chineseJs}\n        ];\n\n        const englishSongs = [\n${englishJs}\n        ];`
+  );
+
+  // Update song count in language buttons
+  newContent = newContent.replace(
+    /🇺🇸 English Songs \(\d+\)/,
+    `🇺🇸 English Songs (${englishSongs.length})`
+  );
+  newContent = newContent.replace(
+    /🇨🇳 中文儿歌 \(\d+\)/,
+    `🇨🇳 中文儿歌 (${chineseSongs.length})`
   );
 
   // Backup
