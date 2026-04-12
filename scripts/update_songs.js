@@ -154,6 +154,168 @@ const songDatabase = {
     desc: '季节认知',
     lyrics: '春天在哪里呀\n春天在哪里\n春天在那青翠的山林里\n这里有红花呀\n这里有绿草\n还有那会唱歌的小黄鹂'
   },
+  '七子之歌.mp3': {
+    name: '七子之歌',
+    emoji: '🎵',
+    desc: '爱国教育',
+    lyrics: '你可知"Macau"不是我真名\n我离开你的襁褓太久了母亲\n但是他们掳去的是我的肉体\n你依然保管我内心的灵魂'
+  },
+  '二十四节气歌.mp3': {
+    name: '二十四节气歌',
+    emoji: '📅',
+    desc: '传统文化',
+    lyrics: '春雨惊春清谷天\n夏满芒夏暑相连\n秋处露秋寒霜降\n冬雪雪冬小大寒'
+  },
+  '兰花草.mp3': {
+    name: '兰花草',
+    emoji: '🌿',
+    desc: '自然认知',
+    lyrics: '我从山中来\n带着兰花草\n种在小园中\n希望花开早'
+  },
+  '哇哈哈.mp3': {
+    name: '娃哈哈',
+    emoji: '😊',
+    desc: '快乐童年',
+    lyrics: '我们的祖国是花园\n花园里花朵真鲜艳\n和暖的阳光照耀着我们\n每个人脸上都笑开颜'
+  },
+  '婴语.mp3': {
+    name: '婴语',
+    emoji: '👶',
+    desc: '语言启蒙',
+    lyrics: '咿呀咿呀哟\n咿呀咿呀哟\n宝宝学说话\n快乐又成长'
+  },
+  '小司机.mp3': {
+    name: '小司机',
+    emoji: '🚗',
+    desc: '职业认知',
+    lyrics: '小汽车呀真漂亮\n真呀真漂亮\n嘟嘟嘟嘟嘟嘟嘟\n喇叭响'
+  },
+  '小小花园.mp3': {
+    name: '小小花园',
+    emoji: '🌺',
+    desc: '自然认知',
+    lyrics: '在小小的花园里面\n挖呀挖呀挖\n种小小的种子\n开小小的花'
+  },
+  '小手拍拍.mp3': {
+    name: '小手拍拍',
+    emoji: '👏',
+    desc: '身体协调',
+    lyrics: '小手拍拍\n小手拍拍\n手指伸出来\n眼睛在哪里\n眼睛在这里'
+  },
+  '小蝌蚪找妈妈.mp3': {
+    name: '小蝌蚪找妈妈',
+    emoji: '🐸',
+    desc: '动物认知',
+    lyrics: '小蝌蚪找妈妈\n游来游去游呀\n妈妈妈妈在哪里\n快来快来帮帮我'
+  },
+  '幸福拍手歌.mp3': {
+    name: '幸福拍手歌',
+    emoji: '👏',
+    desc: '情绪表达',
+    lyrics: '如果感到幸福你就拍拍手\n如果感到幸福你就拍拍手\n如果感到幸福你就快快拍拍手呀\n看那大家一起拍拍手'
+  },
+  '我上幼儿园.mp3': {
+    name: '我上幼儿园',
+    emoji: '🏫',
+    desc: '适应教育',
+    lyrics: '爸爸妈妈去上班\n我上幼儿园\n也不哭也不闹\n做个好宝宝'
+  },
+  '我的好妈妈.mp3': {
+    name: '我的好妈妈',
+    emoji: '💖',
+    desc: '亲情教育',
+    lyrics: '我的好妈妈\n下班回到家\n劳动了一天\n多么辛苦呀'
+  },
+  '新年好.mp3': {
+    name: '新年好',
+    emoji: '🎉',
+    desc: '节日庆祝',
+    lyrics: '新年好呀\n新年好呀\n祝贺大家新年好\n我们唱歌\n我们跳舞\n祝贺大家新年好'
+  },
+  '明天会更好.mp3': {
+    name: '明天会更好',
+    emoji: '🌈',
+    desc: '希望教育',
+    lyrics: '轻轻敲醒沉睡的心灵\n慢慢张开你的眼睛\n看那忙碌的世界是否依然孤独地转个不停'
+  },
+  '爱我你就抱抱我.mp3': {
+    name: '爱我你就抱抱我',
+    emoji: '🤗',
+    desc: '情感表达',
+    lyrics: '如果爱你就抱抱我\n如果爱你就抱抱我\n不要只是说说而已\n抱抱我'
+  },
+  '甩葱歌.mp3': {
+    name: '甩葱歌',
+    emoji: '🧅',
+    desc: '欢快节奏',
+    lyrics: '欢快的节奏\n跳起来\n大家一起\n快乐舞动'
+  },
+  '白噪声.mp3': {
+    name: '白噪声',
+    emoji: '🌙',
+    desc: '助眠安抚',
+    lyrics: '嘘...嘘...\n轻轻的\n轻轻的\n宝宝快睡觉'
+  },
+  '粉刷匠.mp3': {
+    name: '粉刷匠',
+    emoji: '🖌️',
+    desc: '劳动教育',
+    lyrics: '我是一个粉刷匠\n粉刷本领强\n我要把那新房子\n刷得更漂亮'
+  },
+  '茉莉花.mp3': {
+    name: '茉莉花',
+    emoji: '🌼',
+    desc: '传统文化',
+    lyrics: '好一朵美丽的茉莉花\n好一朵美丽的茉莉花\n芬芳美丽满枝桠\n又香又白人人夸'
+  },
+  '虫儿飞.mp3': {
+    name: '虫儿飞',
+    emoji: '🦋',
+    desc: '自然认知',
+    lyrics: '黑黑的天空低垂\n亮亮的繁星相随\n虫儿飞\n虫儿飞\n你在思念谁'
+  },
+  '蜗牛与黄鹂歌.mp3': {
+    name: '蜗牛与黄鹂鸟',
+    emoji: '🐌',
+    desc: '坚持精神',
+    lyrics: '阿门阿前一棵葡萄树\n阿嫩阿嫩绿地刚发芽\n蜗牛背着那重重的壳呀\n一步一步地往上爬'
+  },
+  '黄鹂鸟.mp3': {
+    name: '黄鹂鸟',
+    emoji: '🐦',
+    desc: '动物认知',
+    lyrics: '黄鹂鸟儿树上叫\n叽叽喳喳真热闹\n蜗牛蜗牛别着急\n我们一起唱歌谣'
+  },
+  '种太阳.mp3': {
+    name: '种太阳',
+    emoji: '☀️',
+    desc: '想象力培养',
+    lyrics: '我有一个美丽的愿望\n长大以后能播种太阳\n播种一个，一个就够了\n会结出许多的许多的太阳'
+  },
+  '读书郎.mp3': {
+    name: '读书郎',
+    emoji: '📚',
+    desc: '学习意识',
+    lyrics: '小嘛小儿郎\n背着那书包上学堂\n不怕太阳晒\n也不怕那风雨狂'
+  },
+  '小螺号.mp3': {
+    name: '小螺号',
+    emoji: '🐚',
+    desc: '海洋认知',
+    lyrics: '海边有个小螺号\n滴哩哩吹起来\n海螺听了笑开怀\n笑开怀'
+  },
+  '采蘑菇的小姑娘.mp3': {
+    name: '采蘑菇的小姑娘',
+    emoji: '🍄',
+    desc: '劳动教育',
+    lyrics: '采蘑菇的小姑娘\n背着一个大竹筐\n清晨光着小脚丫\n走遍森林和山冈'
+  },
+  '卖报歌.mp3': {
+    name: '卖报歌',
+    emoji: '📰',
+    desc: '历史教育',
+    lyrics: '啦啦啦！啦啦啦！\n我是卖报的小行家\n不等天明去等派报\n一面走，一面叫'
+  },
 
   // English songs
   'Twinkle Twinkle Little Star.mp3': {
@@ -281,6 +443,42 @@ const songDatabase = {
     emoji: '👆',
     desc: 'Body Parts',
     lyrics: 'One little finger, one little finger, one little finger\nTap tap tap\nPoint your finger up\nPoint your finger down\nPut it on your head, head, head'
+  },
+  'London Bridge Is Falling Down1.mp3': {
+    name: 'London Bridge',
+    emoji: '🌉',
+    desc: 'Culture Learning',
+    lyrics: 'London Bridge is falling down\nFalling down, falling down\nLondon Bridge is falling down\nMy fair lady'
+  },
+  'Mary， Mary， Quite Contrary.mp3': {
+    name: 'Mary Mary Quite Contrary',
+    emoji: '🌸',
+    desc: 'Garden Learning',
+    lyrics: 'Mary, Mary, quite contrary\nHow does your garden grow?\nWith silver bells and cockle shells\nAnd pretty maids all in a row'
+  },
+  'Ten Little Indians.mp3': {
+    name: 'Ten Little Indians',
+    emoji: '👶',
+    desc: 'Counting',
+    lyrics: 'One little, two little, three little Indians\nFour little, five little, six little Indians\nSeven little, eight little, nine little Indians\nTen little Indian boys'
+  },
+  'The Finger Family.mp3': {
+    name: 'Finger Family',
+    emoji: '👋',
+    desc: 'Family Learning',
+    lyrics: 'Daddy finger, daddy finger, where are you?\nHere I am, here I am, how do you do?\nMommy finger, mommy finger, where are you?\nHere I am, here I am, how do you do?'
+  },
+  'Yankee Doodle1.mp3': {
+    name: 'Yankee Doodle',
+    emoji: '🎺',
+    desc: 'Patriotic Song',
+    lyrics: 'Yankee Doodle went to town\nRiding on a pony\nStuck a feather in his cap\nAnd called it macaroni'
+  },
+  '婴语.mp3': {
+    name: '婴语',
+    emoji: '👶',
+    desc: '语言启蒙',
+    lyrics: '咿呀咿呀哟\n咿呀咿呀哟\n宝宝学说话\n快乐又成长'
   }
 };
 
